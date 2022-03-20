@@ -1,14 +1,13 @@
 package irl.lyit.DublinSmartHouseSearch.old;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class App {
+public class DaftScrapper {
 
 //  public static void main(String[] args) throws IOException {
 //    int from = 20;

@@ -15,22 +15,22 @@ public class TestHTTPRequest {
   public static void main(String[] args) throws IOException, InterruptedException {
 
     String postEndpoint = "http://api.traveltimeapp.com/v4/time-map";
-    String inputJson = "{\n"
-        + "  \"arrival_searches\": [\n"
-        + "    {\n"
-        + "      \"id\": \"isochrone-0\",\n"
-        + "      \"coords\": {\n"
-        + "        \"lat\": 53.3398189,\n"
-        + "        \"lng\": -6.2381879\n"
-        + "      },\n"
-        + "      \"travel_time\": 1800,\n"
-        + "      \"transportation\": {\n"
-        + "        \"type\": \"public_transport\"\n"
-        + "      },\n"
-        + "      \"arrival_time\": \"2022-03-14T09:00:00.000Z\"\n"
-        + "    }\n"
-        + "  ]\n"
-        + "}";
+    String inputJson = "{\n" +
+            "  \"arrival_searches\": [\n" +
+            "    {\n" +
+            "      \"id\": \"isochrone-0\",\n" +
+            "      \"coords\": {\n" +
+            "        \"lat\": 53.4436091,\n" +
+            "        \"lng\": -6.2043566\n" +
+            "      },\n" +
+            "      \"travel_time\": 1800,\n" +
+            "      \"transportation\": {\n" +
+            "        \"type\": \"public_transport\"\n" +
+            "      },\n" +
+            "      \"arrival_time\": \"2022-03-21T09:00:00.000Z\"\n" +
+            "    }\n" +
+            "  ]\n" +
+            "}";
 
 
     HttpRequest request = HttpRequest.newBuilder()

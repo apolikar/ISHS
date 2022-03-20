@@ -100,14 +100,14 @@ public class TimeTravelAPI {
 
     if(response.isRight()) {
 
-//      String result = response.get().getResults().toString();
-//      System.out.println(result);
-//      int index = result.indexOf("shell");
-//      String shell = result.substring(index, result.indexOf(']') + 1);
-//
-//      ObjectMapper objectMapper = new ObjectMapper();
-//      JsonNode node = objectMapper.readTree(shell);
-//      System.out.println(node.get("shell"));
+      String result = response.get().getResults().toString();
+      System.out.println(result);
+      int index = result.indexOf("shell");
+      String shell = result.substring(index, result.indexOf(']') + 1);
+
+      ObjectMapper objectMapper = new ObjectMapper();
+      JsonNode node = objectMapper.readTree(shell);
+      System.out.println(node.get("shell"));
     } else {
       System.out.println(response.getLeft().getMessage());
     }
