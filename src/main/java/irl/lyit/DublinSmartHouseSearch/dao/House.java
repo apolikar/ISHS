@@ -15,21 +15,23 @@ public class House {
     private String link;
     private double price;
     private String address;
+    private String cityOrCounty;
     private int bedrooms;
     private double lat;
     private double lng;
 
-    public House(String link, double price, String address, int bedrooms, double lat, double lng) {
+
+    public House(String link, double price, String address, String cityOrCounty, int bedrooms, double lat, double lng) {
         this.link = link;
         this.price = price;
         this.address = address;
+        this.cityOrCounty = cityOrCounty;
         this.bedrooms = bedrooms;
         this.lat = lat;
         this.lng = lng;
     }
 
     public House() {
-
     }
 
     public Long getId() {
@@ -64,6 +66,14 @@ public class House {
         this.address = address;
     }
 
+    public String getCityOrCounty() {
+        return cityOrCounty;
+    }
+
+    public void setCityOrCounty(String cityOrCounty) {
+        this.cityOrCounty = cityOrCounty;
+    }
+
     public int getBedrooms() {
         return bedrooms;
     }
@@ -92,8 +102,10 @@ public class House {
     public String toString() {
         return "House{" +
                 "id=" + id +
+                ", link='" + link + '\'' +
                 ", price=" + price +
                 ", address='" + address + '\'' +
+                ", cityOrCounty='" + cityOrCounty + '\'' +
                 ", bedrooms=" + bedrooms +
                 ", lat=" + lat +
                 ", lng=" + lng +

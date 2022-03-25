@@ -10,6 +10,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -26,9 +28,17 @@ public class HouseCollector {
         return houseRepository.findAll();
     }
 
+
+    public static void main(String[] args) {
+        System.out.println();
+    }
+
     // after 12 hours
     @Scheduled(fixedDelay = 43200000)
     private void searchHouse() throws IOException {
+
+        String now = getDateTime();
+        System.out.println(now);
 
         // measure time
         long start = System.currentTimeMillis();
@@ -80,6 +90,8 @@ public class HouseCollector {
 
                     String address = property.getElementsByClass("TitleBlock__Address-sc-1avkvav-8 fdWqfc").text();
 
+                    String cityOrCounty = address.substring(address.lastIndexOf(",") + 1).trim();
+
                     int beds = 0;
 
                     // sometimes advertisements dont have any information
@@ -95,7 +107,7 @@ public class HouseCollector {
                         continue;
                     }
 
-                    House newHouse = new House(link, price, address, beds, lat, lng);
+                    House newHouse = new House(link, price, address, cityOrCounty, beds, lat, lng);
 
                     houseRepository.save(newHouse);
                     System.out.println(newHouse);
@@ -121,6 +133,14 @@ public class HouseCollector {
         long seconds = (ms / 1000) % 60;
 
         return minutes + " minutes " + seconds + " seconds.";
+    }
+
+    // will be used to know when database was updated last time
+    private String getDateTime() {
+
+        Date dateNow = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        return formatter.format(dateNow);
     }
 
 
