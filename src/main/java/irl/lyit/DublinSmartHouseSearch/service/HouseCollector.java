@@ -2,19 +2,27 @@ package irl.lyit.DublinSmartHouseSearch.service;
 
 import irl.lyit.DublinSmartHouseSearch.dao.House;
 import irl.lyit.DublinSmartHouseSearch.dao.HouseRepository;
+import irl.lyit.DublinSmartHouseSearch.old.BoundingBox;
+import irl.lyit.DublinSmartHouseSearch.old.GeoCoordinates;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Service
+@RestController
+@RequestMapping(value = "/houses")
 public class HouseCollector {
 
     private final HouseRepository houseRepository;
@@ -24,14 +32,44 @@ public class HouseCollector {
         this.houseRepository = houseRepository;
     }
 
-    public List<House> getHouses() {
+
+    @GetMapping(value = "/all")
+    public List<House> getAll() {
         return houseRepository.findAll();
     }
 
 
-    public static void main(String[] args) {
-        System.out.println();
+    @GetMapping(value = "/all2")
+    public String listAll() {
+
+        List<House> all = houseRepository.findAll();
+        List<BoundingBox> allBoxes = new ArrayList<>();
+        allBoxes.add(new BoundingBox(new GeoCoordinates(53.38586318467314, -6.233945130048145),
+                new GeoCoordinates(53.4721215851735, -6.161806902892333)));
+
+        List<House> inBounding = new ArrayList<>();
+
+        for (House house : all) {
+
+            double houseLat = house.getLat();
+            double houseLng = house.getLng();
+
+            for (BoundingBox box : allBoxes) {
+
+                if ((houseLat >= box.getBottom().getLat() && houseLat <= box.getTop().getLat()) &&
+                        (houseLng <= box.getTop().getLng() && houseLng >= box.getBottom().getLng())) {
+                    inBounding.add(house);
+                }
+            }
+        }
+
+        return inBounding.toString();
     }
+
+
+
+
+
 
     // after 12 hours
     @Scheduled(fixedDelay = 43200000)
@@ -47,7 +85,7 @@ public class HouseCollector {
 
         int from = 0;
 
-        String first = "https://www.daft.ie/property-for-sale/ireland/houses?from=" + from;
+        String first = "https://www.daft.ie/property-for-sale/houses?from=" + from;
 
         Document page = Jsoup.connect(first).get();
         String propertiesForSale = page.getElementsByClass("styles__SearchH1-sc-1t5gb6v-3 bekXMP").text();
@@ -98,12 +136,12 @@ public class HouseCollector {
                     // handling out of bounds exception
                     try {
                         String bedsStr = property.getElementsByClass("TitleBlock__CardInfoItem-sc-1avkvav-9 enhPnH").get(0).text();
-                        if(!bedsStr.contains("Bed"))
+                        if (!bedsStr.contains("Bed"))
                             continue;
 
                         beds = Integer.parseInt(bedsStr.substring(0, bedsStr.indexOf(" ")));
 
-                    }catch (IndexOutOfBoundsException e) {
+                    } catch (IndexOutOfBoundsException e) {
                         continue;
                     }
 
