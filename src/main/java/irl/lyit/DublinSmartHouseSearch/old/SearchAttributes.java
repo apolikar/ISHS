@@ -4,6 +4,8 @@ public class SearchAttributes {
 
 
     private String address;
+    private double lat;
+    private double lng;
     private String dateAndTime;
     private long timeLimit;
     private String transportationType;
@@ -13,10 +15,11 @@ public class SearchAttributes {
     private long maxBeds;
 
 
-    public SearchAttributes(String address, String dateAndTime,
-                            long timeLimit, String transportationType,
-                            long minPrice, long maxPrice, long minBeds, long maxBeds) {
+    public SearchAttributes(String address, double lat, double lng, String dateAndTime, long timeLimit,
+                            String transportationType, long minPrice, long maxPrice, long minBeds, long maxBeds) {
         this.address = address;
+        this.lat = lat;
+        this.lng = lng;
         this.dateAndTime = dateAndTime;
         this.timeLimit = timeLimit;
         this.transportationType = transportationType;
@@ -26,16 +29,28 @@ public class SearchAttributes {
         this.maxBeds = maxBeds;
     }
 
-
-    public SearchAttributes() {
-    }
-
     public String getAddress() {
         return address;
     }
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
     }
 
     public String getDateAndTime() {
@@ -98,6 +113,8 @@ public class SearchAttributes {
     public String toString() {
         return "SearchAttributes{" +
                 "address='" + address + '\'' +
+                ", lat=" + lat +
+                ", lng=" + lng +
                 ", dateAndTime='" + dateAndTime + '\'' +
                 ", timeLimit=" + timeLimit +
                 ", transportationType='" + transportationType + '\'' +
