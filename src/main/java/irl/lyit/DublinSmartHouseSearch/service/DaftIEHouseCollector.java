@@ -48,8 +48,8 @@ public class DaftIEHouseCollector implements HouseCollector {
             return;
         }
 
-        int total = getPropertiesNumber(page);
-        while (housesPerPage < total) {
+        int allHousesForSaleNumber = getPropertiesNumber(page);
+        while (housesPerPage < allHousesForSaleNumber) {
 
             try {
                 page = Jsoup.connect(url + housesPerPage).get();
@@ -69,7 +69,7 @@ public class DaftIEHouseCollector implements HouseCollector {
 
         long end = System.currentTimeMillis();
         System.out.println("Last DB update: " + now);
-        System.out.println("To process " + total + " houses took: " + timeInfo(end - start));
+        System.out.println("To process " + allHousesForSaleNumber + " houses took: " + timeInfo(end - start));
 
     }
 
