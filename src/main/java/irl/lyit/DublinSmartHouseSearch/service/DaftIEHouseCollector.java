@@ -161,13 +161,19 @@ public class DaftIEHouseCollector implements HouseCollector {
                         "NewButton__StyledButtonHrefLink-yem86a-3 hzIHZl")
                 .select("a").attr("abs:href");
 
-        if(geoLocation.isEmpty())
-            return new GeoCoordinates();
+        GeoCoordinates houseCoordinates;
 
-        double lat = Double.parseDouble(geoLocation.substring(geoLocation.lastIndexOf(":") + 1,
-                geoLocation.indexOf("+")));
-        double lng = Double.parseDouble(geoLocation.substring(geoLocation.lastIndexOf("-")));
-        return new GeoCoordinates(lat, lng);
+        try {
+            double lat = Double.parseDouble(geoLocation.substring(geoLocation.lastIndexOf(":") + 1,
+                    geoLocation.indexOf("+")));
+            double lng = Double.parseDouble(geoLocation.substring(geoLocation.lastIndexOf("-")));
+            houseCoordinates = new GeoCoordinates(lat, lng);
+
+        } catch (NumberFormatException | IndexOutOfBoundsException e) {
+            houseCoordinates = new GeoCoordinates();
+        }
+
+        return houseCoordinates;
     }
 
 
@@ -180,10 +186,15 @@ public class DaftIEHouseCollector implements HouseCollector {
 
         String priceStr = housePage.getElementsByClass(
                 "TitleBlock__StyledSpan-sc-1avkvav-5 gUFuYZ").text().replace(",", "");
-        if (priceStr.isEmpty() || priceStr.contains("Price on Application") || priceStr.contains("£")) {
-            return -1;
+
+        double price;
+
+        try {
+            price = Double.parseDouble(priceStr.substring(priceStr.indexOf("€") + 1));
+        } catch (NumberFormatException | IndexOutOfBoundsException e) {
+            price = -1;
         }
-        return Double.parseDouble(priceStr.substring(priceStr.indexOf("€") + 1));
+        return  price;
     }
 
 
@@ -225,7 +236,7 @@ public class DaftIEHouseCollector implements HouseCollector {
             }
 
             beds = Integer.parseInt(bedsStr.substring(0, bedsStr.indexOf(" ")));
-        } catch (IndexOutOfBoundsException e) {
+        } catch (NumberFormatException | IndexOutOfBoundsException e) {
             return -1;
         }
         return beds;
