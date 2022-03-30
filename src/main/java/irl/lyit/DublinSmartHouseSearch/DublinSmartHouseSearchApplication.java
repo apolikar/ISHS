@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class DublinSmartHouseSearchApplication {
 
 	public static void main(String[] args) {
-		//SpringApplication.run(DublinSmartHouseSearchApplication.class, args);
+
 		new SpringApplicationBuilder()
 				.sources(DublinSmartHouseSearchApplication.class)
 				.run(args);
