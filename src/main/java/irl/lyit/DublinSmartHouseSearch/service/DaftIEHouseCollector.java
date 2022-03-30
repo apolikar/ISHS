@@ -26,7 +26,6 @@ public class DaftIEHouseCollector implements HouseCollector {
     }
 
 
-
     /**
      * Parse houses for sale information from property website to update DB
      */
@@ -41,25 +40,24 @@ public class DaftIEHouseCollector implements HouseCollector {
         int housesPerPage = 0;
         String url = "https://www.daft.ie/property-for-sale/houses?from=" + housesPerPage;
 
-        Document page;
-        try {
-            page = Jsoup.connect(url).get();
-        } catch (IOException e) {
+        // connect to the first page with all available houses
+        Document page = checkConnection(url);
+        if(page == null)
             return;
-        }
 
         int allHousesForSaleNumber = getPropertiesNumber(page);
         while (housesPerPage < allHousesForSaleNumber) {
 
-            try {
-                page = Jsoup.connect(url + housesPerPage).get();
-            } catch (IOException e) {
+            // connect to the next website pages (will stay on first page on the first run)
+            page = checkConnection(url + housesPerPage);
+            if(page == null)
                 continue;
-            }
 
+            // get list of all house objects (HTML)
             Elements allHousesOnPage = getAllHousesOnPage(page);
 
             for (Element house : allHousesOnPage) {
+
                 // link for each property
                 String link = getHouseLink(house);
                 collectAllHouseDetails(link);
@@ -71,6 +69,23 @@ public class DaftIEHouseCollector implements HouseCollector {
         System.out.println("Last DB update: " + now);
         System.out.println("To process " + allHousesForSaleNumber + " houses took: " + timeInfo(end - start));
 
+    }
+
+
+    /**
+     * Check website connection for information parsing.
+     * @param url website url
+     * @return website page HTML structure
+     */
+    private Document checkConnection(String url) {
+
+        Document page;
+        try {
+            page = Jsoup.connect(url).get();
+        } catch (IOException e) {
+            page = null;
+        }
+        return page;
     }
 
 
