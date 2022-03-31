@@ -1,3 +1,12 @@
+wicket:
+  core:
+    settings:
+      general:
+        configuration-type: development
+      debug:
+        enabled: true
+        component-use-check: true
+        development-utilities-enabled: true
 server:
   port: 8090
 spring:
@@ -14,3 +23,14 @@ spring:
 logging:
   file:
     path: logs
+external:
+  development:
+    devutils:
+      statelesschecker:
+        enabled: true
+      interceptor:
+        enable-live-sessions-page: true
+      diskstorebrowser:
+        enabled: true
+    wicketsource:
+      enabled: true
