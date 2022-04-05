@@ -1,5 +1,7 @@
 package irl.lyit.DublinSmartHouseSearch.old;
 
+import irl.lyit.DublinSmartHouseSearch.service.TransportionType;
+
 public class SearchAttributes {
 
 
@@ -8,15 +10,25 @@ public class SearchAttributes {
     private double lng;
     private String dateAndTime;
     private long timeLimit;
-    private String transportationType;
+    private TransportionType transportationType;
     private long minPrice;
     private long maxPrice;
     private long minBeds;
     private long maxBeds;
 
 
-    public SearchAttributes(String address, double lat, double lng, String dateAndTime, long timeLimit,
-                            String transportationType, long minPrice, long maxPrice, long minBeds, long maxBeds) {
+    public SearchAttributes(
+            String address,
+            double lat,
+            double lng,
+            String dateAndTime,
+            long timeLimit,
+            TransportionType transportationType,
+            long minPrice,
+            long maxPrice,
+            long minBeds,
+            long maxBeds
+    ) {
         this.address = address;
         this.lat = lat;
         this.lng = lng;
@@ -69,11 +81,11 @@ public class SearchAttributes {
         this.timeLimit = timeLimit;
     }
 
-    public String getTransportationType() {
+    public TransportionType getTransportationType() {
         return transportationType;
     }
 
-    public void setTransportationType(String transportationType) {
+    public void setTransportationType(TransportionType transportationType) {
         this.transportationType = transportationType;
     }
 
@@ -117,7 +129,7 @@ public class SearchAttributes {
                 ", lng=" + lng +
                 ", dateAndTime='" + dateAndTime + '\'' +
                 ", timeLimit=" + timeLimit +
-                ", transportationType='" + transportationType + '\'' +
+                ", transportationType=" + transportationType +
                 ", minPrice=" + minPrice +
                 ", maxPrice=" + maxPrice +
                 ", minBeds=" + minBeds +

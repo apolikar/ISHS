@@ -16,7 +16,7 @@ public class HouseCollectorScheduler {
     }
 
     // after 12 hours
-  //  @Scheduled(fixedDelay = 43200000)
+//    @Scheduled(fixedDelay = 43200000)
     public void searchHouses() {
         this.houseCollector.collect();
     }

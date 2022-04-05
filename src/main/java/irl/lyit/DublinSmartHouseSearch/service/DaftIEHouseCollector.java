@@ -42,17 +42,20 @@ public class DaftIEHouseCollector implements HouseCollector {
 
         // connect to the first page with all available houses
         Document page = checkConnection(url);
-        if(page == null)
+
+        if (page == null) {
             return;
+        }
 
         int allHousesForSaleNumber = getPropertiesNumber(page);
         while (housesPerPage < allHousesForSaleNumber) {
 
             // connect to the next website pages (will stay on first page on the first run)
             page = checkConnection(url + housesPerPage);
-            if(page == null)
-                continue;
 
+            if (page == null) {
+                return;
+            }
             // get list of all house objects (HTML)
             Elements allHousesOnPage = getAllHousesOnPage(page);
 
@@ -74,6 +77,7 @@ public class DaftIEHouseCollector implements HouseCollector {
 
     /**
      * Check website connection for information parsing.
+     *
      * @param url website url
      * @return website page HTML structure
      */
@@ -91,33 +95,44 @@ public class DaftIEHouseCollector implements HouseCollector {
 
     /**
      * collect all data for house advertisement page
+     *
      * @param link for the house advertisement
      */
-    private void collectAllHouseDetails(String link){
+    private void collectAllHouseDetails(String link) {
 
         try {
             Document property = Jsoup.connect(link).get();
-            GeoCoordinates  houseCoordinates = getHouseCoordinates(property);
+            GeoCoordinates houseCoordinates = getHouseCoordinates(property);
             double price = getHousePrice(property);
             String address = getHouseAddress(property);
             String cityOrCounty = getHouseCityCounty(address);
             int beds = getHouseBedsNumber(property);
 
-            if(price <= 0 || beds <= 0 || (houseCoordinates.getLat() == 0 && houseCoordinates.getLng() == 0))
+            if (price <= 0
+                    || beds <= 0
+                    || (houseCoordinates.getLat() == 0 && houseCoordinates.getLng() == 0)) {
                 return;
+            }
 
-            House newHouse = new House(link, price, address, cityOrCounty, beds, houseCoordinates.getLat(),
-                    houseCoordinates.getLng());
+            House newHouse = new House(
+                    link,
+                    price,
+                    address,
+                    cityOrCounty,
+                    beds,
+                    houseCoordinates.getLat(),
+                    houseCoordinates.getLng()
+            );
             houseRepository.save(newHouse);
             System.out.println(newHouse);
-        } catch (IOException e) {
-            return;
+        } catch (IOException ignored) {
         }
     }
 
 
     /**
      * Get total number of properties for sale on the site.
+     *
      * @param webSiteIndexPage website index page
      * @return total number of properties for sale at the moment
      */
@@ -131,6 +146,7 @@ public class DaftIEHouseCollector implements HouseCollector {
 
     /**
      * Get all houses for sale on the single webpage
+     *
      * @param page webpage
      * @return list of elements on the webpage (houses)
      */
@@ -142,16 +158,18 @@ public class DaftIEHouseCollector implements HouseCollector {
 
     /**
      * Get link for the house advertisement
+     *
      * @param house house element
      * @return link string value
      */
-    private String getHouseLink(Element house){
+    private String getHouseLink(Element house) {
         return house.select("a").attr("abs:href");
     }
 
 
     /**
      * Get house geo coordinates (lat and lng)
+     *
      * @param housePage house advertisement webpage
      * @return house GeoCoordinates object
      */
@@ -179,6 +197,7 @@ public class DaftIEHouseCollector implements HouseCollector {
 
     /**
      * Get house price
+     *
      * @param housePage house advertisement webpage
      * @return house price
      */
@@ -194,12 +213,13 @@ public class DaftIEHouseCollector implements HouseCollector {
         } catch (NumberFormatException | IndexOutOfBoundsException e) {
             price = -1;
         }
-        return  price;
+        return price;
     }
 
 
     /**
      * Get house address
+     *
      * @param housePage house advertisement webpage
      * @return house address
      */
@@ -211,6 +231,7 @@ public class DaftIEHouseCollector implements HouseCollector {
 
     /**
      * Get house city or county
+     *
      * @param houseAddress house advertisement webpage
      * @return house city or county
      */
@@ -222,6 +243,7 @@ public class DaftIEHouseCollector implements HouseCollector {
 
     /**
      * Get house number of beds
+     *
      * @param housePage house advertisement webpage
      * @return house number of beds
      */
@@ -245,6 +267,7 @@ public class DaftIEHouseCollector implements HouseCollector {
 
     /**
      * Get runtime value string from start to end
+     *
      * @param ms end - start in ms
      * @return string with number of minutes and seconds
      */
@@ -258,6 +281,7 @@ public class DaftIEHouseCollector implements HouseCollector {
 
     /**
      * Get date and time at the moment
+     *
      * @return date and time now
      */
     private String getDateTime() {
@@ -266,8 +290,6 @@ public class DaftIEHouseCollector implements HouseCollector {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         return formatter.format(dateNow);
     }
-
-
 
 
 }
