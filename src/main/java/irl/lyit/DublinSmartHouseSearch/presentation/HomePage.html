@@ -21,25 +21,45 @@
 
             <div class="input-group">
                 <span class="input-group-text">Workplace Address: </span>
-                <label wicket:id="addressLabel" for="work" id="addressLabel">Address:</label>
+                <label wicket:id="addressLabel" for="work" id="addressLabel"></label>
+
                 <input wicket:id="workInput" type="text" id="work" name="work"
                        class="form-control" placeholder="address"><br><br>
             </div>
 
-            <label wicket:id="dateLabel" for="date" id="dateLabel">date</label>
-            <input wicket:id="dateInput" type="date" id="date"><br><br>
+            <br>
 
-            <label wicket:id="timeDayLabel" for="timeDay" id="timeLabel">date</label>
-            <input wicket:id="timeDayInput" type="time" id="timeDay"/><br><br>
+            <!--            <label wicket:id="dateLabel" for="date" id="dateLabel">date</label>-->
+            <!--            <input wicket:id="dateInput" type="date" id="date"><br><br>-->
 
-            <label wicket:id="travelDuration" for="time" id="travelDuration">Travel time:</label>
-            <input wicket:id="timeInput" type="number" id="time" name="time"><br><br>
+            <!--            <label wicket:id="timeDayLabel" for="timeDay" id="timeLabel">date</label>-->
+            <!--            <input wicket:id="timeDayInput" type="time" id="timeDay"/><br><br>-->
 
 
-            <label for="travelTransport" id="transportLabel">Transport type:</label>
-            <select wicket:id="travelSelect" name="travelTransport" id="travelTransport">
-            </select><br><br>
+            <div class="input-group">
+                <span class="input-group-text">Date and Time: </span>
+                <label wicket:id="dateLabel" for="date" id="dateLabel"></label>
+                <input wicket:id="dateInput" type="datetime-local" id="date"></input><br><br>
+            </div>
 
+            <br>
+
+            <div class="input-group">
+                <span class="input-group-text">Max Travel time: </span>
+                <label wicket:id="travelDuration" for="time" id="travelDuration"></label>
+                <input wicket:id="timeInput" type="number" id="time" name="time" min="5"><br><br>
+            </div>
+
+            <br>
+
+            <div class="input-group">
+                <span class="input-group-text">Transport type: </span>
+                <label for="travelTransport" id="transportLabel"></label>
+                <select wicket:id="travelSelect" name="travelTransport" id="travelTransport">
+                </select><br><br>
+            </div>
+
+            <br>
 
             <div class="input-group">
                 <span class="input-group-text">Min and Max Beds: </span>
