@@ -18,6 +18,7 @@ public class HouseService {
 
     private final HouseRepository houseRepository;
 
+
     @Autowired
     public HouseService(HouseRepository houseRepository) {
         this.houseRepository = houseRepository;

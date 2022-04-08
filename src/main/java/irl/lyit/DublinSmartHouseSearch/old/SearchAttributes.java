@@ -5,33 +5,26 @@ import irl.lyit.DublinSmartHouseSearch.service.TransportionType;
 public class SearchAttributes {
 
 
-    private String address;
-    private double lat;
-    private double lng;
+    private GeoCoordinates coordinates;
     private String dateAndTime;
     private long timeLimit;
-    private TransportionType transportationType;
+//    private TransportionType transportationType;
+    private String transportationType;
     private long minPrice;
     private long maxPrice;
     private long minBeds;
     private long maxBeds;
 
-
     public SearchAttributes(
-            String address,
-            double lat,
-            double lng,
+            GeoCoordinates coordinates,
             String dateAndTime,
             long timeLimit,
-            TransportionType transportationType,
+            String transportationType,
             long minPrice,
             long maxPrice,
             long minBeds,
-            long maxBeds
-    ) {
-        this.address = address;
-        this.lat = lat;
-        this.lng = lng;
+            long maxBeds) {
+        this.coordinates = coordinates;
         this.dateAndTime = dateAndTime;
         this.timeLimit = timeLimit;
         this.transportationType = transportationType;
@@ -41,28 +34,12 @@ public class SearchAttributes {
         this.maxBeds = maxBeds;
     }
 
-    public String getAddress() {
-        return address;
+    public GeoCoordinates getCoordinates() {
+        return coordinates;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public double getLat() {
-        return lat;
-    }
-
-    public void setLat(double lat) {
-        this.lat = lat;
-    }
-
-    public double getLng() {
-        return lng;
-    }
-
-    public void setLng(double lng) {
-        this.lng = lng;
+    public void setCoordinates(GeoCoordinates coordinates) {
+        this.coordinates = coordinates;
     }
 
     public String getDateAndTime() {
@@ -77,15 +54,15 @@ public class SearchAttributes {
         return timeLimit;
     }
 
-    public void setTimeLimit(long timeLimit) {
+    public void setTimeLimit(int timeLimit) {
         this.timeLimit = timeLimit;
     }
 
-    public TransportionType getTransportationType() {
+    public String getTransportationType() {
         return transportationType;
     }
 
-    public void setTransportationType(TransportionType transportationType) {
+    public void setTransportationType(String transportationType) {
         this.transportationType = transportationType;
     }
 
@@ -124,12 +101,10 @@ public class SearchAttributes {
     @Override
     public String toString() {
         return "SearchAttributes{" +
-                "address='" + address + '\'' +
-                ", lat=" + lat +
-                ", lng=" + lng +
+                "coordinates=" + coordinates +
                 ", dateAndTime='" + dateAndTime + '\'' +
                 ", timeLimit=" + timeLimit +
-                ", transportationType=" + transportationType +
+                ", transportationType='" + transportationType + '\'' +
                 ", minPrice=" + minPrice +
                 ", maxPrice=" + maxPrice +
                 ", minBeds=" + minBeds +

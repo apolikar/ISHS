@@ -52,7 +52,6 @@ public class DaftIEHouseCollector implements HouseCollector {
 
             // connect to the next website pages (will stay on first page on the first run)
             page = checkConnection(url + housesPerPage);
-
             if (page == null) {
                 return;
             }
@@ -61,7 +60,6 @@ public class DaftIEHouseCollector implements HouseCollector {
 
             for (Element house : allHousesOnPage) {
 
-                // link for each property
                 String link = getHouseLink(house);
                 collectAllHouseDetails(link);
             }
@@ -138,9 +136,12 @@ public class DaftIEHouseCollector implements HouseCollector {
      */
     private int getPropertiesNumber(Document webSiteIndexPage) {
 
-        String propertiesForSale = webSiteIndexPage.getElementsByClass("styles__SearchH1-sc-1t5gb6v-3 bekXMP").text();
-        return Integer.parseInt(propertiesForSale.substring(0, propertiesForSale.indexOf(" ")).replace(",",
-                ""));
+        Elements propertiesForSale = webSiteIndexPage.getElementsByClass("SearchPage__SearchResultsHeaderWrapper-gg133s-4 iEmWdr");
+        String s = propertiesForSale.text();
+        String d = s.substring(0, s.indexOf(" ")).replace(",", "");
+
+        return Integer.parseInt(d);
+
     }
 
 
@@ -151,8 +152,9 @@ public class DaftIEHouseCollector implements HouseCollector {
      * @return list of elements on the webpage (houses)
      */
     private Elements getAllHousesOnPage(Document page) {
-        return page.select("#__next > main > div.styles__MainFlexWrapper-sc-1t5gb6v-0.fLpeuJ >" +
-                " div.SearchPage__MainColumn-gg133s-0.jsbRqT > ul > li");
+
+          return page.getElementsByClass("SearchPage__SearchResults-gg133s-3 jGQNan");
+
     }
 
 
@@ -176,7 +178,7 @@ public class DaftIEHouseCollector implements HouseCollector {
     private GeoCoordinates getHouseCoordinates(Document housePage) {
 
         String geoLocation = housePage.getElementsByClass(
-                        "NewButton__StyledButtonHrefLink-yem86a-3 hzIHZl")
+                        "NewButton__ButtonContainer-yem86a-4 deYANw button-container")
                 .select("a").attr("abs:href");
 
         GeoCoordinates houseCoordinates;
@@ -204,7 +206,7 @@ public class DaftIEHouseCollector implements HouseCollector {
     private double getHousePrice(Document housePage) {
 
         String priceStr = housePage.getElementsByClass(
-                "TitleBlock__StyledSpan-sc-1avkvav-5 gUFuYZ").text().replace(",", "");
+                "TitleBlock__StyledSpan-sc-1avkvav-5 fKAzIL").text().replace(",", "");
 
         double price;
 
@@ -225,7 +227,7 @@ public class DaftIEHouseCollector implements HouseCollector {
      */
     private String getHouseAddress(Document housePage) {
 
-        return housePage.getElementsByClass("TitleBlock__Address-sc-1avkvav-8 fdWqfc").text();
+        return housePage.getElementsByClass("TitleBlock__Address-sc-1avkvav-8 dzihxK").text();
     }
 
 
@@ -252,7 +254,7 @@ public class DaftIEHouseCollector implements HouseCollector {
         int beds;
 
         try {
-            String bedsStr = housePage.getElementsByClass("TitleBlock__CardInfoItem-sc-1avkvav-9 enhPnH").get(0).text();
+            String bedsStr = housePage.getElementsByClass("TitleBlock__CardInfoItem-sc-1avkvav-9 fgXVWJ").get(0).text();
             if (!bedsStr.contains("Bed")) {
                 return -1;
             }
@@ -293,5 +295,3 @@ public class DaftIEHouseCollector implements HouseCollector {
 
 
 }
-
-

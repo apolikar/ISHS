@@ -1,26 +1,30 @@
 package irl.lyit.DublinSmartHouseSearch.presentation;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.giffing.wicket.spring.boot.context.scan.WicketHomePage;
 import irl.lyit.DublinSmartHouseSearch.old.GeoCoordinates;
+import irl.lyit.DublinSmartHouseSearch.old.SearchAttributes;
+import irl.lyit.DublinSmartHouseSearch.service.GeoCoordinatesFinder;
 import irl.lyit.DublinSmartHouseSearch.service.TransportionType;
 import irl.lyit.DublinSmartHouseSearch.service.addressFormatter.GoogleAddressFormatter;
 import irl.lyit.DublinSmartHouseSearch.service.client.GMapsHTTPClient;
-import org.apache.wicket.extensions.markup.html.form.datetime.LocalDateTextField;
-import org.apache.wicket.extensions.markup.html.form.datetime.LocalDateTimeField;
-import org.apache.wicket.extensions.markup.html.form.datetime.LocalDateTimeTextField;
+import org.apache.wicket.extensions.markup.html.form.DateTextField;
+import org.apache.wicket.extensions.markup.html.form.datetime.TimeField;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.*;
 import org.apache.wicket.model.Model;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Date;
 
 
+
 @WicketHomePage
 public class HomePage extends WebPage {
+
     public HomePage() {
         add(new AddressForm("form"));
 
@@ -29,8 +33,8 @@ public class HomePage extends WebPage {
     private static class AddressForm extends Form<Void> {
 
         private final Model<String> addressModel;
-        private final Model<LocalDateTimeField> dateModel;
-        //private final Model<LocalTime> timeModel;
+        private final Model<Date> dateModel;
+        private final Model<LocalTime> timeModel;
         private final Model<TransportionType> transportModel;
         private final Model<Integer> travelTimeModel;
         private final Model<Integer> minBedsModel;
@@ -39,14 +43,14 @@ public class HomePage extends WebPage {
         private final Model<Integer> maxPriceModel;
 
 
-
-
         public AddressForm(String id) {
             super(id);
 
             this.addressModel = new Model<>();
+
             this.dateModel = new Model<>();
-            //this.timeModel = new Model<>();
+
+            this.timeModel = new Model<>();
             this.transportModel = new Model<>();
             this.travelTimeModel = new Model<>();
             this.minBedsModel = new Model<>();
@@ -54,31 +58,20 @@ public class HomePage extends WebPage {
             this.minPriceModel = new Model<>();
             this.maxBedsModel = new Model<>();
 
-
             add(new Label("addressLabel", ""));
             add(new TextField<>("workInput", addressModel));
 
-
             add(new Label("dateLabel", ""));
-            add(new LocalDateTimeField("dateInput"));
+            add(new DateTextField("dateInput", dateModel, "yyyy-MM-dd"));
 
-
-            // "yyyy'-'MM'-'dd'T'HH':'mm':'ss"
-
-//            add(new Label("dateLabel", "date input: "));
-//            add(new DateTextField("dateInput", dateModel, "yyyy-MM-dd"));
-
-//            add(new Label("timeDayLabel", "time input: "));
-//            add(new TimeField("timeDayInput", timeModel));
-
-
+            add(new Label("timeDayLabel", ""));
+            add(new TimeField("timeDayInput", timeModel));
 
             add(new DropDownChoice<>(
                     "travelSelect",
                     transportModel,
                     Arrays.asList(TransportionType.values())
             ));
-
 
             add(new Label("travelDuration", ""));
             add(new NumberTextField<>("timeInput", travelTimeModel, Integer.class));
@@ -98,53 +91,89 @@ public class HomePage extends WebPage {
             add(new Label("maxPriceLabel", ""));
             add(new NumberTextField<>("priceInputMax", maxPriceModel, Integer.class));
 
-
         }
 
 
         @Override
         protected void onSubmit() {
 
+            SearchAttributes searchAttributes = new SearchAttributes(
+                    getWorkCoordinates(),
+                    getDateAndTime(),
+                    travelTimeModel.getObject(),
+                    getTransportType(),
+                    minPriceModel.getObject(),
+                    maxPriceModel.getObject(),
+                    minBedsModel.getObject(),
+                    maxBedsModel.getObject()
+            );
+
+            if(!searchValidation(searchAttributes)){
+                HomePage homePage = new HomePage();
+                System.out.println("error");
+                return;
+            }
+
+            System.out.println(searchAttributes);
+
+        }
+
+        private GeoCoordinates getWorkCoordinates(){
             // for test
             GoogleAddressFormatter addressFormatter = new GoogleAddressFormatter();
             String formattedAddress = addressFormatter.formatAddress(addressModel.getObject());
-
-            String transportType = transportModel.getObject().toString();
-            System.out.println("Transport Type: " + transportType);
-
-            int travelTime = travelTimeModel.getObject();
-            System.out.println("Travel Time: " + travelTime);
-
-            int bedsMin = minBedsModel.getObject();
-            int bedsMax = maxBedsModel.getObject();
-            System.out.println("Min beds: " + bedsMin + " Max Beds: " + bedsMax);
-
-            int minPrice = minPriceModel.getObject();
-            int maxPrice = maxPriceModel.getObject();
-            System.out.println("Min Price: " + minPrice + " Max Price: " + maxPrice);
-
-//            Date date = dateModel.getObject();
-//            System.out.println(date);
-//
-//            LocalTime localTime = timeModel.getObject();
-//            System.out.println(localTime);
-
-
-            GMapsHTTPClient gMapsHTTPClient = new GMapsHTTPClient();
-            GeoCoordinates finalDestinationCoord;
-
+            GeoCoordinatesFinder gc = new GeoCoordinatesFinder(addressFormatter, new GMapsHTTPClient());
+            GeoCoordinates workCoordinates = new GeoCoordinates();
             try {
-
-                JsonNode addressResponse = gMapsHTTPClient.finalDestination(formattedAddress);
-                double lat = addressResponse.get("lat").asDouble();
-                double lng = addressResponse.get("lng").asDouble();
-                finalDestinationCoord = new GeoCoordinates(lat, lng);
-                System.out.println(finalDestinationCoord);
-
-            } catch (IOException | InterruptedException e) {
-                System.out.println("exception caught");
+                workCoordinates = gc.getCoordinates(formattedAddress);
+            } catch (IOException | InterruptedException ignored) {
             }
 
+            return workCoordinates;
+        }
+
+        private String getDateAndTime(){
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = dateModel.getObject();
+            String time = String.valueOf(timeModel.getObject());
+            return sdf.format(date) + "T" + time + ":00.000Z";
+        }
+
+        private String getTransportType(){
+            switch (transportModel.getObject()) {
+                case PUBLIC_TRANSPORT -> {
+                    return "public_transport";
+                }
+                case DRIVING -> {
+                    return "driving";
+                }
+                case WALKING -> {
+                    return "walking";
+                }
+            }
+            return "cycling";
+        }
+
+
+        private boolean searchValidation(SearchAttributes currentSearch) {
+
+            LocalDateTime now = LocalDateTime.now();
+            String trimmedSearchTime = getDateAndTime().substring(0, 19);
+            LocalDateTime searchDateTime = LocalDateTime.parse(trimmedSearchTime);
+
+            if(currentSearch.getMaxPrice() < currentSearch.getMinPrice()){
+                return false;
+            }
+
+            if(currentSearch.getMaxBeds() < currentSearch.getMinBeds()){
+                return false;
+            }
+
+            if(currentSearch.getTimeLimit() <= 0){
+                return false;
+            }
+            return now.isBefore(searchDateTime);
         }
 
     }

@@ -74,6 +74,7 @@
 			<artifactId>wicket-spring-boot-context</artifactId>
 			<version>3.1.6</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-core</artifactId>
@@ -100,7 +101,17 @@
 			<artifactId>spring-boot</artifactId>
 			<version>2.6.1</version>
 		</dependency>
-	</dependencies>
+		<dependency>
+			<groupId>com.googlecode.wicket-jquery-ui</groupId>
+			<artifactId>wicket-kendo-ui</artifactId>
+			<version>9.8.0</version>
+		</dependency>
+        <dependency>
+            <groupId>com.takisoft.datetimepicker</groupId>
+            <artifactId>datetimepicker</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<finalName>dshs</finalName>
