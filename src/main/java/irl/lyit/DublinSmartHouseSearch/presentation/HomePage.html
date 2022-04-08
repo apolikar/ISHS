@@ -7,18 +7,24 @@
     <meta charset="UTF-8" http-equiv="Content-Security-Policy"
           content="default-src 'self'; font-src 'self' https://fonts.gstatic.com/; style-src 'self' https://fonts.googleapis.com/ 'unsafe-inline';">
     <title>ISHS</title>
-</head>
-<body>
+    <script>
 
-<div class="background-image">
+        function hello(){
+            alert("hello");
+        }
+
+    </script>
+</head>
+<body class="background-image">
+
+<div >
+
 
     <div class="container-fluid">
 
         <div class="d-flex justify-content-center flex-nowrap">
             <p class="h1">Ireland Smart House Search</p>
         </div>
-
-        <p id="fff"></p>
 
         <br>
 
@@ -58,8 +64,10 @@
 
                     <div class="input-group">
                         <span class="input-group-text">Max Travel time: </span>
-                        <label wicket:id="travelDuration" for="time" id="travelDuration"></label>
-                        <input wicket:id="timeInput" type="number" id="time" name="time" min="5" required><br><br>
+                        <label for="time" id="travelDuration"></label>
+                        <select name="travelTime" wicket:id="travelTime" id="time">
+                            <option value="" selected="selected">Choose One</option>
+                        </select>
                     </div>
 
                     <br>
@@ -103,17 +111,29 @@
 
 
                     <div class="d-flex justify-content-center flex-nowrap">
+
+
+
                         <div class="col-md-1">
                             <button type="submit" class="btn btn-primary mr-1 btn btn-primary btn-lg">Proceed</button>
                         </div>
+
+
                         <div class="col-md-1"></div>
+
+
                         <div class="col-md-1">
                             <button type="reset" class="btn btn-warning btn btn-secondary btn-lg">Reset</button>
                         </div>
+
                     </div>
 
                     <br>
 
+                    <div class="alert">
+                        <div style="color:red; font-size: x-large; font-weight: bolder" wicket:id="feedbackMessage">
+                        </div>
+                    </div>
 
                 </fieldset>
             </form>

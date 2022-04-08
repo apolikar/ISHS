@@ -1,6 +1,13 @@
 package irl.lyit.DublinSmartHouseSearch.old;
 
+import irl.lyit.DublinSmartHouseSearch.dao.House;
+import irl.lyit.DublinSmartHouseSearch.dao.HouseRepository;
+import irl.lyit.DublinSmartHouseSearch.service.HouseService;
 import irl.lyit.DublinSmartHouseSearch.service.TransportionType;
+
+import java.io.IOException;
+import java.sql.Time;
+import java.util.List;
 
 public class SearchAttributes {
 
@@ -8,22 +15,14 @@ public class SearchAttributes {
     private GeoCoordinates coordinates;
     private String dateAndTime;
     private long timeLimit;
-//    private TransportionType transportationType;
     private String transportationType;
     private long minPrice;
     private long maxPrice;
     private long minBeds;
     private long maxBeds;
 
-    public SearchAttributes(
-            GeoCoordinates coordinates,
-            String dateAndTime,
-            long timeLimit,
-            String transportationType,
-            long minPrice,
-            long maxPrice,
-            long minBeds,
-            long maxBeds) {
+
+    public SearchAttributes(GeoCoordinates coordinates, String dateAndTime, long timeLimit, String transportationType, long minPrice, long maxPrice, long minBeds, long maxBeds) throws IOException, InterruptedException {
         this.coordinates = coordinates;
         this.dateAndTime = dateAndTime;
         this.timeLimit = timeLimit;
@@ -32,6 +31,7 @@ public class SearchAttributes {
         this.maxPrice = maxPrice;
         this.minBeds = minBeds;
         this.maxBeds = maxBeds;
+
     }
 
     public GeoCoordinates getCoordinates() {
@@ -54,7 +54,7 @@ public class SearchAttributes {
         return timeLimit;
     }
 
-    public void setTimeLimit(int timeLimit) {
+    public void setTimeLimit(long timeLimit) {
         this.timeLimit = timeLimit;
     }
 
@@ -97,6 +97,7 @@ public class SearchAttributes {
     public void setMaxBeds(long maxBeds) {
         this.maxBeds = maxBeds;
     }
+
 
     @Override
     public String toString() {

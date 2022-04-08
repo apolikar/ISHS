@@ -4,6 +4,7 @@ import irl.lyit.DublinSmartHouseSearch.dao.House;
 import irl.lyit.DublinSmartHouseSearch.dao.HouseRepository;
 import irl.lyit.DublinSmartHouseSearch.old.BoundingBox;
 import irl.lyit.DublinSmartHouseSearch.old.GeoCoordinates;
+import irl.lyit.DublinSmartHouseSearch.old.SearchAttributes;
 import irl.lyit.DublinSmartHouseSearch.old.TimeTravelMatrix;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class HouseService {
+public class HouseService{
 
 
     private final HouseRepository houseRepository;
@@ -23,6 +24,7 @@ public class HouseService {
     public HouseService(HouseRepository houseRepository) {
         this.houseRepository = houseRepository;
     }
+
 
     public List<House> getInBoundary() {
 

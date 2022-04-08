@@ -13,7 +13,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping(value = "/houses")
+@RequestMapping(value = "")
 public class HouseController {
 
 
