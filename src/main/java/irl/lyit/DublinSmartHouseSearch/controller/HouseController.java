@@ -20,6 +20,7 @@ public class HouseController {
     private final HouseRepository houseRepository;
     private final HouseService houseService;
 
+
     @Autowired
     public HouseController(HouseRepository houseRepository, HouseService houseService) {
         this.houseRepository = houseRepository;

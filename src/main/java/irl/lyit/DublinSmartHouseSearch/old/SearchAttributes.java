@@ -4,13 +4,15 @@ import irl.lyit.DublinSmartHouseSearch.dao.House;
 import irl.lyit.DublinSmartHouseSearch.dao.HouseRepository;
 import irl.lyit.DublinSmartHouseSearch.service.HouseService;
 import irl.lyit.DublinSmartHouseSearch.service.TransportionType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.sql.Time;
 import java.util.List;
 
-public class SearchAttributes {
 
+public class SearchAttributes {
 
     private GeoCoordinates coordinates;
     private String dateAndTime;
@@ -22,7 +24,6 @@ public class SearchAttributes {
     private long maxBeds;
 
     private List<BoundingBox> boundingBoxes;
-
 
     public SearchAttributes(GeoCoordinates coordinates, String dateAndTime, long timeLimit, String transportationType, long minPrice, long maxPrice, long minBeds, long maxBeds) throws IOException, InterruptedException {
         this.coordinates = coordinates;
@@ -36,7 +37,6 @@ public class SearchAttributes {
 
         // create isochrone map for search
         boundingBoxes = new CreateIsochroneMap(coordinates, dateAndTime, transportationType, timeLimit).boundingBox();
-
     }
 
     public GeoCoordinates getCoordinates() {

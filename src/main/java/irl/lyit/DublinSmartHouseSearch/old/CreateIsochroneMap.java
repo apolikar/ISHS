@@ -70,22 +70,22 @@ public class CreateIsochroneMap {
   }
 
 
-  public List<BoundingBox> boundingBox() throws IOException, InterruptedException {
-
-    List<BoundingBox> result = new ArrayList<>();
+  private JsonNode getAllShapesNode() throws IOException, InterruptedException {
 
     ObjectMapper objectMapper = new ObjectMapper();
     JsonNode jsonNode = objectMapper.readTree(generateResponseString());
+    return jsonNode.get("results").get(0).get("shapes");
+  }
 
 
+  public List<BoundingBox> boundingBox() throws IOException, InterruptedException {
+
+    List<BoundingBox> result = new ArrayList<>();
     List<GeoCoordinates> coordinatesList = new ArrayList<>();
 
-    jsonNode = jsonNode.get("results").get(0).get("shapes");
+    for( int i = 0; i < getAllShapesNode().size(); i++) {
 
-
-    for( int i = 0; i < jsonNode.size(); i++) {
-
-      JsonNode shell = jsonNode.get(i).get("shell");
+      JsonNode shell = getAllShapesNode().get(i).get("shell");
 
       for (int z = 0; z < shell.size(); z++) {
         JsonNode tempCoord = shell.get(z);
@@ -117,7 +117,7 @@ public class CreateIsochroneMap {
       BoundingBox boundingBox = new BoundingBox(bottom, top);
       result.add(boundingBox);
     }
-    System.out.println(result);
+
     return result;
   }
 
