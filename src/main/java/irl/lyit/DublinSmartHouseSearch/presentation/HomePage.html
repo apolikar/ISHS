@@ -81,31 +81,60 @@
 
                     <br>
 
+<!--                    <div class="input-group">-->
+<!--                        <span class="input-group-text">Min and Max Beds: </span>-->
+
+<!--                        <label wicket:id="minBedsLabel" for="minBeds" id="minBedsLabel"></label>-->
+<!--                        <input wicket:id="bedsInputMin" type="number" id="minBeds" name="bedsInputMin"-->
+<!--                               class="form-control" placeholder="minimum beds" required>-->
+
+<!--                        <label wicket:id="maxBedsLabel" for="maxBeds" id="maxBedsLabel"></label>-->
+<!--                        <input wicket:id="bedsInputMax" type="number" id="maxBeds" name="maxBeds"-->
+<!--                               class="form-control" placeholder="maximum beds" required><br><br>-->
+<!--                    </div>-->
+
                     <div class="input-group">
                         <span class="input-group-text">Min and Max Beds: </span>
-
-                        <label wicket:id="minBedsLabel" for="minBeds" id="minBedsLabel"></label>
-                        <input wicket:id="bedsInputMin" type="number" id="minBeds" name="bedsInputMin"
-                               class="form-control" placeholder="minimum beds" required>
-
-                        <label wicket:id="maxBedsLabel" for="maxBeds" id="maxBedsLabel"></label>
-                        <input wicket:id="bedsInputMax" type="number" id="maxBeds" name="maxBeds"
-                               class="form-control" placeholder="maximum beds" required><br><br>
+                        <!--                        <label for="minPriceLabel" id="minPriceLabel"></label>-->
+                        <select name="minBeds" wicket:id="bedsInputMin" id="minBeds">
+                            <option value="" selected="selected"></option>
+                        </select>
+                        <!--                        <label for="maxPriceLabel" id="priceInputMax"></label>-->
+                        <select name="maxBeds" wicket:id="bedsInputMax" id="maxBeds">
+                            <option value="" selected="selected"></option>
+                        </select>
                     </div>
+
+
+
 
                     <br>
 
+<!--                    <div class="input-group">-->
+<!--                        <span class="input-group-text">Min and Max Price: </span>-->
+
+<!--                        <label wicket:id="minPriceLabel" for="minPrice" id="minPriceLabel"></label>-->
+<!--                        <input wicket:id="priceInputMin" type="number" id="minPrice" class="form-control"-->
+<!--                               placeholder="minimum price" required>-->
+
+<!--                        <label wicket:id="maxPriceLabel" for="maxPrice" id="maxPriceLabel"></label>-->
+<!--                        <input wicket:id="priceInputMax" type="number" id="maxPrice" name="maxPrice"-->
+<!--                               class="form-control" placeholder="maximum price" required><br><br>-->
+<!--                    </div>-->
+
+
                     <div class="input-group">
                         <span class="input-group-text">Min and Max Price: </span>
-
-                        <label wicket:id="minPriceLabel" for="minPrice" id="minPriceLabel"></label>
-                        <input wicket:id="priceInputMin" type="number" id="minPrice" class="form-control"
-                               placeholder="minimum price" required>
-
-                        <label wicket:id="maxPriceLabel" for="maxPrice" id="maxPriceLabel"></label>
-                        <input wicket:id="priceInputMax" type="number" id="maxPrice" name="maxPrice"
-                               class="form-control" placeholder="maximum price" required><br><br>
+<!--                        <label for="minPriceLabel" id="minPriceLabel"></label>-->
+                        <select name="minPrice" wicket:id="priceInputMin" id="minPrice">
+                            <option value="" selected="selected">minimum price</option>
+                        </select>
+<!--                        <label for="maxPriceLabel" id="priceInputMax"></label>-->
+                        <select name="maxPrice" wicket:id="priceInputMax" id="maxPrice">
+                            <option value="" selected="selected" id="maxPriceLabel">maximum price</option>
+                        </select>
                     </div>
+
 
                     <br>
 

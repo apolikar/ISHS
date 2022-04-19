@@ -43,8 +43,8 @@ public class HomePage extends WebPage {
         private final Model<Integer> travelTimeModel;
         private final Model<Integer> minBedsModel;
         private final Model<Integer> maxBedsModel;
-        private final Model<Integer> minPriceModel;
-        private final Model<Integer> maxPriceModel;
+        private final Model<String> minPriceModel;
+        private final Model<String> maxPriceModel;
 
 
         public AddressForm(String id) {
@@ -78,19 +78,36 @@ public class HomePage extends WebPage {
             List<Integer> timeList = Arrays.asList(10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 59);
             add(new DropDownChoice<Integer>("travelTime", travelTimeModel, timeList));
 
-            add(new Label("minBedsLabel", ""));
-            add(new NumberTextField<>("bedsInputMin", minBedsModel, Integer.class));
+//            add(new Label("minBedsLabel", ""));
+//            add(new NumberTextField<>("bedsInputMin", minBedsModel, Integer.class));
+//
+//
+//            add(new Label("maxBedsLabel", ""));
+//            add(new NumberTextField<>("bedsInputMax", maxBedsModel, Integer.class));
+
+            List<Integer> bedsNumber = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+            add(new DropDownChoice<Integer>("bedsInputMin", minBedsModel, bedsNumber));
+            add(new DropDownChoice<Integer>("bedsInputMax", maxBedsModel, bedsNumber));
+
+//            add(new Label("minPriceLabel", ""));
+//            add(new NumberTextField<>("priceInputMin", minPriceModel, Integer.class));
+//
+//            add(new Label("maxPriceLabel", ""));
+//            add(new NumberTextField<>("priceInputMax", maxPriceModel, Integer.class));
 
 
-            add(new Label("maxBedsLabel", ""));
-            add(new NumberTextField<>("bedsInputMax", maxBedsModel, Integer.class));
+            List<String> priceList = Arrays.asList("€100K", "€150K", "€200K", "€250K", "€300K",
+                    "€350K", "€400K", "€450K", "€500K", "€550K", "€600K", "€650K", "€700K", "€750K",
+                    "€800K", "€850K", "€900K", "€950K", "€1M", "€1.5M", "€2M", "€3M", "€4M", "€5M");
+            add(new DropDownChoice<String>("priceInputMin", minPriceModel, priceList));
+            add(new DropDownChoice<String>("priceInputMax", maxPriceModel, priceList));
 
 
-            add(new Label("minPriceLabel", ""));
-            add(new NumberTextField<>("priceInputMin", minPriceModel, Integer.class));
 
-            add(new Label("maxPriceLabel", ""));
-            add(new NumberTextField<>("priceInputMax", maxPriceModel, Integer.class));
+
+
+
+
 
             add(new FeedbackPanel("feedbackMessage",
                     new ExactErrorLevelFilter(FeedbackMessage.ERROR)));
@@ -107,8 +124,8 @@ public class HomePage extends WebPage {
                         getDateAndTime(),
                         travelTimeModel.getObject() * 60,
                         getTransportType(),
-                        minPriceModel.getObject(),
-                        maxPriceModel.getObject(),
+                        setPrice(minPriceModel.getObject()),
+                        setPrice(maxPriceModel.getObject()),
                         minBedsModel.getObject(),
                         maxBedsModel.getObject()
                 );
@@ -186,6 +203,35 @@ public class HomePage extends WebPage {
                 return false;
             }
             return now.isBefore(searchDateTime);
+        }
+
+        private int setPrice(String price) {
+
+            return switch (price) {
+                case "€100K" -> 100_000;
+                case "€150K" -> 150_000;
+                case "€200K" -> 200_000;
+                case "€250K" -> 250_000;
+                case "€300K" -> 300_000;
+                case "€350K" -> 350_000;
+                case "€450K" -> 450_000;
+                case "€500K" -> 500_000;
+                case "€550K" -> 550_000;
+                case "€600K" -> 600_000;
+                case "€650K" -> 650_000;
+                case "€700K" -> 700_000;
+                case "€750K" -> 750_000;
+                case "€800K" -> 800_000;
+                case "€850K" -> 850_000;
+                case "€900K" -> 900_000;
+                case "€950K" -> 950_000;
+                case "€1M" -> 1_000_000;
+                case "€1.5M" -> 1_500_000;
+                case "€2M" -> 2_000_000;
+                case "€3M" -> 3_000_000;
+                case "€4M" -> 4_000_000;
+                default -> 5_000_000;
+            };
         }
 
     }

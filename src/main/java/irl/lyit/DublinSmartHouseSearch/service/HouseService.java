@@ -28,8 +28,8 @@ public class HouseService{
     public List<House> getInBoundary() {
 
         List<House> all = houseRepository.findAll();
-        List<BoundingBox> allBoxes = new ArrayList<>();
-        allBoxes.add(new BoundingBox(new GeoCoordinates(53.38586318467314, -6.233945130048145),
+        List<BoundingBox> allBoundingBoxes = new ArrayList<>();
+        allBoundingBoxes.add(new BoundingBox(new GeoCoordinates(53.38586318467314, -6.233945130048145),
                 new GeoCoordinates(53.4721215851735, -6.161806902892333)));
 
         List<House> inBoundary = new ArrayList<>();
@@ -39,7 +39,7 @@ public class HouseService{
             double houseLat = house.getLat();
             double houseLng = house.getLng();
 
-            for (BoundingBox box : allBoxes) {
+            for (BoundingBox box : allBoundingBoxes) {
 
                 if ((houseLat >= box.getBottom().getLat() && houseLat <= box.getTop().getLat()) &&
                         (houseLng <= box.getTop().getLng() && houseLng >= box.getBottom().getLng())) {
