@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
 @Table
@@ -19,9 +21,10 @@ public class House {
     private int bedrooms;
     private double lat;
     private double lng;
+    private long updateTime;
 
 
-    public House(String link, double price, String address, String cityOrCounty, int bedrooms, double lat, double lng) {
+    public House(String link, double price, String address, String cityOrCounty, int bedrooms, double lat, double lng, long updateTime) {
         this.link = link;
         this.price = price;
         this.address = address;
@@ -29,6 +32,7 @@ public class House {
         this.bedrooms = bedrooms;
         this.lat = lat;
         this.lng = lng;
+        this.updateTime = updateTime;
     }
 
     public House() {
@@ -96,6 +100,14 @@ public class House {
 
     public void setLng(double lng) {
         this.lng = lng;
+    }
+
+    public long getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(long updateTime) {
+        this.updateTime = updateTime;
     }
 
     @Override

@@ -25,12 +25,10 @@ public class HouseService{
     }
 
 
-    public List<House> getInBoundary() {
+    public List<House> getInBoundary(SearchAttributes searchAttributes) {
 
         List<House> all = houseRepository.findAll();
-        List<BoundingBox> allBoundingBoxes = new ArrayList<>();
-        allBoundingBoxes.add(new BoundingBox(new GeoCoordinates(53.38586318467314, -6.233945130048145),
-                new GeoCoordinates(53.4721215851735, -6.161806902892333)));
+        List<BoundingBox> allBoundingBoxes = searchAttributes.getBoundingBoxes();
 
         List<House> inBoundary = new ArrayList<>();
 
@@ -53,18 +51,16 @@ public class HouseService{
 
 
 
-    public List<House> inTime() throws IOException, InterruptedException {
+    public List<House> inTime(SearchAttributes searchAttributes) throws IOException, InterruptedException {
 
-        GeoCoordinates start = new GeoCoordinates(53.4419137, -6.2028496);
-        String dateTime = "2022-03-30T08:00:00.000Z";
-        String transportType = "public_transport";
-        long travelTime = 1800;
+        GeoCoordinates start = searchAttributes.getCoordinates();
+        String dateTime = searchAttributes.getDateAndTime();
+        String transportType = searchAttributes.getTransportationType();
+        long travelTime = searchAttributes.getTimeLimit();
 
         TimeTravelMatrix ttm = new TimeTravelMatrix();
 
-        return ttm.getInTime(start, getInBoundary(), transportType, travelTime, dateTime);
+        return ttm.getInTime(start, getInBoundary(searchAttributes), transportType, travelTime, dateTime);
     }
-
-
 
 }

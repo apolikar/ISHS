@@ -32,8 +32,6 @@ public class DaftIEHouseCollector implements HouseCollector {
     @Override
     public void collect() {
 
-        houseRepository.deleteAllInBatch();
-
         long start = System.currentTimeMillis();
         String now = getDateTime();
 
@@ -61,10 +59,12 @@ public class DaftIEHouseCollector implements HouseCollector {
             for (Element house : allHousesOnPage) {
 
                 String link = getHouseLink(house);
-                collectAllHouseDetails(link);
+                collectAllHouseDetails(link, start);
             }
             housesPerPage += 20;
         }
+
+        houseRepository.deleteByUpdateTimeLessThan(start);
 
         long end = System.currentTimeMillis();
         System.out.println("Last DB update: " + now);
@@ -96,7 +96,7 @@ public class DaftIEHouseCollector implements HouseCollector {
      *
      * @param link for the house advertisement
      */
-    private void collectAllHouseDetails(String link) {
+    private void collectAllHouseDetails(String link, long time) {
 
         try {
             Document property = Jsoup.connect(link).get();
@@ -119,8 +119,13 @@ public class DaftIEHouseCollector implements HouseCollector {
                     cityOrCounty,
                     beds,
                     houseCoordinates.getLat(),
-                    houseCoordinates.getLng()
+                    houseCoordinates.getLng(),
+                    time
             );
+
+
+
+
             houseRepository.save(newHouse);
             System.out.println(newHouse);
         } catch (IOException ignored) {

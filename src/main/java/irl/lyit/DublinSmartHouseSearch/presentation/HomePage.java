@@ -1,9 +1,11 @@
 package irl.lyit.DublinSmartHouseSearch.presentation;
 
 import com.giffing.wicket.spring.boot.context.scan.WicketHomePage;
+import com.google.gson.Gson;
 import irl.lyit.DublinSmartHouseSearch.old.GeoCoordinates;
 import irl.lyit.DublinSmartHouseSearch.old.SearchAttributes;
 import irl.lyit.DublinSmartHouseSearch.service.GeoCoordinatesFinder;
+import irl.lyit.DublinSmartHouseSearch.service.HouseService;
 import irl.lyit.DublinSmartHouseSearch.service.TransportionType;
 import irl.lyit.DublinSmartHouseSearch.service.addressFormatter.GoogleAddressFormatter;
 import irl.lyit.DublinSmartHouseSearch.service.client.GMapsHTTPClient;
@@ -18,6 +20,9 @@ import org.apache.wicket.markup.html.form.NumberTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -138,9 +143,11 @@ public class HomePage extends WebPage {
                 setResponsePage(HomePage.class);
                 return;
             }
-            setResponsePage(ResultPage.class);
 
-            System.out.println(searchAttributes);
+            PageParameters pageParameters = new PageParameters();
+            pageParameters.add("searchAttributes", new Gson().toJson(searchAttributes));
+
+            setResponsePage(ResultPage.class, pageParameters);
         }
 
         private GeoCoordinates getWorkCoordinates() {

@@ -34,13 +34,15 @@ public class HouseController {
 
     @GetMapping(value = "/inbox")
     public List<House> getInBox() {
-        return houseService.getInBoundary();
+//        return houseService.getInBoundary();
+        return null;
     }
 
 
     @GetMapping(value = "/intime")
     public List<House> listAll() throws IOException, InterruptedException {
-        return houseService.inTime();
+//        return houseService.inTime();
+        return null;
     }
 
 }
