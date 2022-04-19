@@ -21,6 +21,8 @@ public class SearchAttributes {
     private long minBeds;
     private long maxBeds;
 
+    private List<BoundingBox> boundingBoxes;
+
 
     public SearchAttributes(GeoCoordinates coordinates, String dateAndTime, long timeLimit, String transportationType, long minPrice, long maxPrice, long minBeds, long maxBeds) throws IOException, InterruptedException {
         this.coordinates = coordinates;
@@ -31,6 +33,9 @@ public class SearchAttributes {
         this.maxPrice = maxPrice;
         this.minBeds = minBeds;
         this.maxBeds = maxBeds;
+
+        // create isochrone map for search
+        boundingBoxes = new CreateIsochroneMap(coordinates, dateAndTime, transportationType, timeLimit).boundingBox();
 
     }
 
@@ -98,6 +103,13 @@ public class SearchAttributes {
         this.maxBeds = maxBeds;
     }
 
+    public List<BoundingBox> getBoundingBoxes() {
+        return boundingBoxes;
+    }
+
+    public void setBoundingBoxes(List<BoundingBox> boundingBoxes) {
+        this.boundingBoxes = boundingBoxes;
+    }
 
     @Override
     public String toString() {
@@ -110,6 +122,7 @@ public class SearchAttributes {
                 ", maxPrice=" + maxPrice +
                 ", minBeds=" + minBeds +
                 ", maxBeds=" + maxBeds +
+                ", boundingBoxes=" + boundingBoxes +
                 '}';
     }
 }
