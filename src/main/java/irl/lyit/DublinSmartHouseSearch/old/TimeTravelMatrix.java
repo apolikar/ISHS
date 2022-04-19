@@ -15,6 +15,7 @@ import java.util.List;
 public class TimeTravelMatrix {
 
 
+
     public List<House> getInTime(GeoCoordinates startingPoint, List<House> list, String transportTime,
                                  long travelTime, String dateAndTravelTime) throws IOException, InterruptedException {
 
@@ -45,8 +46,6 @@ public class TimeTravelMatrix {
 
         HttpResponse<String> response = HttpClient.newHttpClient()
                 .send(request, HttpResponse.BodyHandlers.ofString());
-
-//        System.out.println(response.body());
 
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(response.body());

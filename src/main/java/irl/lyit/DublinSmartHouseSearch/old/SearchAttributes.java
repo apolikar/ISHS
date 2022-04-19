@@ -1,7 +1,9 @@
 package irl.lyit.DublinSmartHouseSearch.old;
 
+import irl.lyit.DublinSmartHouseSearch.controller.HouseController;
 import irl.lyit.DublinSmartHouseSearch.dao.House;
 import irl.lyit.DublinSmartHouseSearch.dao.HouseRepository;
+import irl.lyit.DublinSmartHouseSearch.service.HouseCollector;
 import irl.lyit.DublinSmartHouseSearch.service.HouseService;
 import irl.lyit.DublinSmartHouseSearch.service.TransportionType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,7 @@ public class SearchAttributes {
 
         // create isochrone map for search
         boundingBoxes = new CreateIsochroneMap(coordinates, dateAndTime, transportationType, timeLimit).boundingBox();
+
     }
 
     public GeoCoordinates getCoordinates() {

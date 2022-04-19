@@ -16,7 +16,6 @@ import java.util.List;
 @Service
 public class HouseService{
 
-
     private final HouseRepository houseRepository;
 
 

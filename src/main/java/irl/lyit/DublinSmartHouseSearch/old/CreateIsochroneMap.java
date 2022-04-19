@@ -64,8 +64,6 @@ public class CreateIsochroneMap {
 
     HttpResponse<String> response = HttpClient.newHttpClient()
             .send(request, HttpResponse.BodyHandlers.ofString());
-
-    System.out.println(response.body());
     return response.body();
   }
 
@@ -83,9 +81,11 @@ public class CreateIsochroneMap {
     List<BoundingBox> result = new ArrayList<>();
     List<GeoCoordinates> coordinatesList = new ArrayList<>();
 
-    for( int i = 0; i < getAllShapesNode().size(); i++) {
+    JsonNode allShapes = getAllShapesNode();
 
-      JsonNode shell = getAllShapesNode().get(i).get("shell");
+    for( int i = 0; i < allShapes.size(); i++) {
+
+      JsonNode shell = allShapes.get(i).get("shell");
 
       for (int z = 0; z < shell.size(); z++) {
         JsonNode tempCoord = shell.get(z);
@@ -118,6 +118,7 @@ public class CreateIsochroneMap {
       result.add(boundingBox);
     }
 
+    System.out.println(result);
     return result;
   }
 
