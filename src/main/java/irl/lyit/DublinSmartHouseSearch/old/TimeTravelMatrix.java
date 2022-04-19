@@ -4,7 +4,6 @@ package irl.lyit.DublinSmartHouseSearch.old;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import irl.lyit.DublinSmartHouseSearch.dao.House;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -14,8 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TimeTravelMatrix {
-
-
 
 
     public List<House> getInTime(GeoCoordinates startingPoint, List<House> list, String transportTime,
@@ -140,35 +137,5 @@ public class TimeTravelMatrix {
 
         return result.toString();
     }
-
-
-
-    //
-//    public static void main(String[] args) throws IOException, InterruptedException {
-//
-//        TimeTravelMatrix timeTravelMatrix = new TimeTravelMatrix();
-//
-//        GeoCoordinates start = new GeoCoordinates(53.4419137, -6.2028496);
-//
-//        List<House> list = new ArrayList<>();
-//        list.add(new House("dfs", 23, "agz", "dublin", 3, 53.457375, -6.22176));
-//        list.add(new House("dfs", 23, "agz", "dublin", 3, 53.452309, -6.166935));
-//        list.add(new House("dfs", 23, "agz", "dublin", 3, 53.449671, -6.186822));
-//        list.add(new House("dfs", 23, "agz", "dublin", 3, 53.4419522, -6.2022787));
-//
-//
-//        String transportType = "public_transport";
-//        long travelTime = 1800;
-//        String dateTime = "2022-03-30T08:00:00.000Z";
-//
-//
-//
-//
-//        timeTravelMatrix.getInTime(start, list, transportType, travelTime, dateTime);
-//
-//    }
-
-
-
 
 }

@@ -153,7 +153,8 @@ public class DaftIEHouseCollector implements HouseCollector {
      */
     private Elements getAllHousesOnPage(Document page) {
 
-          return page.getElementsByClass("SearchPage__SearchResults-gg133s-3 jGQNan");
+
+        return page.getElementsByClass("SearchPage__Result-gg133s-2 djuMQD");
 
     }
 
