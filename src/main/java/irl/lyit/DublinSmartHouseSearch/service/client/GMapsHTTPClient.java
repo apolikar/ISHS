@@ -24,12 +24,7 @@ public class GMapsHTTPClient {
                 .send(request, HttpResponse.BodyHandlers.ofString());
 
         ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(response.body());
-
-
-        jsonNode = jsonNode.get("results").get(0).get("geometry").get("location");
-
-        return jsonNode;
+        return objectMapper.readTree(response.body());
     }
 
 

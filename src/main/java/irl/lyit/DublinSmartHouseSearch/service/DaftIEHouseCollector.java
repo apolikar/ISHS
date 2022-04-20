@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -122,9 +123,6 @@ public class DaftIEHouseCollector implements HouseCollector {
                     houseCoordinates.getLng(),
                     time
             );
-
-
-
 
             houseRepository.save(newHouse);
             System.out.println(newHouse);

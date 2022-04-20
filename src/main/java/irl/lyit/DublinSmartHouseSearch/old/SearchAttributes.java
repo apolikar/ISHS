@@ -37,9 +37,11 @@ public class SearchAttributes {
         this.minBeds = minBeds;
         this.maxBeds = maxBeds;
 
-        // create isochrone map for search
-        boundingBoxes = new CreateIsochroneMap(coordinates, dateAndTime, transportationType, timeLimit).boundingBox();
 
+        if(coordinates.getLat() != 0 && coordinates.getLng() != 0){
+            // create isochrone map for search
+            boundingBoxes = new CreateIsochroneMap(coordinates, dateAndTime, transportationType, timeLimit).boundingBox();
+        }
     }
 
     public GeoCoordinates getCoordinates() {

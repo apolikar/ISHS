@@ -107,13 +107,6 @@ public class HomePage extends WebPage {
             add(new DropDownChoice<String>("priceInputMin", minPriceModel, priceList));
             add(new DropDownChoice<String>("priceInputMax", maxPriceModel, priceList));
 
-
-
-
-
-
-
-
             add(new FeedbackPanel("feedbackMessage",
                     new ExactErrorLevelFilter(FeedbackMessage.ERROR)));
         }
@@ -195,6 +188,11 @@ public class HomePage extends WebPage {
             LocalDateTime searchDateTime = LocalDateTime.parse(trimmedSearchTime);
 
             if (currentSearch == null) {
+                return false;
+            }
+
+            if (currentSearch.getCoordinates().getLat() == 0
+                    && currentSearch.getCoordinates().getLng() == 0){
                 return false;
             }
 

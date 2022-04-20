@@ -25,14 +25,19 @@ public class GeoCoordinatesFinder {
 
     public GeoCoordinates getCoordinates(String address) throws IOException, InterruptedException {
 
-
         String formattedAddress = addressFormatter.formatAddress(address);
         JsonNode jsonNode = gMapsHTTPClient.finalDestination(formattedAddress);
 
-        double lat = jsonNode.get("lat").asDouble();
-        double lng = jsonNode.get("lng").asDouble();
+        GeoCoordinates result = new GeoCoordinates();
 
-        return new GeoCoordinates(lat, lng);
+        if(jsonNode.toString().contains("postal_code")) {
+            jsonNode = jsonNode.get("results").get(0).get("geometry").get("location");
+            result.setLat(jsonNode.get("lat").asDouble());
+            result.setLng(jsonNode.get("lng").asDouble());
+
+        }
+
+        return result;
     }
 
 
