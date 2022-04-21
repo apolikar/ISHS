@@ -83,6 +83,7 @@ public class HomePage extends WebPage {
             List<Integer> timeList = Arrays.asList(10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 59);
             add(new DropDownChoice<Integer>("travelTime", travelTimeModel, timeList));
 
+
 //            add(new Label("minBedsLabel", ""));
 //            add(new NumberTextField<>("bedsInputMin", minBedsModel, Integer.class));
 //
@@ -129,6 +130,7 @@ public class HomePage extends WebPage {
                 );
             } catch (IOException | InterruptedException ignored) {
             }
+
 
             if (!searchValidation(searchAttributes)) {
                 System.out.println("error");

@@ -1,25 +1,64 @@
 html {
-    /*width: 100%;*/
-    height:100%;
-    /*overflow:hidden;*/
-
-
-
+  height:100%;
 }
+
 
 body {
-    /*width: 100%;*/
-    /*height:100%;*/
-    font-family: 'Open Sans', sans-serif;
-
-    background-color: #2F3035;
-    background-image: url("../images/background.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    /*height: 100vh;*/
-
+  background-color: beige;
+  background-image: url("../images/house.jpg");
 }
 
 
+.container {
+  background-color: rgb(255, 255, 255);
+  border: rgb(195, 167, 153) 3px solid;
+}
 
+.col {
 
+}
+
+.middle {
+  margin: 30px;
+}
+
+.banner {
+  position: relative;
+}
+
+.text {
+  text-align: justify;
+}
+
+.heading {
+  color: black;
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 50px;
+}
+
+.footer {
+  background-color: rgb(234, 226, 205);
+  margin: 15px;
+  border-radius: 10px;
+}
+
+.input-group {
+  height: 35px;
+  margin: 0px;
+}
+
+span.input-group-text {
+  background-color: rgb(151,149,150);
+}
+
+button.btn.mr-1.btn-success.btn-lg {
+  background-color: rgb(146,175,137);
+}
+
+button.btn.mr-1.btn-warning.btn-lg {
+  background-color: rgb(229,159,100);
+}
