@@ -1,30 +1,26 @@
 package irl.lyit.DublinSmartHouseSearch.presentation;
 
-import com.giffing.wicket.spring.boot.context.scan.WicketHomePage;
 import com.google.gson.Gson;
+import com.googlecode.wicket.kendo.ui.form.datetime.local.TimePicker;
 import irl.lyit.DublinSmartHouseSearch.old.GeoCoordinates;
 import irl.lyit.DublinSmartHouseSearch.old.SearchAttributes;
 import irl.lyit.DublinSmartHouseSearch.service.GeoCoordinatesFinder;
-import irl.lyit.DublinSmartHouseSearch.service.HouseService;
 import irl.lyit.DublinSmartHouseSearch.service.TransportionType;
 import irl.lyit.DublinSmartHouseSearch.service.addressFormatter.GoogleAddressFormatter;
 import irl.lyit.DublinSmartHouseSearch.service.client.GMapsHTTPClient;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
-import org.apache.wicket.extensions.markup.html.form.datetime.TimeField;
 import org.apache.wicket.feedback.FeedbackMessage;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.NumberTextField;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.apache.wicket.spring.injection.annot.SpringBean;
+
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -33,9 +29,9 @@ import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
-@WicketHomePage
 public class HomePage extends WebPage {
 
     public HomePage() {
@@ -52,7 +48,7 @@ public class HomePage extends WebPage {
 
         private final Model<String> addressModel;
         private final Model<Date> dateModel;
-        private final Model<LocalTime> timeModel;
+        private final Model<String> timeModel;
         private final Model<TransportionType> transportModel;
         private final Model<Integer> travelTimeModel;
         private final Model<Integer> minBedsModel;
@@ -80,8 +76,8 @@ public class HomePage extends WebPage {
             add(new Label("dateLabel", ""));
             add(new DateTextField("dateInput", dateModel, "yyyy-MM-dd"));
 
-            add(new Label("timeDayLabel", ""));
-            add(new TimeField("timeDayInput", timeModel));
+
+            add(new TextField<String>("timeDayInput", timeModel));
 
             add(new DropDownChoice<>(
                     "travelSelect",

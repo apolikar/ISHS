@@ -62,10 +62,12 @@ public class CreateIsochroneMap {
 
 
   private JsonNode getAllShapesNode() throws IOException, InterruptedException {
-
     TimeTravelIMapIsochroneHTTPClient client = new TimeTravelIMapIsochroneHTTPClient(generateRequestString());
     JsonNode response = client.generateResponseString();
-    return response.get("results").get(0).get("shapes");
+    JsonNode resultsNode = response.get("results");
+    JsonNode firstResultNode = resultsNode.get(0);
+
+    return firstResultNode.get("shapes");
   }
 
 

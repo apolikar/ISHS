@@ -4,12 +4,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
 @Table
-public class House {
+public class House implements Serializable {
 
     @Id
     @GeneratedValue
