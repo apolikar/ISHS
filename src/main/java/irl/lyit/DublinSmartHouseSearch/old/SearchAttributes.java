@@ -1,20 +1,10 @@
 package irl.lyit.DublinSmartHouseSearch.old;
 
-import irl.lyit.DublinSmartHouseSearch.controller.HouseController;
-import irl.lyit.DublinSmartHouseSearch.dao.House;
-import irl.lyit.DublinSmartHouseSearch.dao.HouseRepository;
-import irl.lyit.DublinSmartHouseSearch.service.HouseCollector;
-import irl.lyit.DublinSmartHouseSearch.service.HouseService;
-import irl.lyit.DublinSmartHouseSearch.service.TransportionType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import java.io.IOException;
-import java.sql.Time;
 import java.util.List;
 
 
-public class SearchAttributes {
+public final class SearchAttributes {
 
     private GeoCoordinates coordinates;
     private String dateAndTime;

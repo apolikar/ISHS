@@ -1,20 +1,18 @@
 package irl.lyit.DublinSmartHouseSearch.presentation;
 
 import com.google.gson.Gson;
-import com.googlecode.wicket.jquery.core.Options;
-import com.googlecode.wicket.kendo.ui.datatable.DataTable;
-import com.googlecode.wicket.kendo.ui.datatable.column.CurrencyPropertyColumn;
-import com.googlecode.wicket.kendo.ui.datatable.column.IColumn;
-import com.googlecode.wicket.kendo.ui.datatable.column.IdPropertyColumn;
-import com.googlecode.wicket.kendo.ui.datatable.column.PropertyColumn;
 import irl.lyit.DublinSmartHouseSearch.dao.House;
 import irl.lyit.DublinSmartHouseSearch.old.SearchAttributes;
+import irl.lyit.DublinSmartHouseSearch.presentation.component.HousePanel;
 import irl.lyit.DublinSmartHouseSearch.service.HouseService;
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.markup.repeater.data.IDataProvider;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.markup.repeater.RepeatingView;
+import org.apache.wicket.markup.repeater.data.DataView;
+import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.apache.wicket.util.lang.Generics;
 import org.apache.wicket.util.string.StringValue;
 
 import java.io.IOException;
@@ -35,40 +33,36 @@ public class ResultPage extends WebPage {
 
         List<House> houses = houseService.inTime(searchAttributes1);
 
-        // DataTable //
-        Options options = new Options();
-        options.set("height", 430);
-        options.set("pageable", "{ pageSizes: [ 25, 50, 100 ] }");
-        // options.set("sortable", true); // already set, as provider IS-A ISortStateLocator
-        options.set("groupable", true);
-        options.set("columnMenu", true);
-        options.set("selectable", false); // Options.asString("multiple, row"). Caution does not work for 'cell'
+        RepeatingView housesView = new RepeatingView("house");
+        add(housesView);
 
-        final DataTable<House> table =
-                new DataTable<House>("datatable", newColumnList(), newDataProvider(houses), 25, options);
+        if (houses.isEmpty()) {
+            housesView.setVisible(false);
+        }
 
-        add(table);
+        for (House house : houses) {
+            housesView.add(new HousePanel(housesView.newChildId(), house));
+        }
 
-
+//
+//        ListDataProvider<House> listDataProvider = new ListDataProvider<House>(houses);
+//
+//        DataView<House> dataView = new DataView<House>("rows", listDataProvider) {
+//
+//            @Override
+//            protected void populateItem(Item<House> item) {
+//                House house = item.getModelObject();
+//                RepeatingView repeatingView = new RepeatingView("dataRow");
+//
+//                repeatingView.add(new Label(repeatingView.newChildId(), house.getAddress()));
+//                repeatingView.add(new Label(repeatingView.newChildId(), house.getPrice()));
+//                repeatingView.add(new Label(repeatingView.newChildId(), house.getBedrooms()));
+//                repeatingView.add(new Label(repeatingView.newChildId(), house.getCityOrCounty()));
+//                repeatingView.add(new Label(repeatingView.newChildId(), house.getLink()));
+//                item.add(repeatingView);
+//            }
+//        };
+//        add(dataView);
     }
-
-
-    private static IDataProvider<House> newDataProvider(List<House> houses)
-    {
-        return new HouseDataProvider(houses);
-    }
-
-    private static List<IColumn> newColumnList()
-    {
-        List<IColumn> columns = Generics.newArrayList();
-
-        columns.add(new PropertyColumn("Address:", "address"));
-        columns.add(new PropertyColumn("Price:", "price"));
-        columns.add(new CurrencyPropertyColumn("Price", "price", 70));
-        // columns.add(new DatePropertyColumn("Date", "date"));
-
-        return columns;
-    }
-
 
 }

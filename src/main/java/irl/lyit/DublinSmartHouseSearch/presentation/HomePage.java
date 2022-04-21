@@ -74,7 +74,6 @@ public class HomePage extends WebPage {
             add(new Label("dateLabel", ""));
             add(new DateTextField("dateInput", dateModel, "yyyy-MM-dd"));
 
-            add(new Label("timeDayLabel", ""));
             add(new TextField<String>("timeDayInput", timeModel));
 
             add(new DropDownChoice<>(
@@ -103,8 +102,8 @@ public class HomePage extends WebPage {
 
         @Override
         protected void onSubmit() {
+            SearchAttributes searchAttributes;
 
-            SearchAttributes searchAttributes = null;
             try {
                 searchAttributes = new SearchAttributes(
                         getWorkCoordinates(),
@@ -117,13 +116,16 @@ public class HomePage extends WebPage {
                         maxBedsModel.getObject()
                 );
             } catch (IOException | InterruptedException ignored) {
+                error("Internal server error: 500");
+
+                return;
             }
 
 
             if (!searchValidation(searchAttributes)) {
                 System.out.println("error");
                 error("Your input is incorrect. Please try again.");
-                setResponsePage(HomePage.class);
+
                 return;
             }
 

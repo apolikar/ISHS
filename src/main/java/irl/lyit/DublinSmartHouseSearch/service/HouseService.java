@@ -24,9 +24,14 @@ public class HouseService{
     public List<House> getInBoundary(SearchAttributes searchAttributes) {
 
         List<House> all = houseRepository.findAll();
+
         List<BoundingBox> allBoundingBoxes = searchAttributes.getBoundingBoxes();
 
         List<House> inBoundary = new ArrayList<>();
+
+        if (allBoundingBoxes == null) {
+            return inBoundary;
+        }
 
         for (House house : all) {
 
@@ -56,7 +61,13 @@ public class HouseService{
 
         TimeTravelMatrix ttm = new TimeTravelMatrix();
 
-        return ttm.getInTime(start, getInBoundary(searchAttributes), transportType, travelTime, dateTime);
+        List<House> housesInBound = getInBoundary(searchAttributes);
+
+        if (housesInBound.isEmpty()) {
+            return housesInBound;
+        }
+
+        return ttm.getInTime(start, housesInBound, transportType, travelTime, dateTime);
     }
 
 }

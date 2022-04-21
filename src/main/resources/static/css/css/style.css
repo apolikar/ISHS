@@ -73,3 +73,13 @@ button.btn.mr-1.btn-warning.btn-lg {
   font-family: 'Corinthia', cursive;
 }
 
+.house-image {
+  display: block;
+  position: relative;
+  /* this approach should be rethought somehow: */
+  width: 64px;
+  height: 64px;
+  margin: auto 8px;
+  top: 8px;
+}
+
