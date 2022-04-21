@@ -1,6 +1,5 @@
 package irl.lyit.DublinSmartHouseSearch;
 
-import irl.lyit.DublinSmartHouseSearch.presentation.AboutMe;
 import irl.lyit.DublinSmartHouseSearch.presentation.HomePage;
 import org.apache.wicket.Page;
 import org.apache.wicket.core.request.mapper.HomePageMapper;
@@ -56,9 +55,7 @@ public class DublinSmartHouseSearchApplication extends WebApplication {
         getComponentInstantiationListeners().add(new SpringComponentInjector(this));
 
         mount(new HomePageMapper(HomePage.class));
-        mount(new MountedMapper(LOGIN, HomePage.class));
-        mount(new MountedMapper("/about", AboutMe .class));
-    }
+        mount(new MountedMapper(LOGIN, HomePage.class));    }
 
     @Override
     public Class<? extends Page> getHomePage() {

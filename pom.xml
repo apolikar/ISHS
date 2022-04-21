@@ -39,12 +39,6 @@
 			<artifactId>wicket-spring</artifactId>
 			<version>${wicket.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.googlecode.wicket-jquery-ui</groupId>
-			<artifactId>wicket-kendo-ui</artifactId>
-			<version>${wicket.version}</version>
-			<scope>provided</scope>
-		</dependency>
 
 		<!-- Spring -->
 		<dependency>

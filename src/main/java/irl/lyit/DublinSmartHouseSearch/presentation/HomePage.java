@@ -1,7 +1,6 @@
 package irl.lyit.DublinSmartHouseSearch.presentation;
 
 import com.google.gson.Gson;
-import com.googlecode.wicket.kendo.ui.form.datetime.local.TimePicker;
 import irl.lyit.DublinSmartHouseSearch.old.GeoCoordinates;
 import irl.lyit.DublinSmartHouseSearch.old.SearchAttributes;
 import irl.lyit.DublinSmartHouseSearch.service.GeoCoordinatesFinder;
@@ -29,7 +28,6 @@ import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 
 public class HomePage extends WebPage {
@@ -76,7 +74,7 @@ public class HomePage extends WebPage {
             add(new Label("dateLabel", ""));
             add(new DateTextField("dateInput", dateModel, "yyyy-MM-dd"));
 
-
+            add(new Label("timeDayLabel", ""));
             add(new TextField<String>("timeDayInput", timeModel));
 
             add(new DropDownChoice<>(
