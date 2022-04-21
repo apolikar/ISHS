@@ -52,7 +52,25 @@ public class HouseService{
 
 
 
-    public List<House> inTime(SearchAttributes searchAttributes) throws IOException, InterruptedException {
+//    public List<House> inTime(SearchAttributes searchAttributes) throws IOException, InterruptedException {
+//
+//        GeoCoordinates start = searchAttributes.getCoordinates();
+//        String dateTime = searchAttributes.getDateAndTime();
+//        String transportType = searchAttributes.getTransportationType();
+//        long travelTime = searchAttributes.getTimeLimit();
+//
+//        TimeTravelMatrix ttm = new TimeTravelMatrix();
+//
+//        List<House> housesInBound = getInBoundary(searchAttributes);
+//
+//        if (housesInBound.isEmpty()) {
+//            return housesInBound;
+//        }
+//
+//        return ttm.getInTime(start, housesInBound, transportType, travelTime, dateTime);
+//    }
+
+    public List<ResultMatchHouse> inTime(SearchAttributes searchAttributes) throws IOException, InterruptedException {
 
         GeoCoordinates start = searchAttributes.getCoordinates();
         String dateTime = searchAttributes.getDateAndTime();
@@ -64,7 +82,7 @@ public class HouseService{
         List<House> housesInBound = getInBoundary(searchAttributes);
 
         if (housesInBound.isEmpty()) {
-            return housesInBound;
+            return new ArrayList<>();
         }
 
         return ttm.getInTime(start, housesInBound, transportType, travelTime, dateTime);

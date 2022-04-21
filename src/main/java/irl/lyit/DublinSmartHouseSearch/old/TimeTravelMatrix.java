@@ -4,6 +4,7 @@ package irl.lyit.DublinSmartHouseSearch.old;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import irl.lyit.DublinSmartHouseSearch.dao.House;
+import irl.lyit.DublinSmartHouseSearch.service.ResultMatchHouse;
 import irl.lyit.DublinSmartHouseSearch.service.client.TimeTravelTimeMatrixHTTPClient;
 
 import java.io.IOException;
@@ -17,7 +18,34 @@ import java.util.List;
 public class TimeTravelMatrix {
 
 
-    public List<House> getInTime(
+//    public List<House> getInTime(
+//            GeoCoordinates startingPoint,
+//            List<House> list,
+//            String transportTime,
+//            long travelTime,
+//            String dateAndTravelTime
+//    ) throws IOException, InterruptedException {
+//
+//        List<House> result = new ArrayList<>();
+//
+//        String inputJson = generateRequestJsonString(startingPoint, list,  transportTime, travelTime, dateAndTravelTime);
+//
+//        TimeTravelTimeMatrixHTTPClient client = new TimeTravelTimeMatrixHTTPClient(inputJson);
+//        JsonNode response = client.generateInTimeJsonResult();
+//        JsonNode jsonNode = response.get("results").get(0).get("locations");
+//
+//        for (int i = 0; i < jsonNode.size(); i++) {
+//            String locationIndexString = jsonNode.get(i).get("id").asText();
+//            int locationIndex = Integer.parseInt(locationIndexString.substring(locationIndexString.lastIndexOf("-") + 1));
+//            System.out.println(jsonNode.get(i).get("properties").get(0).get("travel_time"));
+//            result.add(list.get(locationIndex));
+//        }
+//
+//        return result;
+//    }
+
+
+    public List<ResultMatchHouse> getInTime(
             GeoCoordinates startingPoint,
             List<House> list,
             String transportTime,
@@ -25,7 +53,7 @@ public class TimeTravelMatrix {
             String dateAndTravelTime
     ) throws IOException, InterruptedException {
 
-        List<House> result = new ArrayList<>();
+        List<ResultMatchHouse> result = new ArrayList<>();
 
         String inputJson = generateRequestJsonString(startingPoint, list,  transportTime, travelTime, dateAndTravelTime);
 
@@ -36,7 +64,8 @@ public class TimeTravelMatrix {
         for (int i = 0; i < jsonNode.size(); i++) {
             String locationIndexString = jsonNode.get(i).get("id").asText();
             int locationIndex = Integer.parseInt(locationIndexString.substring(locationIndexString.lastIndexOf("-") + 1));
-            result.add(list.get(locationIndex));
+            int secondsToTravel = jsonNode.get(i).get("properties").get(0).get("travel_time").asInt();
+            result.add(new ResultMatchHouse(list.get(locationIndex), secondsToTravel));
         }
 
         return result;

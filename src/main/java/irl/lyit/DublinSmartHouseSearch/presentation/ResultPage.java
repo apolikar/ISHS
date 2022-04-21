@@ -5,6 +5,7 @@ import irl.lyit.DublinSmartHouseSearch.dao.House;
 import irl.lyit.DublinSmartHouseSearch.old.SearchAttributes;
 import irl.lyit.DublinSmartHouseSearch.presentation.component.HousePanel;
 import irl.lyit.DublinSmartHouseSearch.service.HouseService;
+import irl.lyit.DublinSmartHouseSearch.service.ResultMatchHouse;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
@@ -16,7 +17,10 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.string.StringValue;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
+
+import static java.util.Comparator.comparing;
 
 public class ResultPage extends WebPage {
 
@@ -31,18 +35,61 @@ public class ResultPage extends WebPage {
         SearchAttributes searchAttributes1 = new Gson().fromJson(searchAttributes.toString(), SearchAttributes.class);
         System.out.println(searchAttributes1);
 
-        List<House> houses = houseService.inTime(searchAttributes1);
+//        List<House> houses = houseService.inTime(searchAttributes1);
+//
+//        RepeatingView housesView = new RepeatingView("house");
+//        add(housesView);
+//
+//        if (houses.isEmpty()) {
+//            housesView.setVisible(false);
+//        }
+//
+//        for (House house : houses) {
+//            housesView.add(new HousePanel(housesView.newChildId(), house));
+
+
+        List<ResultMatchHouse> results = houseService.inTime(searchAttributes1);
+        // sort by travel time (low to high)
+        results.sort(comparing(ResultMatchHouse::getSecondsToTravel));
 
         RepeatingView housesView = new RepeatingView("house");
         add(housesView);
 
-        if (houses.isEmpty()) {
+        if (results.isEmpty()) {
             housesView.setVisible(false);
         }
 
-        for (House house : houses) {
-            housesView.add(new HousePanel(housesView.newChildId(), house));
+        for (ResultMatchHouse resultHouse : results) {
+            System.out.println(resultHouse);
+            housesView.add(new HousePanel(housesView.newChildId(), resultHouse.getHouse()));
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //
 //        ListDataProvider<House> listDataProvider = new ListDataProvider<House>(houses);
