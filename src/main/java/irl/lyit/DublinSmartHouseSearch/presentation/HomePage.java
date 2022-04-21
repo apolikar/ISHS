@@ -9,6 +9,8 @@ import irl.lyit.DublinSmartHouseSearch.service.HouseService;
 import irl.lyit.DublinSmartHouseSearch.service.TransportionType;
 import irl.lyit.DublinSmartHouseSearch.service.addressFormatter.GoogleAddressFormatter;
 import irl.lyit.DublinSmartHouseSearch.service.client.GMapsHTTPClient;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.markup.html.form.datetime.TimeField;
 import org.apache.wicket.feedback.FeedbackMessage;
@@ -18,6 +20,7 @@ import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.NumberTextField;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -37,6 +40,12 @@ public class HomePage extends WebPage {
 
     public HomePage() {
         add(new AddressForm("form"));
+        add(new AjaxLink<String>("aboutMeLink") {
+            @Override
+            public void onClick(AjaxRequestTarget ajaxRequestTarget) {
+                setResponsePage(AboutMe.class);
+            }
+        });
     }
 
     private static class AddressForm extends Form<Void> {
@@ -83,24 +92,9 @@ public class HomePage extends WebPage {
             List<Integer> timeList = Arrays.asList(10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 59);
             add(new DropDownChoice<Integer>("travelTime", travelTimeModel, timeList));
 
-
-//            add(new Label("minBedsLabel", ""));
-//            add(new NumberTextField<>("bedsInputMin", minBedsModel, Integer.class));
-//
-//
-//            add(new Label("maxBedsLabel", ""));
-//            add(new NumberTextField<>("bedsInputMax", maxBedsModel, Integer.class));
-
             List<Integer> bedsNumber = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
             add(new DropDownChoice<Integer>("bedsInputMin", minBedsModel, bedsNumber));
             add(new DropDownChoice<Integer>("bedsInputMax", maxBedsModel, bedsNumber));
-
-//            add(new Label("minPriceLabel", ""));
-//            add(new NumberTextField<>("priceInputMin", minPriceModel, Integer.class));
-//
-//            add(new Label("maxPriceLabel", ""));
-//            add(new NumberTextField<>("priceInputMax", maxPriceModel, Integer.class));
-
 
             List<String> priceList = Arrays.asList("€100K", "€150K", "€200K", "€250K", "€300K",
                     "€350K", "€400K", "€450K", "€500K", "€550K", "€600K", "€650K", "€700K", "€750K",

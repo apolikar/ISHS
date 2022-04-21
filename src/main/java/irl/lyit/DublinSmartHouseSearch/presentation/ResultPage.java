@@ -13,6 +13,8 @@ import java.io.IOException;
 
 public class ResultPage extends WebPage {
 
+    @SpringBean
+    private HouseService houseService;
 
 
     public ResultPage(PageParameters parameters) throws IOException, InterruptedException {
@@ -22,6 +24,8 @@ public class ResultPage extends WebPage {
         SearchAttributes searchAttributes1 = new Gson().fromJson(searchAttributes.toString(), SearchAttributes.class);
         System.out.println(searchAttributes1);
 
-//        houseService.inTime(searchAttributes1);
+
+
+        houseService.inTime(searchAttributes1);
     }
 }

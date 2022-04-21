@@ -270,9 +270,11 @@
 
     <title>Ireland SHS</title>
     <link rel="shortcut icon" type="image/jpg" href="../css/images/icons8-house-96.png"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Corinthia:wght@700&family=Roboto&display=swap" rel="stylesheet">
 </head>
 <style>
-
 
 </style>
 <body>
@@ -286,31 +288,34 @@
             <div class="col-6">
 
                 <nav class="navbar navbar-expand-lg navbar-light">
-                    <a class="navbar-brand" href="#">Navbar</a>
+                    <a class="navbar-brand" href="#" style="font-size: x-large">ISHS</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
                             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarNavDropdown">
                         <ul class="navbar-nav">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                            <li class="nav-item">
+                                <a wicket:id="aboutMeLink" class="nav-link" href="AboutMe.html">About Me</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Features</a>
+                                <a class="nav-link" href="https://www.linkedin.com/in/aleksejs-polikarpovs-926238202/" target="_blank">My LinkedIn</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Pricing</a>
+                                <a class="nav-link" href="#">How it Works</a>
                             </li>
+
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Dropdown link
+                                    Used Technologies
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
+                                    <a class="dropdown-item" href="https://spring.io/projects/spring-boot" target="_blank">SpringBoot</a>
+                                    <a class="dropdown-item" href="https://www.mysql.com/products/workbench/" target="_blank">MySQL Workbench</a>
+                                    <a class="dropdown-item" href="https://docs.traveltime.com/api/overview/introduction" target="_blank">Travel Time API</a>
+                                    <a class="dropdown-item" href="https://developers.google.com/maps/documentation/geocoding/overview" target="_blank">Google Geocoding API</a>
+                                    <a class="dropdown-item" href="https://jsoup.org/" target="_blank">Jsoup</a>
                                 </div>
                             </li>
                         </ul>
@@ -335,23 +340,10 @@
         <div class="row middle m-5">
 
             <div class="col-lg-6 col-sm-12 text mb-5">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sit odio debitis assumenda aliquid illum.
-                Distinctio itaque commodi sed cum et iusto, ad odio laboriosam quos dignissimos! Quia nemo atque incidunt?
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magnam numquam placeat delectus sed molestiae
-                nesciunt, molestias blanditiis eveniet neque temporibus qui ipsam rerum perferendis laboriosam obcaecati
-                enim! Excepturi, accusamus velit.
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nam corporis accusantium sequi, eos excepturi
-                nesciunt debitis itaque sapiente consequatur exercitationem ad quod ut, cum nobis mollitia asperiores
-                quibusdam possimus aut?
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nihil pariatur eius voluptate assumenda doloribus
-                dolorum error repellendus rem distinctio? Saepe dignissimos aperiam tempore enim quam laborum neque
-                consectetur cum consequuntur.
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nam corporis accusantium sequi, eos excepturi
-                nesciunt debitis itaque sapiente consequatur exercitationem ad quod ut, cum nobis mollitia asperiores
-                quibusdam possimus aut?
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nihil pariatur eius voluptate assumenda doloribus
-                dolorum error repellendus rem distinctio? Saepe dignissimos aperiam tempore enim quam laborum neque
-                consectetur cum consequuntur.
+                <p>Recently, Ireland has become home to multinational companies and with that, it has brought a lot of professionals and their families to the capital and its outskirts. Finding a house to buy has never been more difficult, with current accommodation availability. As the cities are expanding and traffic is getting heavier, travel time from home to work is getting even more so important. Often, people like to buy a house near their jobs or at least with close travel proximity.</p>
+                <p> Most popular property websites provide information regarding houses based on location, price and other attributes, but they don’t have the option regarding how much time you need to spend on travel from the property to your workplace. If the buyer wants to be sure, that the property location will not bring travel difficulties, he needs to make his own research for each desirable property. Usually, that information might be received with the help of services like Google Maps.</p>
+                <p>Ireland Smart House Search deliver a fast and beneficial application that will fulfil the needs of a large number of end-users in all of Ireland. You don’t need to use Google Maps each time you liked the property. </p>
+                <p style="text-align: center; font-style: italic; font-weight: bold">All you need is just to fill the form and Ireland Smart House Search will take care of you.</p>
             </div>
 
             <div class="col-lg-6 col-sm-12">
@@ -364,7 +356,7 @@
                         <br>
 
                         <div class="input-group">
-                            <span class="input-group-text" style="height: 35px">Your Destination Address: </span>
+                            <span class="input-group-text" style="height: 35px">Destination Address: </span>
                             <label wicket:id="addressLabel" for="work" id="addressLabel"></label>
 
                             <input wicket:id="workInput" type="text" id="work" name="work"
@@ -393,7 +385,7 @@
                         <br>
 
                         <div class="input-group">
-                            <span class="input-group-text" style="height: 35px">Max Travel Time in Minutes: </span>
+                            <span class="input-group-text" style="height: 35px">Max Travel Time: </span>
                             <label for="time" id="travelDuration"></label>
                             <select name="travelTime" wicket:id="travelTime" id="time"
                                     class="form-control input-group-text bg-white text-dark" style="height: 35px">

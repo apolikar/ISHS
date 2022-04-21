@@ -16,13 +16,9 @@ import java.util.List;
 @Service
 public class HouseService{
 
-    private final HouseRepository houseRepository;
-
-
     @Autowired
-    public HouseService(HouseRepository houseRepository) {
-        this.houseRepository = houseRepository;
-    }
+    private HouseRepository houseRepository;
+
 
 
     public List<House> getInBoundary(SearchAttributes searchAttributes) {

@@ -33,11 +33,13 @@ body {
 .heading {
   color: black;
   position: absolute;
-  top: 50%;
+  top: 35%;
   width: 100%;
+  padding-right: 25px;
   text-align: center;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  font-size: 50px;
+  font-family: 'Corinthia', cursive;
+  font-size: 5em;
+  font-weight: bolder;
 }
 
 .footer {
@@ -52,13 +54,22 @@ body {
 }
 
 span.input-group-text {
-  background-color: rgb(151,149,150);
+  background-color: rgb(245,219,220);
 }
+
+
 
 button.btn.mr-1.btn-success.btn-lg {
   background-color: rgb(146,175,137);
+  margin-top: 20px;
 }
 
 button.btn.mr-1.btn-warning.btn-lg {
   background-color: rgb(229,159,100);
+  margin-top: 20px;
 }
+
+.navbar-brand {
+  font-family: 'Corinthia', cursive;
+}
+

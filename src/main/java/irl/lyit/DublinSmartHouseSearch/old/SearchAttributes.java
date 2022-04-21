@@ -27,7 +27,16 @@ public class SearchAttributes {
 
     private List<BoundingBox> boundingBoxes;
 
-    public SearchAttributes(GeoCoordinates coordinates, String dateAndTime, long timeLimit, String transportationType, long minPrice, long maxPrice, long minBeds, long maxBeds) throws IOException, InterruptedException {
+    public SearchAttributes(
+            GeoCoordinates coordinates,
+            String dateAndTime,
+            long timeLimit,
+            String transportationType,
+            long minPrice,
+            long maxPrice,
+            long minBeds,
+            long maxBeds
+    ) throws IOException, InterruptedException {
         this.coordinates = coordinates;
         this.dateAndTime = dateAndTime;
         this.timeLimit = timeLimit;

@@ -17,8 +17,13 @@ import java.util.List;
 public class TimeTravelMatrix {
 
 
-    public List<House> getInTime(GeoCoordinates startingPoint, List<House> list, String transportTime,
-                                 long travelTime, String dateAndTravelTime) throws IOException, InterruptedException {
+    public List<House> getInTime(
+            GeoCoordinates startingPoint,
+            List<House> list,
+            String transportTime,
+            long travelTime,
+            String dateAndTravelTime
+    ) throws IOException, InterruptedException {
 
         List<House> result = new ArrayList<>();
 
@@ -38,8 +43,12 @@ public class TimeTravelMatrix {
     }
 
 
-    private String generateRequestJsonString(GeoCoordinates startingPoint, List<House> list, String transportTime,
-                                             long travelTime, String dateAndTravelTime) {
+    private String generateRequestJsonString(
+            GeoCoordinates startingPoint,
+            List<House> list,
+            String transportTime,
+            long travelTime,
+            String dateAndTravelTime) {
 
         StringBuilder inputJson = new StringBuilder();
         inputJson.append(startingLocation(startingPoint.getLat(), startingPoint.getLng()));
