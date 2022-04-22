@@ -2,7 +2,9 @@ package irl.lyit.DublinSmartHouseSearch.service;
 
 import irl.lyit.DublinSmartHouseSearch.dao.House;
 
-public class ResultMatchHouse {
+import java.io.Serializable;
+
+public class ResultMatchHouse implements Serializable {
 
     private House house;
     private int secondsToTravel;

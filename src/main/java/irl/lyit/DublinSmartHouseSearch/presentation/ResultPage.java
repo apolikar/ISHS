@@ -3,7 +3,6 @@ package irl.lyit.DublinSmartHouseSearch.presentation;
 import com.google.gson.Gson;
 import irl.lyit.DublinSmartHouseSearch.dao.House;
 import irl.lyit.DublinSmartHouseSearch.old.SearchAttributes;
-import irl.lyit.DublinSmartHouseSearch.presentation.component.HousePanel;
 import irl.lyit.DublinSmartHouseSearch.service.HouseService;
 import irl.lyit.DublinSmartHouseSearch.service.ResultMatchHouse;
 import org.apache.wicket.markup.html.WebPage;
@@ -17,7 +16,6 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.string.StringValue;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 import static java.util.Comparator.comparing;
@@ -48,68 +46,81 @@ public class ResultPage extends WebPage {
 //            housesView.add(new HousePanel(housesView.newChildId(), house));
 
 
+
+
+
+
+
+
+
+
+
+
+
+//
+//
+//        List<ResultMatchHouse> results = houseService.inTime(searchAttributes1);
+//        // sort by travel time (low to high)
+//        results.sort(comparing(ResultMatchHouse::getSecondsToTravel));
+//
+//        RepeatingView housesView = new RepeatingView("house");
+//        add(housesView);
+//
+//        if (results.isEmpty()) {
+//            housesView.setVisible(false);
+//        }
+//
+//        for (ResultMatchHouse resultHouse : results) {
+//            housesView.add(new HousePanel(housesView.newChildId(), resultHouse.getHouse()));
+//        }
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         List<ResultMatchHouse> results = houseService.inTime(searchAttributes1);
-        // sort by travel time (low to high)
-        results.sort(comparing(ResultMatchHouse::getSecondsToTravel));
+        ListDataProvider<ResultMatchHouse> listDataProvider = new ListDataProvider<ResultMatchHouse>(results);
 
-        RepeatingView housesView = new RepeatingView("house");
-        add(housesView);
+        DataView<ResultMatchHouse> dataView = new DataView<ResultMatchHouse>("rows", listDataProvider) {
 
-        if (results.isEmpty()) {
-            housesView.setVisible(false);
-        }
+            @Override
+            protected void populateItem(Item<ResultMatchHouse> item) {
+                ResultMatchHouse house = item.getModelObject();
+                RepeatingView repeatingView = new RepeatingView("dataRow");
 
-        for (ResultMatchHouse resultHouse : results) {
-            System.out.println(resultHouse);
-            housesView.add(new HousePanel(housesView.newChildId(), resultHouse.getHouse()));
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-//        ListDataProvider<House> listDataProvider = new ListDataProvider<House>(houses);
-//
-//        DataView<House> dataView = new DataView<House>("rows", listDataProvider) {
-//
-//            @Override
-//            protected void populateItem(Item<House> item) {
-//                House house = item.getModelObject();
-//                RepeatingView repeatingView = new RepeatingView("dataRow");
-//
-//                repeatingView.add(new Label(repeatingView.newChildId(), house.getAddress()));
-//                repeatingView.add(new Label(repeatingView.newChildId(), house.getPrice()));
-//                repeatingView.add(new Label(repeatingView.newChildId(), house.getBedrooms()));
-//                repeatingView.add(new Label(repeatingView.newChildId(), house.getCityOrCounty()));
-//                repeatingView.add(new Label(repeatingView.newChildId(), house.getLink()));
-//                item.add(repeatingView);
-//            }
-//        };
-//        add(dataView);
+                repeatingView.add(new Label(repeatingView.newChildId(), house.getSecondsToTravel()));
+                repeatingView.add(new Label(repeatingView.newChildId(), house.getHouse().getAddress()));
+                repeatingView.add(new Label(repeatingView.newChildId(), house.getHouse().getPrice()));
+                repeatingView.add(new Label(repeatingView.newChildId(), house.getHouse().getBedrooms()));
+                repeatingView.add(new Label(repeatingView.newChildId(), house.getHouse().getCityOrCounty()));
+                repeatingView.add(new Label(repeatingView.newChildId(), house.getHouse().getLink()));
+                item.add(repeatingView);
+            }
+        };
+        add(dataView);
     }
 
 }
