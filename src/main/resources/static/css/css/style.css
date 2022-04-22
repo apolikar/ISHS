@@ -84,15 +84,6 @@ button.btn.mr-1.btn-warning.btn-lg {
 }
 
 .topTable {
-  background-color: steelblue;
+  background-color: rgb(116,163,181);
 }
-
-pageChanger {
-  align-content: center;
-}
-
-th td {
-  text-align: center;
-}
-
 

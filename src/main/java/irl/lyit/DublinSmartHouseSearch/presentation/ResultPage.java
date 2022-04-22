@@ -6,6 +6,8 @@ import irl.lyit.DublinSmartHouseSearch.service.HouseService;
 import irl.lyit.DublinSmartHouseSearch.service.ResultMatchHouse;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.ExternalLink;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.RepeatingView;
@@ -47,7 +49,7 @@ public class ResultPage extends WebPage {
                 ResultMatchHouse houses = item.getModelObject();
                 RepeatingView repeatingView = new RepeatingView("dataRow");
 
-                repeatingView.add(new Label(repeatingView.newChildId(), houses.getSecondsToTravel()));
+                repeatingView.add(new Label(repeatingView.newChildId(), houses.getTimeString()));
                 repeatingView.add(new Label(repeatingView.newChildId(), houses.getHouse().getAddress()));
                 repeatingView.add(new Label(repeatingView.newChildId(), houses.getHouse().getPrice()));
                 repeatingView.add(new Label(repeatingView.newChildId(), houses.getHouse().getBedrooms()));
@@ -58,7 +60,7 @@ public class ResultPage extends WebPage {
             }
         };
 
-        dataView.setItemsPerPage(20);
+        dataView.setItemsPerPage(10);
         add(dataView);
         add(new PagingNavigator("pagingNavigator", dataView));
     }

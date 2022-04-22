@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:wicket="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,38 +18,42 @@
 </style>
 <body>
 
-<div class="container rounded-3 mt-4 mb-4">
+<div class="container rounded-3">
 
 
     <div class="row">
 
-        <div class="col"></div>
-        <div class="col-6">
+        <div class="d-flex justify-content-center">
 
             <nav class="navbar navbar-expand-lg navbar-light">
-                <a class="navbar-brand" href="#">Navbar</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <a wicket:id="homePage" class="navbar-brand" href="HomePage.html" style="font-size: x-large">ISHS</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul class="navbar-nav">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="AboutMe.html">About Me</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Features</a>
+                            <a class="nav-link" href="https://www.linkedin.com/in/aleksejs-polikarpovs-926238202/" target="_blank">My LinkedIn</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Pricing</a>
+                            <a class="nav-link" href="#">How it Works</a>
                         </li>
+
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Dropdown link
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Used Technologies
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
+                                <a class="dropdown-item" href="https://spring.io/projects/spring-boot" target="_blank">SpringBoot</a>
+                                <a class="dropdown-item" href="https://www.mysql.com/products/workbench/" target="_blank">MySQL Workbench</a>
+                                <a class="dropdown-item" href="https://docs.traveltime.com/api/overview/introduction" target="_blank">Travel Time API</a>
+                                <a class="dropdown-item" href="https://developers.google.com/maps/documentation/geocoding/overview" target="_blank">Google Geocoding API</a>
+                                <a class="dropdown-item" href="https://jsoup.org/" target="_blank">Jsoup</a>
                             </div>
                         </li>
                     </ul>
@@ -57,41 +61,50 @@
             </nav>
 
         </div>
-        <div class="col"></div>
     </div>
 
-    <div class="row">
+    <div class="row m-2">
         <div class="banner">
             <div class="col-12">
-                <img src="../css/images/painting.webp" alt="image of Dublin" class="rounded-3 img-fluid w-100">
+                <img src="../css/images/painting.webp" alt="Beautiful house painting in wooden frame"
+                     class="rounded-3 img-fluid w-100">
                 <h1 class="heading">Ireland Smart House Search</h1>
             </div>
         </div>
-
     </div>
 
-    <div class="row middle">
 
-        <div class="col" style="text-align: center;">
-            <p>
+    <div class="row m-5 mb-5">
+        <div class="col-md-2"></div>
+
+        <div class="col-md-8">
+            <p class="mx-auto d-block text-center" style="font-style: italic">
                 After graduating from secondary school I completed a course on Transport Logistics in college.
                 Although it was a little removed from a career in Computing,
                 I always retained that interest and hoped for an opportunity to pursue my real passion.
             </p>
-            <p>
+            <p class="mx-auto d-block text-center" style="font-style: italic">
                 After graduating and moving abroad I loved working in kitchens around the world.
                 I gained valuable communication skills, learned about work ethic and how to perform under pressure.
                 However the itch for coding and developing never went away.
                 So, now, I know this is my time to finally follow what has been my calling for as long as I can remember myself.
             </p>
-            <p>
+            <p class="mx-auto d-block text-center" style="font-style: italic">
                 Currently undertaking a BSc Hons at Letterkenny Institute of Technology, studying Contemporary Software Development,
                 following recent graduation from Dublin City University with distinction in computer programming.
                 At the same time I undertook various MTA and Oracle courses.
             </p>
-            <p>
+            <p class="mx-auto d-block text-center" style="font-style: italic">
                 I am open to challenges and opportunities as I am ready to work hard and develop my skills.
             </p>
+        </div>
+
+        <div class="col-md-2"></div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-md-12">
+            <img src="./css/images/Me.png" class="img-fluid mx-auto d-block">
         </div>
     </div>
 

@@ -40,6 +40,7 @@ public class HomePage extends WebPage {
                 setResponsePage(AboutMe.class);
             }
         });
+
     }
 
     private static class AddressForm extends Form<Void> {
