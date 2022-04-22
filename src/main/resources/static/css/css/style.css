@@ -83,6 +83,16 @@ button.btn.mr-1.btn-warning.btn-lg {
   top: 8px;
 }
 
+.topTable {
+  background-color: steelblue;
+}
 
+pageChanger {
+  align-content: center;
+}
+
+th td {
+  text-align: center;
+}
 
 

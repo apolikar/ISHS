@@ -122,12 +122,12 @@ public class HomePage extends WebPage {
             }
 
 
-            if (!searchValidation(searchAttributes)) {
-                System.out.println("error");
-                error("Your input is incorrect. Please try again.");
-
-                return;
-            }
+//            if (!searchValidation(searchAttributes)) {
+//                System.out.println("error");
+//                error("Your input is incorrect. Please try again.");
+//
+//                return;
+//            }
 
             PageParameters pageParameters = new PageParameters();
             pageParameters.add("searchAttributes", new Gson().toJson(searchAttributes));
