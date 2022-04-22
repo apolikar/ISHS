@@ -3,8 +3,6 @@ package irl.lyit.DublinSmartHouseSearch.service;
 import irl.lyit.DublinSmartHouseSearch.dao.House;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
-import java.util.concurrent.TimeUnit;
 
 public class ResultMatchHouse implements Serializable {
 

@@ -5,8 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.time.Instant;
-import java.time.LocalDateTime;
 
 @Entity
 @Table
@@ -25,7 +23,16 @@ public class House implements Serializable {
     private long updateTime;
 
 
-    public House(String link, double price, String address, String cityOrCounty, int bedrooms, double lat, double lng, long updateTime) {
+    public House(
+            String link,
+            double price,
+            String address,
+            String cityOrCounty,
+            int bedrooms,
+            double lat,
+            double lng,
+            long updateTime
+    ) {
         this.link = link;
         this.price = price;
         this.address = address;

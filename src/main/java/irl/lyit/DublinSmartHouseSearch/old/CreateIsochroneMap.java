@@ -1,15 +1,8 @@
 package irl.lyit.DublinSmartHouseSearch.old;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import irl.lyit.DublinSmartHouseSearch.service.client.TimeTravelIMapIsochroneHTTPClient;
-
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +13,11 @@ public class CreateIsochroneMap {
   private String transportType;
   private Long timeLimit;
 
-  public CreateIsochroneMap(GeoCoordinates address, String dateAndTime, String transportType, Long timeLimit) {
+  public CreateIsochroneMap(GeoCoordinates address,
+                            String dateAndTime,
+                            String transportType,
+                            Long timeLimit
+  ) {
     this.address = address;
     this.dateAndTime = dateAndTime;
     this.transportType = transportType;

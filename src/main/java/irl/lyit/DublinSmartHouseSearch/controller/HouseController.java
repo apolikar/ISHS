@@ -2,7 +2,6 @@ package irl.lyit.DublinSmartHouseSearch.controller;
 
 import irl.lyit.DublinSmartHouseSearch.dao.House;
 import irl.lyit.DublinSmartHouseSearch.dao.HouseRepository;
-import irl.lyit.DublinSmartHouseSearch.old.SearchAttributes;
 import irl.lyit.DublinSmartHouseSearch.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

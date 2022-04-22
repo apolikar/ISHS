@@ -4,10 +4,10 @@ import com.google.gson.Gson;
 import irl.lyit.DublinSmartHouseSearch.old.SearchAttributes;
 import irl.lyit.DublinSmartHouseSearch.service.HouseService;
 import irl.lyit.DublinSmartHouseSearch.service.ResultMatchHouse;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.ExternalLink;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.RepeatingView;
@@ -16,6 +16,7 @@ import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.string.StringValue;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,20 @@ public class ResultPage extends WebPage {
 
     public ResultPage(PageParameters parameters) throws IOException, InterruptedException {
         super(parameters);
+
+        add(new AjaxLink<String>("homePage") {
+            @Override
+            public void onClick(AjaxRequestTarget ajaxRequestTarget) {
+                setResponsePage(HomePage.class);
+            }
+        });
+
+        add(new AjaxLink<String>("aboutMeLink") {
+            @Override
+            public void onClick(AjaxRequestTarget ajaxRequestTarget) {
+                setResponsePage(AboutMe.class);
+            }
+        });
 
         StringValue searchAttributes = parameters.get("searchAttributes");
         SearchAttributes searchAttributes1 = new Gson().fromJson(searchAttributes.toString(), SearchAttributes.class);
@@ -82,47 +97,4 @@ public class ResultPage extends WebPage {
         return resultMatchHouseList;
     }
 }
-
-
-//        List<House> houses = houseService.inTime(searchAttributes1);
-//
-//        RepeatingView housesView = new RepeatingView("house");
-//        add(housesView);
-//
-//        if (houses.isEmpty()) {
-//            housesView.setVisible(false);
-//        }
-//
-//        for (House house : houses) {
-//            housesView.add(new HousePanel(housesView.newChildId(), house));
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-//
-//        List<ResultMatchHouse> results = houseService.inTime(searchAttributes1);
-//        // sort by travel time (low to high)
-//        results.sort(comparing(ResultMatchHouse::getSecondsToTravel));
-//
-//        RepeatingView housesView = new RepeatingView("house");
-//        add(housesView);
-//
-//        if (results.isEmpty()) {
-//            housesView.setVisible(false);
-//        }
-//
-//        for (ResultMatchHouse resultHouse : results) {
-//            housesView.add(new HousePanel(housesView.newChildId(), resultHouse.getHouse()));
-//        }
-//
 
