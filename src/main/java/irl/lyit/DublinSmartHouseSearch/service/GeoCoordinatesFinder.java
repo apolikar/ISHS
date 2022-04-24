@@ -30,11 +30,10 @@ public class GeoCoordinatesFinder {
 
         GeoCoordinates result = new GeoCoordinates();
 
-        if(jsonNode.toString().contains("postal_code")) {
+        if(!jsonNode.toString().contains("natural_feature")) {
             jsonNode = jsonNode.get("results").get(0).get("geometry").get("location");
             result.setLat(jsonNode.get("lat").asDouble());
             result.setLng(jsonNode.get("lng").asDouble());
-
         }
 
         return result;

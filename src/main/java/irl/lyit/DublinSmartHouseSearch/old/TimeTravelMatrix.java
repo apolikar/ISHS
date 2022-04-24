@@ -26,6 +26,7 @@ public class TimeTravelMatrix {
 
         TimeTravelTimeMatrixHTTPClient client = new TimeTravelTimeMatrixHTTPClient(inputJson);
         JsonNode response = client.generateInTimeJsonResult();
+        System.out.println(response);
         JsonNode jsonNode = response.get("results").get(0).get("locations");
 
         for (int i = 0; i < jsonNode.size(); i++) {

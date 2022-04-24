@@ -23,6 +23,11 @@ public class ResultMatchHouse implements Serializable {
         return house;
     }
 
+    public double getPrice() {
+        return house.getPrice();
+    }
+
+
     public void setHouse(House house) {
         this.house = house;
     }

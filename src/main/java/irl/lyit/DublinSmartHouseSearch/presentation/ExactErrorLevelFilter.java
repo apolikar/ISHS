@@ -16,4 +16,6 @@ class ExactErrorLevelFilter implements IFeedbackMessageFilter {
         return message.getLevel() == errorLevel;
     }
 
+
+
 }

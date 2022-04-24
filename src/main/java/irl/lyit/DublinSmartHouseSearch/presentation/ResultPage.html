@@ -18,14 +18,9 @@
 
 </style>
 <body>
-<!--<ul>-->
-<!--    <li wicket:id="house"></li>-->
-<!--</ul>-->
-
 
 
     <div class="container rounded-3">
-
 
 
         <div class="row">
@@ -70,62 +65,33 @@
             </div>
         </div>
 
-
-<!--        <div class="row">-->
-
-<!--            <div class="col"></div>-->
-<!--            <div class="col-6">-->
-
-<!--                <nav class="navbar navbar-expand-lg navbar-light">-->
-<!--                    <a wicket:id="homePage" class="navbar-brand" href="HomePage.html" style="font-size: x-large">ISHS</a>-->
-<!--                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"-->
-<!--                            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">-->
-<!--                        <span class="navbar-toggler-icon"></span>-->
-<!--                    </button>-->
-<!--                    <div class="collapse navbar-collapse" id="navbarNavDropdown">-->
-<!--                        <ul class="navbar-nav">-->
-<!--                            <li class="nav-item">-->
-<!--                                <a wicket:id="aboutMeLink" class="nav-link" href="AboutMe.html">About Me</a>-->
-<!--                            </li>-->
-<!--                            <li class="nav-item">-->
-<!--                                <a class="nav-link" href="https://www.linkedin.com/in/aleksejs-polikarpovs-926238202/" target="_blank">My LinkedIn</a>-->
-<!--                            </li>-->
-<!--                            <li class="nav-item">-->
-<!--                                <a class="nav-link" href="#">How it Works</a>-->
-<!--                            </li>-->
-
-<!--                            <li class="nav-item dropdown">-->
-<!--                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"-->
-<!--                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--                                    Used Technologies-->
-<!--                                </a>-->
-<!--                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">-->
-<!--                                    <a class="dropdown-item" href="https://spring.io/projects/spring-boot" target="_blank">SpringBoot</a>-->
-<!--                                    <a class="dropdown-item" href="https://www.mysql.com/products/workbench/" target="_blank">MySQL Workbench</a>-->
-<!--                                    <a class="dropdown-item" href="https://docs.traveltime.com/api/overview/introduction" target="_blank">Travel Time API</a>-->
-<!--                                    <a class="dropdown-item" href="https://developers.google.com/maps/documentation/geocoding/overview" target="_blank">Google Geocoding API</a>-->
-<!--                                    <a class="dropdown-item" href="https://jsoup.org/" target="_blank">Jsoup</a>-->
-<!--                                </div>-->
-<!--                            </li>-->
-<!--                        </ul>-->
-<!--                    </div>-->
-<!--                </nav>-->
-
+<!--        <div class="row m-2">-->
+<!--            <div class="banner">-->
+<!--                <div class="col-12">-->
+<!--                    <img src="../css/images/painting.webp" alt="Beautiful house painting in wooden frame"-->
+<!--                         class="rounded-3 img-fluid w-100">-->
+<!--                    <h1 class="heading">Ireland Smart House Search</h1>-->
+<!--                </div>-->
 <!--            </div>-->
-<!--            <div class="col"></div>-->
 <!--        </div>-->
 
-        <div class="row m-2">
-            <div class="banner">
-                <div class="col-12">
-                    <img src="../css/images/painting.webp" alt="Beautiful house painting in wooden frame"
-                         class="rounded-3 img-fluid w-100">
-                    <h1 class="heading">Ireland Smart House Search</h1>
-                </div>
-            </div>
+
+        <div>
+            Result:
+            <span wicket:id="totalHouses"></span>
+            houses.
         </div>
 
-        <div class="row m-4 rounded-3 border border-dark">
+
+        <div class="accordion-button">
+            <button wicket:id="newSearch" type="submit" class="btn mr-1 btn-success btn-lg"
+                    style="width: 150px; margin-right: 20px">
+                New Search
+            </button>
+        </div>
+
+
+        <div class="table-responsive row m-4 rounded-3 border border-dark">
             <table class="table">
                 <thead class="thead-dark">
                 <tr class="topTable">
@@ -133,13 +99,13 @@
                     <th scope="col">Address</th>
                     <th scope="col">Price</th>
                     <th scope="col">Beds</th>
-                    <th scope="col">Location</th>
                     <th scope="col">Link</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr wicket:id="rows" scope="row">
-                    <td wicket:id="dataRow"></td>
+                    <td wicket:id="dataRow">press here
+                    </td>
                 </tr>
                 </tbody>
             </table>

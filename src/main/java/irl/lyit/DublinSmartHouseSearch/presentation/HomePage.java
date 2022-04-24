@@ -10,7 +10,9 @@ import irl.lyit.DublinSmartHouseSearch.service.client.GMapsHTTPClient;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
+import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.feedback.FeedbackMessage;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -32,6 +34,9 @@ import java.util.List;
 
 public class HomePage extends WebPage {
 
+
+
+
     public HomePage() {
         add(new AddressForm("form"));
         add(new AjaxLink<String>("aboutMeLink") {
@@ -45,9 +50,12 @@ public class HomePage extends WebPage {
 
     private static class AddressForm extends Form<Void> {
 
+        //private String errorMessage;
+        private WebMarkupContainer informationBox;
         private final Model<String> addressModel;
         private final Model<Date> dateModel;
-        private final Model<String> timeModel;
+        private final Model<String> hourModel;
+        private final Model<String> minuteModel;
         private final Model<TransportionType> transportModel;
         private final Model<Integer> travelTimeModel;
         private final Model<Integer> minBedsModel;
@@ -61,7 +69,8 @@ public class HomePage extends WebPage {
             super(id);
             this.addressModel = new Model<>();
             this.dateModel = new Model<>();
-            this.timeModel = new Model<>();
+            this.hourModel = new Model<>();
+            this.minuteModel = new Model<>();
             this.transportModel = new Model<>();
             this.travelTimeModel = new Model<>();
             this.minBedsModel = new Model<>();
@@ -75,7 +84,15 @@ public class HomePage extends WebPage {
             add(new Label("dateLabel", ""));
             add(new DateTextField("dateInput", dateModel, "yyyy-MM-dd"));
 
-            add(new TextField<String>("timeDayInput", timeModel));
+            List<String> hourList = Arrays.asList("00", "01", "02", "03", "04", "05",
+                    "06", "07", "08", "09", "10", "11", "12", "13", "14", "15",
+                    "16", "17", "18", "19", "20", "21", "22", "23");
+            add(new DropDownChoice<String>("hourInput", hourModel, hourList));
+            List<String> munutesList = Arrays.asList("00", "05", "10", "15", "20", "25",
+                    "30", "35", "40", "45", "50", "55");
+            add(new DropDownChoice<String>("minutesInput", minuteModel, munutesList));
+
+//            add(new TextField<String>("timeDayInput", timeModel));
 
             add(new DropDownChoice<>(
                     "travelSelect",
@@ -96,8 +113,17 @@ public class HomePage extends WebPage {
             add(new DropDownChoice<String>("priceInputMin", minPriceModel, priceList));
             add(new DropDownChoice<String>("priceInputMax", maxPriceModel, priceList));
 
-            add(new FeedbackPanel("feedbackMessage",
+//            add(new FeedbackPanel("feedbackMessage",
+//                    new ExactErrorLevelFilter(FeedbackMessage.ERROR)));
+
+            informationBox = new WebMarkupContainer ("alertInfo");
+            informationBox.add(new FeedbackPanel("feedbackMessage",
                     new ExactErrorLevelFilter(FeedbackMessage.ERROR)));
+            add(informationBox);
+
+
+            informationBox.setVisible(false);
+
         }
 
 
@@ -118,22 +144,21 @@ public class HomePage extends WebPage {
                 );
             } catch (IOException | InterruptedException ignored) {
                 error("Internal server error: 500");
-
                 return;
             }
 
 
-//            if (!searchValidation(searchAttributes)) {
-//                System.out.println("error");
-//                error("Your input is incorrect. Please try again.");
-//
-//                return;
-//            }
+            if (searchValidation(searchAttributes)) {
+                PageParameters pageParameters = new PageParameters();
+                pageParameters.add("searchAttributes", new Gson().toJson(searchAttributes));
+                informationBox.setVisible(false);
+                setResponsePage(ResultPage.class, pageParameters);
+            }
+            else {
+                informationBox.setVisible(true);
+//                error(errorMessage);
+            }
 
-            PageParameters pageParameters = new PageParameters();
-            pageParameters.add("searchAttributes", new Gson().toJson(searchAttributes));
-
-            setResponsePage(ResultPage.class, pageParameters);
         }
 
         private GeoCoordinates getWorkCoordinates() {
@@ -154,7 +179,7 @@ public class HomePage extends WebPage {
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date date = dateModel.getObject();
-            String time = String.valueOf(timeModel.getObject());
+            String time = String.valueOf(hourModel.getObject() + ":" + minuteModel.getObject());
             return sdf.format(date) + "T" + time + ":00.000Z";
         }
 
@@ -180,27 +205,28 @@ public class HomePage extends WebPage {
             String trimmedSearchTime = getDateAndTime().substring(0, 19);
             LocalDateTime searchDateTime = LocalDateTime.parse(trimmedSearchTime);
 
-            if (currentSearch == null) {
-                return false;
-            }
-
             if (currentSearch.getCoordinates().getLat() == 0
                     && currentSearch.getCoordinates().getLng() == 0){
+                error("Your address doesn't exist");
                 return false;
             }
 
             if (currentSearch.getMaxPrice() < currentSearch.getMinPrice()) {
+                error("Please select min and max price in proper order");
                 return false;
             }
 
             if (currentSearch.getMaxBeds() < currentSearch.getMinBeds()) {
+                error("Please select min and max beds in proper order");
                 return false;
             }
 
-            if (currentSearch.getTimeLimit() <= 0) {
+            if (searchDateTime.isBefore(now)) {
+                error("Please enter date and time which are in future");
                 return false;
             }
-            return now.isBefore(searchDateTime);
+
+            return true;
         }
 
         private int setPrice(String price) {

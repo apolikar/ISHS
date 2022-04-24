@@ -8,11 +8,15 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.Button;
+import org.apache.wicket.markup.html.link.ExternalLink;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.markup.repeater.data.ListDataProvider;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.string.StringValue;
@@ -52,13 +56,24 @@ public class ResultPage extends WebPage {
 
         List<ResultMatchHouse> results = houseService.inTime(searchAttributes1);
         List<ResultMatchHouse> inPriceBedsRangeHouses = inPriceBedsRangeHouses(results, searchAttributes1);
+
         // sort by travel time (low to high)
         inPriceBedsRangeHouses.sort(comparing(ResultMatchHouse::getSecondsToTravel));
 
+        add(new AjaxLink<String>("newSearch") {
+            @Override
+            public void onClick(AjaxRequestTarget ajaxRequestTarget) {
+                setResponsePage(HomePage.class);
+            }
+        });
+
+
+
+        add(new Label("totalHouses", new Model<>(inPriceBedsRangeHouses.size())));
 
         ListDataProvider<ResultMatchHouse> listDataProvider = new ListDataProvider<ResultMatchHouse>(inPriceBedsRangeHouses);
 
-        DataView<ResultMatchHouse> dataView = new DataView<ResultMatchHouse>("rows", listDataProvider) {
+        DataView<ResultMatchHouse> dataView = new DataView<>("rows", listDataProvider) {
             @Override
             protected void populateItem(Item<ResultMatchHouse> item) {
                 ResultMatchHouse houses = item.getModelObject();
@@ -68,8 +83,9 @@ public class ResultPage extends WebPage {
                 repeatingView.add(new Label(repeatingView.newChildId(), houses.getHouse().getAddress()));
                 repeatingView.add(new Label(repeatingView.newChildId(), houses.getHouse().getPrice()));
                 repeatingView.add(new Label(repeatingView.newChildId(), houses.getHouse().getBedrooms()));
-                repeatingView.add(new Label(repeatingView.newChildId(), houses.getHouse().getCityOrCounty()));
-                repeatingView.add(new Label(repeatingView.newChildId(), houses.getHouse().getLink()));
+                repeatingView.add(new ExternalLink(repeatingView.newChildId(), new Model<>(houses.getHouse().getLink())));
+//                repeatingView.add(new Label(repeatingView.newChildId(), houses.getHouse().getLink()));
+
 
                 item.add(repeatingView);
             }
@@ -79,6 +95,8 @@ public class ResultPage extends WebPage {
         add(dataView);
         add(new PagingNavigator("pagingNavigator", dataView));
     }
+
+
 
 
     private List<ResultMatchHouse> inPriceBedsRangeHouses(List<ResultMatchHouse> notSortedHouses, SearchAttributes searchAttributes) {
