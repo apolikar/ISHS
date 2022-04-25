@@ -8,15 +8,12 @@ import irl.lyit.DublinSmartHouseSearch.service.TransportionType;
 import irl.lyit.DublinSmartHouseSearch.service.addressFormatter.GoogleAddressFormatter;
 import irl.lyit.DublinSmartHouseSearch.service.client.GMapsHTTPClient;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
-import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.feedback.FeedbackMessage;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
@@ -24,14 +21,11 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.List;
 
 
@@ -53,7 +47,6 @@ public class HomePage extends WebPage {
 
     private static class AddressForm extends Form<Void> {
 
-        //private String errorMessage;
         private WebMarkupContainer informationBox;
         private final Model<String> addressModel;
         private final Model<Date> dateModel;
@@ -180,9 +173,6 @@ public class HomePage extends WebPage {
             price2.setNullValid(true);
             add(price2);
 
-//            add(new FeedbackPanel("feedbackMessage",
-//                    new ExactErrorLevelFilter(FeedbackMessage.ERROR)));
-
             informationBox = new WebMarkupContainer ("alertInfo");
             informationBox.add(new FeedbackPanel("feedbackMessage",
                     new ExactErrorLevelFilter(FeedbackMessage.ERROR)));
@@ -223,7 +213,6 @@ public class HomePage extends WebPage {
             }
             else {
                 informationBox.setVisible(true);
-//                error(errorMessage);
             }
 
         }

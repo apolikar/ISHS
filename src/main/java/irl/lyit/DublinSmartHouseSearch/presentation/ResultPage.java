@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import irl.lyit.DublinSmartHouseSearch.old.SearchAttributes;
 import irl.lyit.DublinSmartHouseSearch.service.HouseService;
 import irl.lyit.DublinSmartHouseSearch.service.ResultMatchHouse;
+import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.WebPage;
@@ -76,6 +77,9 @@ public class ResultPage extends WebPage {
 
         ListDataProvider<ResultMatchHouse> listDataProvider = new ListDataProvider<ResultMatchHouse>(inPriceBedsRangeHouses);
 
+
+
+
         DataView<ResultMatchHouse> dataView = new DataView<>("rows", listDataProvider) {
             @Override
             protected void populateItem(Item<ResultMatchHouse> item) {
@@ -86,6 +90,7 @@ public class ResultPage extends WebPage {
                 repeatingView.add(new Label(repeatingView.newChildId(), houses.getHouse().getAddress()));
                 repeatingView.add(new Label(repeatingView.newChildId(), houses.getHouse().getPrice()));
                 repeatingView.add(new Label(repeatingView.newChildId(), houses.getHouse().getBedrooms()));
+
                 repeatingView.add(new ExternalLink(repeatingView.newChildId(), new Model<>(houses.getHouse().getLink())));
 //                repeatingView.add(new Label(repeatingView.newChildId(), houses.getHouse().getLink()));
 
