@@ -199,11 +199,10 @@ public class HomePage extends WebPage {
                         minBedsModel.getObject(),
                         maxBedsModel.getObject()
                 );
-            } catch (IOException | InterruptedException ignored) {
+            }catch (IOException | InterruptedException e) {
                 error("Internal server error: 500");
                 return;
             }
-
 
             if (searchValidation(searchAttributes)) {
                 PageParameters pageParameters = new PageParameters();
@@ -264,23 +263,28 @@ public class HomePage extends WebPage {
             if (currentSearch.getCoordinates().getLat() == 0
                     && currentSearch.getCoordinates().getLng() == 0){
                 error("Your address doesn't exist");
+                error("Hint: Eircode might be entered as address as well");
                 return false;
             }
 
             if (currentSearch.getMaxPrice() < currentSearch.getMinPrice()) {
                 error("Please select min and max price in proper order");
+                error("Hint: min price <= max price");
                 return false;
             }
 
             if (currentSearch.getMaxBeds() < currentSearch.getMinBeds()) {
                 error("Please select min and max beds in proper order");
+                error("Hint: min beds <= max beds");
                 return false;
             }
 
             if (searchDateTime.isBefore(now)) {
                 error("Please enter date and time which are in future");
+                error("Hint: date and time should be greater than now");
                 return false;
             }
+
 
             return true;
         }

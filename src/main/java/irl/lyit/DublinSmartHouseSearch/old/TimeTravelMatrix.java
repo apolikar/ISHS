@@ -2,9 +2,11 @@ package irl.lyit.DublinSmartHouseSearch.old;
 
 
 import com.fasterxml.jackson.databind.JsonNode;
+import irl.lyit.DublinSmartHouseSearch.controller.exception.TooManyPointsException;
 import irl.lyit.DublinSmartHouseSearch.dao.House;
 import irl.lyit.DublinSmartHouseSearch.service.ResultMatchHouse;
 import irl.lyit.DublinSmartHouseSearch.service.client.TimeTravelTimeMatrixHTTPClient;
+import org.springframework.http.HttpStatus;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ public class TimeTravelMatrix {
             String transportTime,
             long travelTime,
             String dateAndTravelTime
-    ) throws IOException, InterruptedException {
+    ) throws IOException, InterruptedException, TooManyPointsException {
 
         List<ResultMatchHouse> result = new ArrayList<>();
 
@@ -26,7 +28,11 @@ public class TimeTravelMatrix {
 
         TimeTravelTimeMatrixHTTPClient client = new TimeTravelTimeMatrixHTTPClient(inputJson);
         JsonNode response = client.generateInTimeJsonResult();
-        System.out.println(response);
+//        System.out.println
+        if (response.get("http_status").asInt() != HttpStatus.OK.value()) {
+            throw new TooManyPointsException();
+        }
+
         JsonNode jsonNode = response.get("results").get(0).get("locations");
 
         for (int i = 0; i < jsonNode.size(); i++) {

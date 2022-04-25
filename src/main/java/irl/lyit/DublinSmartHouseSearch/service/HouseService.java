@@ -1,5 +1,6 @@
 package irl.lyit.DublinSmartHouseSearch.service;
 
+import irl.lyit.DublinSmartHouseSearch.controller.exception.TooManyPointsException;
 import irl.lyit.DublinSmartHouseSearch.dao.House;
 import irl.lyit.DublinSmartHouseSearch.dao.HouseRepository;
 import irl.lyit.DublinSmartHouseSearch.old.BoundingBox;
@@ -50,7 +51,7 @@ public class HouseService{
         return inBoundary;
     }
 
-    public List<ResultMatchHouse> inTime(SearchAttributes searchAttributes) throws IOException, InterruptedException {
+    public List<ResultMatchHouse> inTime(SearchAttributes searchAttributes) throws IOException, InterruptedException, TooManyPointsException {
 
         GeoCoordinates start = searchAttributes.getCoordinates();
         String dateTime = searchAttributes.getDateAndTime();

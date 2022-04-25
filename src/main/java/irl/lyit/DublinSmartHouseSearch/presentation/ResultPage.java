@@ -1,12 +1,16 @@
 package irl.lyit.DublinSmartHouseSearch.presentation;
 
 import com.google.gson.Gson;
+import irl.lyit.DublinSmartHouseSearch.controller.exception.TooManyPointsException;
 import irl.lyit.DublinSmartHouseSearch.old.SearchAttributes;
 import irl.lyit.DublinSmartHouseSearch.service.HouseService;
 import irl.lyit.DublinSmartHouseSearch.service.ResultMatchHouse;
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.markup.ComponentTag;
+import org.apache.wicket.markup.html.WebComponent;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
@@ -19,6 +23,7 @@ import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.string.StringValue;
@@ -36,7 +41,7 @@ public class ResultPage extends WebPage {
     private HouseService houseService;
 
 
-    public ResultPage(PageParameters parameters) throws IOException, InterruptedException {
+    public ResultPage(PageParameters parameters) throws IOException, InterruptedException, TooManyPointsException {
         super(parameters);
 
         add(new AjaxLink<String>("homePage") {
@@ -86,19 +91,34 @@ public class ResultPage extends WebPage {
                 ResultMatchHouse houses = item.getModelObject();
                 RepeatingView repeatingView = new RepeatingView("dataRow");
 
-                repeatingView.add(new Label(repeatingView.newChildId(), houses.getTimeString()));
+//                Label addressLabel = new Label(repeatingView.newChildId(), houses.getTimeString());
+//                WebComponent address = new WebComponent(repeatingView.newChildId());
+//                address.add(addressLabel);
+//                repeatingView.add(address);
+
+                repeatingView.add(new Label(repeatingView.newChildId(), houses.getHouse().getAddress()));
                 repeatingView.add(new Label(repeatingView.newChildId(), houses.getHouse().getAddress()));
                 repeatingView.add(new Label(repeatingView.newChildId(), houses.getHouse().getPrice()));
                 repeatingView.add(new Label(repeatingView.newChildId(), houses.getHouse().getBedrooms()));
 
-                repeatingView.add(new ExternalLink(repeatingView.newChildId(), new Model<>(houses.getHouse().getLink())));
-//                repeatingView.add(new Label(repeatingView.newChildId(), houses.getHouse().getLink()));
+                ExternalLink advertisementLink = new ExternalLink(repeatingView.newChildId(), houses.getHouse().getLink(), "link") {
+
+//                    @Override
+//                    protected void onComponentTag(ComponentTag tag) {
+////                        tag.setName("a");
+//                        tag.put("target", "_blank");
+//                        super.onComponentTag(tag);
+//                    }
+                };
+                repeatingView.add(advertisementLink);
+//                advertisementLink.add(new AttributeModifier("target", "_blank"));
+//               repeatingView.add(new Label(repeatingView.newChildId(), houses.getHouse().getLink()));
 
                 item.add(repeatingView);
             }
         };
 
-        dataView.setItemsPerPage(10);
+        dataView.setItemsPerPage(15);
         add(dataView);
         add(new PagingNavigator("pagingNavigator", dataView));
     }
