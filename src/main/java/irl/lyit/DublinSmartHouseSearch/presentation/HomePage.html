@@ -1,264 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html xmlns:wicket="http://wicket.apache.org" lang="en">-->
-<!--<head>-->
-<!--    <meta charset="utf-8">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
-<!--    <link rel="stylesheet" type="text/css" href="css/css/style.css"/>-->
-<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"-->
-<!--          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
-<!--    <title>ISHS</title>-->
-
-<!--    <style>-->
-<!--        .text {-->
-<!--            color: lightgrey;-->
-<!--            font-size: 20px;-->
-<!--            text-align: justify;-->
-<!--        }-->
-
-<!--        .col-sm {-->
-<!--            padding: 30px 30px;-->
-<!--        }-->
-
-<!--        .btn {-->
-<!--            margin: 30px;-->
-<!--        }-->
-
-<!--        h1 {-->
-<!--            align-content: center;-->
-<!--            padding: 40px;-->
-<!--            color: lightgrey;-->
-<!--        }-->
-
-<!--        legend {-->
-<!--            color: white;-->
-<!--        }-->
-
-<!--        .image {-->
-<!--            height: 100px;-->
-<!--        }-->
-
-
-<!--    </style>-->
-<!--</head>-->
-<!--<body>-->
-
-<!--<div >-->
-
-
-<!--    <div class="container-fluid">-->
-
-<!--        <div class="header">-->
-<!--            <div class="image">-->
-<!--                <img src="css/images/background.jpg" class="img-fluid" alt="Responsive image" style="height:550px">-->
-<!--            </div>-->
-
-<!--        </div>-->
-<!--        <br>-->
-<!--        <h1> Ireland Smart House Search</h1>-->
-<!--        <div class="row">-->
-<!--            <nav class="navbar navbar-expand-lg">-->
-<!--                <a class="navbar-brand" href="#">Navbar</a>-->
-<!--                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
-<!--                    <span class="navbar-toggler-icon"></span>-->
-<!--                </button>-->
-
-<!--                <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
-<!--                    <ul class="navbar-nav mr-auto">-->
-<!--                        <li class="nav-item active">-->
-<!--                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>-->
-<!--                        </li>-->
-<!--                        <li class="nav-item">-->
-<!--                            <a class="nav-link" href="#">Link</a>-->
-<!--                        </li>-->
-<!--                        <li class="nav-item dropdown">-->
-<!--                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--                                Dropdown-->
-<!--                            </a>-->
-<!--                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">-->
-<!--                                <a class="dropdown-item" href="#">Action</a>-->
-<!--                                <a class="dropdown-item" href="#">Another action</a>-->
-<!--                                <div class="dropdown-divider"></div>-->
-<!--                                <a class="dropdown-item" href="#">Something else here</a>-->
-<!--                            </div>-->
-<!--                        </li>-->
-<!--                        <li class="nav-item">-->
-<!--                            <a class="nav-link disabled" href="#">Disabled</a>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-<!--                </div>-->
-<!--            </nav>-->
-<!--        </div>-->
-
-
-<!--        <div class="row">-->
-
-<!--            <div class="col-sm">-->
-
-<!--                <h2 class="text">-->
-<!--                    I hereby certify that the material, which l now submit for assessment on the programmes of study leading to the award of Bachelor of Science in Applied Computing, is entirely my own work and has not been taken from the work of others except to the extent that such work has been cited and acknowledged within the text of my own work. No portion of the work contained in this thesis has been submitted in support of an application for another degree or qualification to this or any other institution. I understand that it is my responsibility to ensure that I have adhered to LYIT’s rules and regulations.-->
-<!--                    I hereby certify that the material on which I have relied on for the purpose of my assessment is not deemed as personal data under the GDPR Regulations. Personal data is any data from living people that can be identified.  Any personal data used for the purpose of my assessment has been pseudonymised and the data set and identifiers are not held by LYIT.  Alternatively, personal data has been anonymised in line with the Data Protection Commissioners Guidelines on Anonymisation.-->
-<!--                    I consent that my work will be held for the purposes of education assistance to future students and will be shared on the LYIT Computing website (www.lyitcomputing.com) and Research THEA website (https://research.thea.ie/).  I understand that documents once uploaded onto the website can be viewed throughout the world and not just in the Ireland. Consent can be withdrawn for the publishing of material online by emailing Thomas Dowling; Head of Department at thomas.dowling@lyit.ie to remove items from the LYIT Computing website and by email emailing Denise McCaul; Systems Librarian at denise.mccaul@lyit.ie to remove items from the Research THEA website.  Material will continue to appear in printed formats once published and as websites are public medium, LYIT cannot guarantee that the material has not been saved or downloaded.-->
-<!--                </h2>-->
-
-<!--            </div>-->
-
-
-<!--            <div class="col-sm">-->
-
-<!--                <form wicket:id="form" class="container-sm" id="myForm">-->
-<!--                    <fieldset>-->
-<!--                        <legend>Please complete the form below:</legend>-->
-
-<!--                        <br>-->
-
-<!--                        <div class="input-group">-->
-<!--                            <span class="input-group-text" style="height: 35px">Your Destination Address: </span>-->
-<!--                            <label wicket:id="addressLabel" for="work" id="addressLabel"></label>-->
-
-<!--                            <input wicket:id="workInput" type="text" id="work" name="work"-->
-<!--                                   class="form-control input-group-text bg-white text-dark" placeholder="address" required style="height: 35px"><br><br>-->
-<!--                        </div>-->
-
-
-<!--                        <br>-->
-<!--                        <div class="input-group">-->
-<!--                            <span class="input-group-text" style="height: 35px">Date input: </span>-->
-<!--                            <label wicket:id="dateLabel" for="date" id="dateLabel"></label>-->
-<!--                            <input wicket:id="dateInput" type="date" id="date" required class="form-control input-group-text bg-white text-dark" style="height: 35px"><br><br>-->
-<!--                        </div>-->
-
-<!--                        <br>-->
-
-
-<!--                        <div class="input-group">-->
-<!--                            <span class="input-group-text" style="height: 30px">Time input: </span>-->
-<!--                            <label wicket:id="timeDayLabel" for="timeDay" id="timeDayLabel">date</label>-->
-<!--                            <input wicket:id="timeDayInput" type="time" id="timeDay" hidden class="form-control input-group-text bg-white text-dark" /><br><br>-->
-<!--                        </div>-->
-
-<!--                        <br>-->
-
-<!--                        <div class="input-group">-->
-<!--                            <span class="input-group-text" style="height: 35px">Max Travel Time in Minutes: </span>-->
-<!--                            <label for="time" id="travelDuration"></label>-->
-<!--                            <select name="travelTime" wicket:id="travelTime" id="time" class="form-control input-group-text bg-white text-dark" style="height: 35px">-->
-<!--                                <option value="" selected="selected">travel time in minutes</option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-
-<!--                        <br>-->
-
-<!--                        <div class="input-group" style="margin-bottom: 0px">-->
-<!--                            <span class="input-group-text" style="height: 35px">  Transport type:  </span>-->
-<!--                            &lt;!&ndash;                        <label for="travelTransport" id="transportLabel"></label>&ndash;&gt;-->
-<!--                            <select wicket:id="travelSelect" name="travelTransport" id="travelTransport" required class="form-control input-group-text bg-white text-dark" style="height: 35px">-->
-<!--                            </select><br><br>-->
-<!--                        </div>-->
-
-<!--                        <br>-->
-
-<!--                        &lt;!&ndash;                    <div class="input-group">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                        <span class="input-group-text">Min and Max Beds: </span>&ndash;&gt;-->
-
-<!--                        &lt;!&ndash;                        <label wicket:id="minBedsLabel" for="minBeds" id="minBedsLabel"></label>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                        <input wicket:id="bedsInputMin" type="number" id="minBeds" name="bedsInputMin"&ndash;&gt;-->
-<!--                        &lt;!&ndash;                               class="form-control" placeholder="minimum beds" required>&ndash;&gt;-->
-
-<!--                        &lt;!&ndash;                        <label wicket:id="maxBedsLabel" for="maxBeds" id="maxBedsLabel"></label>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                        <input wicket:id="bedsInputMax" type="number" id="maxBeds" name="maxBeds"&ndash;&gt;-->
-<!--                        &lt;!&ndash;                               class="form-control" placeholder="maximum beds" required><br><br>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                    </div>&ndash;&gt;-->
-
-<!--                        <div class="input-group">-->
-<!--                            <span class="input-group-text" style="height: 35px">Min and Max Beds: </span>-->
-<!--                            &lt;!&ndash;                        <label for="minPriceLabel" id="minPriceLabel"></label>&ndash;&gt;-->
-<!--                            <select name="minBeds" wicket:id="bedsInputMin" id="minBeds" class="form-control input-group-text bg-white text-dark" style="height: 35px">-->
-<!--                                <option value="" selected="selected" ></option>-->
-<!--                            </select>-->
-<!--                            &lt;!&ndash;                        <label for="maxPriceLabel" id="priceInputMax"></label>&ndash;&gt;-->
-<!--                            <select name="maxBeds" wicket:id="bedsInputMax" id="maxBeds" class="form-control input-group-text bg-white text-dark" style="height: 35px">-->
-<!--                                <option value="" selected="selected"></option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-
-
-<!--                        <br>-->
-
-<!--                        &lt;!&ndash;                    <div class="input-group">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                        <span class="input-group-text">Min and Max Price: </span>&ndash;&gt;-->
-
-<!--                        &lt;!&ndash;                        <label wicket:id="minPriceLabel" for="minPrice" id="minPriceLabel"></label>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                        <input wicket:id="priceInputMin" type="number" id="minPrice" class="form-control"&ndash;&gt;-->
-<!--                        &lt;!&ndash;                               placeholder="minimum price" required>&ndash;&gt;-->
-
-<!--                        &lt;!&ndash;                        <label wicket:id="maxPriceLabel" for="maxPrice" id="maxPriceLabel"></label>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                        <input wicket:id="priceInputMax" type="number" id="maxPrice" name="maxPrice"&ndash;&gt;-->
-<!--                        &lt;!&ndash;                               class="form-control" placeholder="maximum price" required><br><br>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                    </div>&ndash;&gt;-->
-
-
-<!--                        <div class="input-group">-->
-
-<!--                            <span class="input-group-text" style="height: 35px">Min and Max Price: </span>-->
-<!--                            &lt;!&ndash;                        <label for="minPriceLabel" id="minPriceLabel"></label>&ndash;&gt;-->
-<!--                            <select name="minPrice" wicket:id="priceInputMin" id="minPrice"-->
-<!--                                    class="form-control input-group-text bg-white text-dark" style="height: 35px">-->
-<!--                            </select>-->
-<!--                            &lt;!&ndash;                        <label for="maxPriceLabel" id="priceInputMax"></label>&ndash;&gt;-->
-<!--                            <select name="maxPrice" wicket:id="priceInputMax" id="maxPrice"-->
-<!--                                    class="form-control input-group-text bg-white text-dark" style="height: 35px">-->
-<!--                            </select>-->
-<!--                        </div>-->
-
-
-<!--                        <br>-->
-
-
-<!--                        <div class="d-flex justify-content-center">-->
-<!--                            <button type="submit" class="btn btn-primary mr-1 btn btn-primary btn-lg" style="width: 150px">Proceed</button>-->
-<!--                            <button type="reset" class="btn btn-warning mr-1 btn btn-secondary btn-lg" style="width: 150px">Reset</button>-->
-<!--                        </div>-->
-
-
-<!--                        <br>-->
-
-<!--                        <div class="alert">-->
-<!--                            <div style="color:red; font-size: x-large; font-weight: bolder" wicket:id="feedbackMessage">-->
-<!--                            </div>-->
-<!--                        </div>-->
-
-
-<!--                    </fieldset>-->
-<!--                </form>-->
-<!--            </div>-->
-
-<!--        </div>-->
-
-<!--        <br>-->
-
-<!--&lt;!&ndash;        <div class="d-flex justify-content-center flex-nowrap">&ndash;&gt;-->
-
-
-<!--&lt;!&ndash;        </div>&ndash;&gt;-->
-<!--    </div>-->
-<!--</div>-->
-
-<!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"-->
-<!--        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"-->
-<!--        crossorigin="anonymous"></script>-->
-<!--<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"-->
-<!--        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"-->
-<!--        crossorigin="anonymous"></script>-->
-<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"-->
-<!--        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"-->
-<!--        crossorigin="anonymous"></script>-->
-<!--</body>-->
-<!--</html>-->
-
-
-<!-- BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB-->
-
-
 <!doctype html>
 <html xmlns:wicket="http://wicket.apache.org" lang="en">
 <head>
@@ -375,13 +114,13 @@
                         <div class="input-group">
                             <span class="input-group-text" style="height: 35px">Time input: </span>
                             <select name="hour" wicket:id="hourInput" id="hour"
-                                    class="form-control input-group-text bg-white text-dark" style="height: 35px">
-                                <option value="" selected="selected"></option>
+                                    class="form-control input-group-text bg-white text-dark" required style="height: 35px">
+                                <option value="hours" selected="selected"></option>
                             </select>
 
                             <select name="minutes" wicket:id="minutesInput" id="minutes"
-                                    class="form-control input-group-text bg-white text-dark" style="height: 35px">
-                                <option value="" selected="selected"></option>
+                                    class="form-control input-group-text bg-white text-dark" required style="height: 35px">
+                                <option value="" selected="selected">Minutes</option>
 
                             </select>
                         </div>
@@ -392,7 +131,7 @@
                             <span class="input-group-text" style="height: 35px">Max Travel Time: </span>
                             <label for="time" id="travelDuration"></label>
                             <select name="travelTime" wicket:id="travelTime" id="time"
-                                    class="form-control input-group-text bg-white text-dark" style="height: 35px">
+                                    class="form-control input-group-text bg-white text-dark" required style="height: 35px">
                                 <option value="" selected="selected">travel time in minutes</option>
                             </select>
                         </div>
@@ -414,12 +153,12 @@
                             <span class="input-group-text" style="height: 35px">Min and Max Beds: </span>
 
                             <select name="minBeds" wicket:id="bedsInputMin" id="minBeds"
-                                    class="form-control input-group-text bg-white text-dark" style="height: 35px">
+                                    class="form-control input-group-text bg-white text-dark" required style="height: 35px">
                                 <option value="" selected="selected"></option>
                             </select>
 
                             <select name="maxBeds" wicket:id="bedsInputMax" id="maxBeds"
-                                    class="form-control input-group-text bg-white text-dark" style="height: 35px">
+                                    class="form-control input-group-text bg-white text-dark" required style="height: 35px">
                                 <option value="" selected="selected"></option>
 
                             </select>
@@ -431,10 +170,10 @@
 
                             <span class="input-group-text" style="height: 35px">Min and Max Price: </span>
                             <select name="minPrice" wicket:id="priceInputMin" id="minPrice"
-                                    class="form-control input-group-text bg-white text-dark" style="height: 35px">
+                                    class="form-control input-group-text bg-white text-dark" required style="height: 35px">
                             </select>
                             <select name="maxPrice" wicket:id="priceInputMax" id="maxPrice"
-                                    class="form-control input-group-text bg-white text-dark" style="height: 35px">
+                                    class="form-control input-group-text bg-white text-dark" required style="height: 35px">
                             </select>
                         </div>
 

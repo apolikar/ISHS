@@ -11,6 +11,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.link.PopupCloseLink;
 import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.RepeatingView;
@@ -23,6 +24,7 @@ import org.apache.wicket.util.string.StringValue;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static java.util.Comparator.comparing;
@@ -50,6 +52,15 @@ public class ResultPage extends WebPage {
             }
         });
 
+        add(new AjaxLink<String>("newSearch") {
+            @Override
+            public void onClick(AjaxRequestTarget ajaxRequestTarget) {
+                setResponsePage(HomePage.class);
+            }
+        });
+
+
+
         StringValue searchAttributes = parameters.get("searchAttributes");
         SearchAttributes searchAttributes1 = new Gson().fromJson(searchAttributes.toString(), SearchAttributes.class);
         System.out.println(searchAttributes1);
@@ -60,16 +71,8 @@ public class ResultPage extends WebPage {
         // sort by travel time (low to high)
         inPriceBedsRangeHouses.sort(comparing(ResultMatchHouse::getSecondsToTravel));
 
-        add(new AjaxLink<String>("newSearch") {
-            @Override
-            public void onClick(AjaxRequestTarget ajaxRequestTarget) {
-                setResponsePage(HomePage.class);
-            }
-        });
-
-
-
         add(new Label("totalHouses", new Model<>(inPriceBedsRangeHouses.size())));
+        System.out.println(new Date(inPriceBedsRangeHouses.get(0).getHouse().getUpdateTime()));
 
         ListDataProvider<ResultMatchHouse> listDataProvider = new ListDataProvider<ResultMatchHouse>(inPriceBedsRangeHouses);
 
@@ -85,7 +88,6 @@ public class ResultPage extends WebPage {
                 repeatingView.add(new Label(repeatingView.newChildId(), houses.getHouse().getBedrooms()));
                 repeatingView.add(new ExternalLink(repeatingView.newChildId(), new Model<>(houses.getHouse().getLink())));
 //                repeatingView.add(new Label(repeatingView.newChildId(), houses.getHouse().getLink()));
-
 
                 item.add(repeatingView);
             }

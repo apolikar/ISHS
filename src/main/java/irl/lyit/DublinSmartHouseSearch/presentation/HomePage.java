@@ -8,6 +8,7 @@ import irl.lyit.DublinSmartHouseSearch.service.TransportionType;
 import irl.lyit.DublinSmartHouseSearch.service.addressFormatter.GoogleAddressFormatter;
 import irl.lyit.DublinSmartHouseSearch.service.client.GMapsHTTPClient;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
@@ -15,6 +16,7 @@ import org.apache.wicket.feedback.FeedbackMessage;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
@@ -29,6 +31,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 
 
@@ -84,34 +87,98 @@ public class HomePage extends WebPage {
             add(new Label("dateLabel", ""));
             add(new DateTextField("dateInput", dateModel, "yyyy-MM-dd"));
 
+
             List<String> hourList = Arrays.asList("00", "01", "02", "03", "04", "05",
                     "06", "07", "08", "09", "10", "11", "12", "13", "14", "15",
                     "16", "17", "18", "19", "20", "21", "22", "23");
-            add(new DropDownChoice<String>("hourInput", hourModel, hourList));
+            DropDownChoice<String> hour = new DropDownChoice<>("hourInput", hourModel, hourList){
+                @Override
+                protected String getNullValidDisplayValue() {
+                    return "hour";
+                }
+            };
+            hour.setNullValid(true);
+            add(hour);
+
+
             List<String> munutesList = Arrays.asList("00", "05", "10", "15", "20", "25",
                     "30", "35", "40", "45", "50", "55");
-            add(new DropDownChoice<String>("minutesInput", minuteModel, munutesList));
+            DropDownChoice<String> minutes = new DropDownChoice<>("minutesInput", minuteModel, munutesList){
+                @Override
+                protected String getNullValidDisplayValue() {
+                    return "minutes";
+                }
+            };
+            minutes.setNullValid(true);
+            add(minutes);
 
-//            add(new TextField<String>("timeDayInput", timeModel));
 
             add(new DropDownChoice<>(
                     "travelSelect",
                     transportModel,
                     Arrays.asList(TransportionType.values())
-            ));
+            ) {
+                @Override
+                protected String getNullValidDisplayValue() {
+                    return "type";
+                }
+            });
+
+
 
             List<Integer> timeList = Arrays.asList(10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 59);
-            add(new DropDownChoice<Integer>("travelTime", travelTimeModel, timeList));
+            DropDownChoice<Integer> time = new DropDownChoice<>("travelTime", travelTimeModel, timeList){
+                @Override
+                protected String getNullValidDisplayValue() {
+                    return "max minutes";
+                }
+            };
+            time.setNullValid(true);
+            add(time);
+
 
             List<Integer> bedsNumber = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-            add(new DropDownChoice<Integer>("bedsInputMin", minBedsModel, bedsNumber));
-            add(new DropDownChoice<Integer>("bedsInputMax", maxBedsModel, bedsNumber));
+            DropDownChoice<Integer> beds1 = new DropDownChoice<>("bedsInputMin", minBedsModel, bedsNumber){
+                @Override
+                protected String getNullValidDisplayValue() {
+                    return "min beds";
+                }
+            };
+            beds1.setNullValid(true);
+            add(beds1);
+
+
+            DropDownChoice<Integer> beds2 = new DropDownChoice<>("bedsInputMax", maxBedsModel, bedsNumber){
+                @Override
+                protected String getNullValidDisplayValue() {
+                    return "max beds";
+                }
+            };
+            beds2.setNullValid(true);
+            add(beds2);
+
 
             List<String> priceList = Arrays.asList("€100K", "€150K", "€200K", "€250K", "€300K",
                     "€350K", "€400K", "€450K", "€500K", "€550K", "€600K", "€650K", "€700K", "€750K",
                     "€800K", "€850K", "€900K", "€950K", "€1M", "€1.5M", "€2M", "€3M", "€4M", "€5M");
-            add(new DropDownChoice<String>("priceInputMin", minPriceModel, priceList));
-            add(new DropDownChoice<String>("priceInputMax", maxPriceModel, priceList));
+
+            DropDownChoice<String> price1 = new DropDownChoice<>("priceInputMin", minPriceModel, priceList){
+                @Override
+                protected String getNullValidDisplayValue() {
+                    return "min price";
+                }
+            };
+            price1.setNullValid(true);
+            add(price1);
+
+            DropDownChoice<String> price2 = new DropDownChoice<>("priceInputMax", maxPriceModel, priceList){
+                @Override
+                protected String getNullValidDisplayValue() {
+                    return "max price";
+                }
+            };
+            price2.setNullValid(true);
+            add(price2);
 
 //            add(new FeedbackPanel("feedbackMessage",
 //                    new ExactErrorLevelFilter(FeedbackMessage.ERROR)));
