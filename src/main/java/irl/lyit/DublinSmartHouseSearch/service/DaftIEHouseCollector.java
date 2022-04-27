@@ -42,7 +42,7 @@ public class DaftIEHouseCollector implements HouseCollector {
         String updateStarts = getDateTimeNow();
 
         int housesPerPage = 0;
-        String url = "https://www.daft.ie/property-for-sale/houses?from=" + housesPerPage;
+        String url = "https://www.daft.ie/property-for-sale/galway-city/houses?from=" + housesPerPage;
 
         // connect to the first page with all available houses
         Document page = checkConnection(url);
