@@ -34,8 +34,6 @@ public class DublinSmartHouseSearchApplication extends WebApplication {
 
 
     public static final String PORTAL_APPLICATION = "portalApplication";
-    public static final String LOGIN = "/login";
-    public static final String MAIN = "/main";
 
     public static void main(String[] args) {
         SpringApplication.run(DublinSmartHouseSearchApplication.class, args);
@@ -55,7 +53,7 @@ public class DublinSmartHouseSearchApplication extends WebApplication {
         getComponentInstantiationListeners().add(new SpringComponentInjector(this));
 
         mount(new HomePageMapper(HomePage.class));
-        mount(new MountedMapper(LOGIN, HomePage.class));    }
+        mount(new MountedMapper("/home", HomePage.class));    }
 
     @Override
     public Class<? extends Page> getHomePage() {

@@ -12,6 +12,14 @@ spring:
     hibernate:
       ddl-auto: update
 logging:
+  level:
+    root:           INFO
+    irl:
+      lyit:
+        DublinSmartHouseSearch: INFO
+  pattern:
+    file: '%d{yyyy.MM.dd HH:mm:ss} %-5level [%thread] %logger{15} - %msg%n'
+    console: '%d{yyyy.MM.dd HH:mm:ss} %-5level [%thread] %logger{15} - %msg%n'
   file:
     path: logs
 external:

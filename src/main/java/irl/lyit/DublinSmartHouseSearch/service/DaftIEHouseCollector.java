@@ -2,6 +2,8 @@ package irl.lyit.DublinSmartHouseSearch.service;
 
 import irl.lyit.DublinSmartHouseSearch.dao.House;
 import irl.lyit.DublinSmartHouseSearch.dao.HouseRepository;
+import irl.lyit.DublinSmartHouseSearch.dao.UpdateInfo;
+import irl.lyit.DublinSmartHouseSearch.dao.UpdateInfoRepository;
 import irl.lyit.DublinSmartHouseSearch.old.GeoCoordinates;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -20,10 +22,12 @@ import java.util.Date;
 public class DaftIEHouseCollector implements HouseCollector {
 
     private final HouseRepository houseRepository;
+    private final UpdateInfoRepository updateInfoRepository;
 
     @Autowired
-    public DaftIEHouseCollector(HouseRepository houseRepository) {
+    public DaftIEHouseCollector(HouseRepository houseRepository, UpdateInfoRepository updateInfoRepository) {
         this.houseRepository = houseRepository;
+        this.updateInfoRepository = updateInfoRepository;
     }
 
 
@@ -34,7 +38,7 @@ public class DaftIEHouseCollector implements HouseCollector {
     public void collect() {
 
         long start = System.currentTimeMillis();
-        String now = getDateTime();
+        String updateStarts = getDateTimeNow();
 
         int housesPerPage = 0;
         String url = "https://www.daft.ie/property-for-sale/houses?from=" + housesPerPage;
@@ -67,8 +71,18 @@ public class DaftIEHouseCollector implements HouseCollector {
 
         houseRepository.deleteByUpdateTimeLessThan(start);
 
+        String updateEnds = getDateTimeNow();
         long end = System.currentTimeMillis();
-        System.out.println("Last DB update: " + now);
+
+        updateInfoRepository.save(new UpdateInfo(
+                updateStarts,
+                updateEnds,
+                timeInfo(end - start),
+                houseRepository.count()
+        ));
+
+
+        System.out.println("Last DB update: " + updateStarts);
         System.out.println("To process " + allHousesForSaleNumber + " houses took: " + timeInfo(end - start));
 
     }
@@ -290,7 +304,7 @@ public class DaftIEHouseCollector implements HouseCollector {
      *
      * @return date and time now
      */
-    private String getDateTime() {
+    private String getDateTimeNow() {
 
         Date dateNow = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");

@@ -43,7 +43,11 @@ public class HouseService{
 
                 if ((houseLat >= box.getBottom().getLat() && houseLat <= box.getTop().getLat()) &&
                         (houseLng <= box.getTop().getLng() && houseLng >= box.getBottom().getLng())) {
-                    inBoundary.add(house);
+
+                    if (isPriceBedsRange(house, searchAttributes)){
+                        inBoundary.add(house);
+                    }
+
                 }
             }
         }
@@ -51,9 +55,9 @@ public class HouseService{
         return inBoundary;
     }
 
-    public List<ResultMatchHouse> inTime(SearchAttributes searchAttributes) throws IOException, InterruptedException, TooManyPointsException {
+    public List<ResultMatchHouse> getHouseInTimeLimit(SearchAttributes searchAttributes) throws IOException, InterruptedException, TooManyPointsException {
 
-        GeoCoordinates start = searchAttributes.getCoordinates();
+        GeoCoordinates destinationAddress = searchAttributes.getCoordinates();
         String dateTime = searchAttributes.getDateAndTime();
         String transportType = searchAttributes.getTransportationType();
         long travelTime = searchAttributes.getTimeLimit();
@@ -66,7 +70,16 @@ public class HouseService{
             return new ArrayList<>();
         }
 
-        return ttm.getInTime(start, housesInBound, transportType, travelTime, dateTime);
+        return ttm.getInTime(destinationAddress, housesInBound, transportType, travelTime, dateTime);
+    }
+
+
+    private boolean isPriceBedsRange(House house, SearchAttributes searchAttributes) {
+
+        return (house.getBedrooms() >= searchAttributes.getMinBeds()
+                && house.getBedrooms() <= searchAttributes.getMaxBeds())
+                && (house.getPrice() >= searchAttributes.getMinPrice()
+                && house.getPrice() <= searchAttributes.getMaxPrice());
     }
 
 }

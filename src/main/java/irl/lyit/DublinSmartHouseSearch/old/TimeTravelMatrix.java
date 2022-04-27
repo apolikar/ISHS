@@ -6,15 +6,68 @@ import irl.lyit.DublinSmartHouseSearch.controller.exception.TooManyPointsExcepti
 import irl.lyit.DublinSmartHouseSearch.dao.House;
 import irl.lyit.DublinSmartHouseSearch.service.ResultMatchHouse;
 import irl.lyit.DublinSmartHouseSearch.service.client.TimeTravelTimeMatrixHTTPClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class TimeTravelMatrix {
+    private Logger log = LoggerFactory.getLogger(TimeTravelMatrix.class);
+    private static final int API_LIMIT = 2000;
 
     public List<ResultMatchHouse> getInTime(
+            GeoCoordinates startingPoint,
+            List<House> list,
+            String transportTime,
+            long travelTime,
+            String dateAndTravelTime
+    ) throws IOException, InterruptedException, TooManyPointsException {
+
+        if(list.size() <= API_LIMIT) {
+            return houseInRangeCheck(startingPoint, list, transportTime, travelTime, dateAndTravelTime);
+        }
+
+        int start = 0;
+        int end = 50;
+
+        List<ResultMatchHouse> result = new ArrayList<>();
+        try {
+            while (start < list.size()) {
+                result.addAll(
+                        houseInRangeCheck(
+                                startingPoint,
+                                list.subList(start, end - 1),
+                                transportTime,
+                                travelTime,
+                                dateAndTravelTime
+                        ));
+                start = end;
+
+                end += API_LIMIT;
+
+                if (end > list.size()){
+                    end = list.size();
+                }
+            }
+        } catch (TooManyPointsException e) {
+            if (result.isEmpty()) {
+               throw e;
+            }
+
+            // if result list has some houses already
+            // made because of time travel api limitation per minute
+            return result;
+        }
+
+
+        return result;
+    }
+
+    private List<ResultMatchHouse> houseInRangeCheck(
             GeoCoordinates startingPoint,
             List<House> list,
             String transportTime,
@@ -28,8 +81,10 @@ public class TimeTravelMatrix {
 
         TimeTravelTimeMatrixHTTPClient client = new TimeTravelTimeMatrixHTTPClient(inputJson);
         JsonNode response = client.generateInTimeJsonResult();
-//        System.out.println
-        if (response.get("http_status").asInt() != HttpStatus.OK.value()) {
+        if (response.get("http_status") != null
+                && response.get("http_status").asInt() != HttpStatus.OK.value()
+        ) {
+            log.error(response.get("description").asText());
             throw new TooManyPointsException();
         }
 
@@ -41,7 +96,6 @@ public class TimeTravelMatrix {
             int secondsToTravel = jsonNode.get(i).get("properties").get(0).get("travel_time").asInt();
             result.add(new ResultMatchHouse(list.get(locationIndex), secondsToTravel));
         }
-
         return result;
     }
 
