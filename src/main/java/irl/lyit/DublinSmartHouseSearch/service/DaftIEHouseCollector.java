@@ -16,6 +16,7 @@ import java.io.IOException;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 
 @Service
@@ -80,7 +81,6 @@ public class DaftIEHouseCollector implements HouseCollector {
                 timeInfo(end - start),
                 houseRepository.count()
         ));
-
 
         System.out.println("Last DB update: " + updateStarts);
         System.out.println("To process " + allHousesForSaleNumber + " houses took: " + timeInfo(end - start));

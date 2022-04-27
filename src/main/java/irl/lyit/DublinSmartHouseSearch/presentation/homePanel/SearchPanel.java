@@ -44,6 +44,7 @@ public class SearchPanel extends Panel {
     @SpringBean
     private HouseService houseService;
 
+
     public SearchPanel() {
         super("searchPanel");
         setOutputMarkupId(true);
@@ -257,7 +258,33 @@ public class SearchPanel extends Panel {
                     // sort by travel time (low to high)
                     results.sort(comparing(ResultMatchHouse::getSecondsToTravel));
 
-                    //ToDo iterate list check same Lnt and Lat remove old object (timestamp)
+//                    //ToDo iterate list check same Lnt and Lat remove old object (timestamp)
+//                    for(int i = 0; i < results.size() - 1; i++) {
+//
+//                        if(results.get(i).getSecondsToTravel() == results.get(i+1).getSecondsToTravel()){
+//
+//                            if(
+//                                    results.get(i).getHouse().getLat() == results.get(i + 1).getHouse().getLat()
+//                                    && results.get(i).getHouse().getLng() == results.get(i + 1).getHouse().getLng()
+//                            ){
+//                                if(results.get(i).getHouse().getUpdateTime()  > results.get(i + 1).getHouse().getUpdateTime()){
+//
+//                                    System.out.println("Stay:    " + results.get(i).getHouse().getUpdateTime());
+//                                    System.out.println("removed: " + results.get(i + 1).getHouse().getUpdateTime());
+//                                    System.out.println("------------------------------------------------");
+//
+//                                    results.remove(i + 1);
+//                                } else {
+//
+//                                    System.out.println("Stay:    " + results.get(i + 1).getHouse().getUpdateTime());
+//                                    System.out.println("removed: " + results.get(i).getHouse().getUpdateTime());
+//                                    System.out.println("------------------------------------------------");
+//
+//                                    results.remove(i);
+//                                }
+//                            }
+//                        }
+//                    }
 
                     changePanelToResult(target, results);
                 }
