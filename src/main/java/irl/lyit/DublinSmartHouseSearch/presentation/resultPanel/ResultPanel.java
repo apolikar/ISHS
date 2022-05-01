@@ -48,7 +48,6 @@ public class ResultPanel extends Panel {
         });
 
         add(new Label("totalHouses", new Model<>(houses.size())));
-        System.out.println(new Date(houses.get(0).getHouse().getUpdateTime()));
 
         ListDataProvider<ResultMatchHouse> listDataProvider = new ListDataProvider<>(houses);
 

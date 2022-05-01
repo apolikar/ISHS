@@ -2,6 +2,7 @@ package irl.lyit.DublinSmartHouseSearch.old;
 
 
 import com.fasterxml.jackson.databind.JsonNode;
+import irl.lyit.DublinSmartHouseSearch.config.Credentials;
 import irl.lyit.DublinSmartHouseSearch.controller.exception.TooManyPointsException;
 import irl.lyit.DublinSmartHouseSearch.dao.House;
 import irl.lyit.DublinSmartHouseSearch.service.ResultMatchHouse;
@@ -18,17 +19,28 @@ import java.util.List;
 public class TimeTravelMatrix {
     private Logger log = LoggerFactory.getLogger(TimeTravelMatrix.class);
     private static final int API_LIMIT = 2000;
+    private Credentials credentials;
+
+
+    public TimeTravelMatrix(Credentials credentials) {
+        this.credentials = credentials;
+    }
 
     public List<ResultMatchHouse> getInTime(
-            GeoCoordinates startingPoint,
+            GeoCoordinates destinationCoordinates,
             List<House> list,
             String transportTime,
             long travelTime,
             String dateAndTravelTime
     ) throws IOException, InterruptedException, TooManyPointsException {
 
+        // if list size is less than limit
         if(list.size() <= API_LIMIT) {
-            return houseInRangeCheck(startingPoint, list, transportTime, travelTime, dateAndTravelTime);
+            return houseInRangeCheck(
+                    destinationCoordinates,
+                    list, transportTime,
+                    travelTime,
+                    dateAndTravelTime);
         }
 
         int start = 0;
@@ -39,14 +51,13 @@ public class TimeTravelMatrix {
             while (start < list.size()) {
                 result.addAll(
                         houseInRangeCheck(
-                                startingPoint,
+                                destinationCoordinates,
                                 list.subList(start, end - 1),
                                 transportTime,
                                 travelTime,
                                 dateAndTravelTime
                         ));
                 start = end;
-
                 end += API_LIMIT;
 
                 if (end > list.size()){
@@ -63,7 +74,6 @@ public class TimeTravelMatrix {
             return result;
         }
 
-
         return result;
     }
 
@@ -79,7 +89,7 @@ public class TimeTravelMatrix {
 
         String inputJson = generateRequestJsonString(startingPoint, list, transportTime, travelTime, dateAndTravelTime);
 
-        TimeTravelTimeMatrixHTTPClient client = new TimeTravelTimeMatrixHTTPClient(inputJson);
+        TimeTravelTimeMatrixHTTPClient client = new TimeTravelTimeMatrixHTTPClient(inputJson, credentials.getTravelTimeApiKey(), credentials.getTravelTimeApplicationId());
         JsonNode response = client.generateInTimeJsonResult();
         if (response.get("http_status") != null
                 && response.get("http_status").asInt() != HttpStatus.OK.value()

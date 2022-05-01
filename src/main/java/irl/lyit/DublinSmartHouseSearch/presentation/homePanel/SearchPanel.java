@@ -1,10 +1,10 @@
 package irl.lyit.DublinSmartHouseSearch.presentation.homePanel;
 
+import irl.lyit.DublinSmartHouseSearch.config.Credentials;
 import irl.lyit.DublinSmartHouseSearch.controller.exception.TooManyPointsException;
 import irl.lyit.DublinSmartHouseSearch.old.GeoCoordinates;
 import irl.lyit.DublinSmartHouseSearch.old.SearchAttributes;
 import irl.lyit.DublinSmartHouseSearch.presentation.AboutMe;
-import irl.lyit.DublinSmartHouseSearch.presentation.HomePage;
 import irl.lyit.DublinSmartHouseSearch.presentation.resultPanel.ResultPanel;
 import irl.lyit.DublinSmartHouseSearch.service.GeoCoordinatesFinder;
 import irl.lyit.DublinSmartHouseSearch.service.HouseService;
@@ -15,8 +15,11 @@ import irl.lyit.DublinSmartHouseSearch.service.client.GMapsHTTPClient;
 import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
+import org.apache.wicket.core.request.handler.ComponentNotFoundException;
+import org.apache.wicket.core.request.handler.ListenerInvocationNotAllowedException;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.feedback.FeedbackMessage;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -27,7 +30,6 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.request.component.IRequestablePage;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import java.io.IOException;
@@ -36,13 +38,17 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static java.util.Comparator.comparing;
 
 public class SearchPanel extends Panel {
+
     @SpringBean
     private HouseService houseService;
+    @SpringBean
+    private Credentials credentials;
+    @SpringBean
+    private GeoCoordinatesFinder gc;
 
 
     public SearchPanel() {
@@ -87,6 +93,86 @@ public class SearchPanel extends Panel {
             this.maxPriceModel = new Model<>();
             this.minPriceModel = new Model<>();
             this.maxBedsModel = new Model<>();
+
+
+//            add(new AjaxFormSubmitBehavior("onsubmit") {
+//                @Override
+//                protected void onSubmit(AjaxRequestTarget target) {
+//                    SearchAttributes searchAttributes;
+//
+//                    try {
+//                        searchAttributes = new SearchAttributes(
+//                                getWorkCoordinates(),
+//                                getDateAndTime(),
+//                                travelTimeModel.getObject() * 60,
+//                                getTransportType(),
+//                                setPrice(minPriceModel.getObject()),
+//                                setPrice(maxPriceModel.getObject()),
+//                                minBedsModel.getObject(),
+//                                maxBedsModel.getObject()
+//                        );
+//                    } catch (IOException | InterruptedException e) {
+//                        error("Internal server error: 500");
+//                        return;
+//                    }
+//
+//                    if (!searchValidation(searchAttributes)) {
+//                        informationBox.setVisible(true);
+//                        setResponsePage(getPage());
+//                        return;
+//                    }
+//
+//                    List<ResultMatchHouse> results;
+//
+//                    try {
+//                        results = SearchPanel.this.houseService.getHouseInTimeLimit(searchAttributes);
+//                    } catch (IOException | InterruptedException ignored) {
+//                        //ToDo show Internal server error
+//                        return;
+//                    } catch (TooManyPointsException e) {
+//                        //ToDo show error
+//                        informationBox.setVisible(true);
+//                        error("Time Travel API free location points limit is exceeded");
+//                        error("To process more points Enterprise plan is needed (250 euro per month)");
+//                        error("Hint: Try to narrow down search attributes");
+//                        setResponsePage(getPage());
+//                        return;
+//                    }
+//
+//                    informationBox.setVisible(false);
+//
+//                    if (results.isEmpty()) {
+//                        return;
+//                    }
+//
+//                    // sort by travel time (low to high)
+//                    results.sort(comparing(ResultMatchHouse::getSecondsToTravel));
+//
+//                    // remove old duplicate records
+//                    for(int i = 0; i < results.size() - 1; i++) {
+//
+//                        if(results.get(i).getSecondsToTravel() == results.get(i+1).getSecondsToTravel()){
+//
+//                            if(results.get(i).getHouse().getLat() == results.get(i + 1).getHouse().getLat()
+//                                    && results.get(i).getHouse().getLng() == results.get(i + 1).getHouse().getLng()){
+//
+//                                if(results.get(i).getHouse().getUpdateTime() >
+//                                        results.get(i + 1).getHouse().getUpdateTime()){
+//
+//                                    // remove old duplicate from the list
+//                                    results.remove(i + 1);
+//                                } else {
+//
+//                                    // remove old duplicate from the list
+//                                    results.remove(i);
+//                                }
+//                            }
+//                        }
+//                    }
+//
+//                    changePanelToResult(target, results);
+//                }
+//            });
 
 
             add(new Label("addressLabel", ""));
@@ -134,7 +220,7 @@ public class SearchPanel extends Panel {
             });
 
 
-            List<Integer> timeList = Arrays.asList(10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 59);
+            List<Integer> timeList = Arrays.asList(5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 59);
             DropDownChoice<Integer> time = new DropDownChoice<>("travelTime", travelTimeModel, timeList) {
                 @Override
                 protected String getNullValidDisplayValue() {
@@ -215,12 +301,9 @@ public class SearchPanel extends Panel {
                                 setPrice(minPriceModel.getObject()),
                                 setPrice(maxPriceModel.getObject()),
                                 minBedsModel.getObject(),
-                                maxBedsModel.getObject()
+                                maxBedsModel.getObject(),
+                                credentials
                         );
-                    }catch (NullPointerException e){
-                        informationBox.setVisible(true);
-                        error("Please fill all form fields");
-                        throw new RestartResponseAtInterceptPageException(this.getPage());
                     } catch (IOException | InterruptedException e) {
                         error("Internal server error: 500");
                         return;
@@ -295,10 +378,9 @@ public class SearchPanel extends Panel {
             // for test
             GoogleAddressFormatter addressFormatter = new GoogleAddressFormatter();
             String formattedAddress = addressFormatter.formatAddress(addressModel.getObject());
-            GeoCoordinatesFinder gc = new GeoCoordinatesFinder(addressFormatter, new GMapsHTTPClient());
             GeoCoordinates workCoordinates = new GeoCoordinates();
             try {
-                workCoordinates = gc.getCoordinates(formattedAddress);
+                workCoordinates = gc.getUserAddressCoordinates(formattedAddress);
             } catch (IOException | InterruptedException ignored) {
             }
 
@@ -394,6 +476,8 @@ public class SearchPanel extends Panel {
     }
 
     private void changePanelToResult(AjaxRequestTarget target, List<ResultMatchHouse> houses) {
+
+
         MarkupContainer parent = this.getParent();
 
         ResultPanel resultPanel = new ResultPanel(houses);
@@ -404,6 +488,21 @@ public class SearchPanel extends Panel {
         searchPanel.setOutputMarkupId(true);
         parent.addOrReplace(searchPanel);
         target.add(searchPanel);
+
+//        try {
+//            MarkupContainer parent = this.getParent();
+//
+//            ResultPanel resultPanel = new ResultPanel(houses);
+//            parent.addOrReplace(resultPanel);
+//            target.add(resultPanel);
+//
+//            WebMarkupContainer searchPanel = SearchPanel.this;
+//            searchPanel.setVisible(false);
+//            parent.replace(searchPanel);
+////            target.add(searchPanel);
+//        } catch (ComponentNotFoundException ignored) {
+//        }
+
 
     }
 }

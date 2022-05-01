@@ -1,5 +1,7 @@
 package irl.lyit.DublinSmartHouseSearch.old;
 
+import irl.lyit.DublinSmartHouseSearch.config.Credentials;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -14,6 +16,7 @@ public final class SearchAttributes {
     private long maxPrice;
     private long minBeds;
     private long maxBeds;
+    private Credentials credentials;
 
     private List<BoundingBox> boundingBoxes;
 
@@ -25,7 +28,8 @@ public final class SearchAttributes {
             long minPrice,
             long maxPrice,
             long minBeds,
-            long maxBeds
+            long maxBeds,
+            Credentials credentials
     ) throws IOException, InterruptedException {
         this.coordinates = coordinates;
         this.dateAndTime = dateAndTime;
@@ -35,11 +39,17 @@ public final class SearchAttributes {
         this.maxPrice = maxPrice;
         this.minBeds = minBeds;
         this.maxBeds = maxBeds;
-
+        this.credentials = credentials;
 
         if(coordinates.getLat() != 0 && coordinates.getLng() != 0){
-            // create isochrone map for search
-            boundingBoxes = new CreateIsochroneMap(coordinates, dateAndTime, transportationType, timeLimit).boundingBox();
+            // calculated based on isochrone map
+            boundingBoxes = new CreateIsochroneMap(
+                    coordinates,
+                    dateAndTime,
+                    transportationType,
+                    timeLimit,
+                    credentials
+            ).boundingBox();
         }
     }
 

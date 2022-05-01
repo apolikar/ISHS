@@ -1,5 +1,5 @@
 server:
-  port: 8098
+  port: 8099
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/dshs?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true&useUnicode=yes&characterEncoding=UTF-8
@@ -33,3 +33,9 @@ external:
         enabled: true
     wicketsource:
       enabled: true
+credentials:
+  googleApiKey: AIzaSyBDoe7QtoHzRpGj9RX52T4mzSjkaXzx8lo
+  travelTimeApiKey: 390add03321ba0b75ceda50d6a0baa82
+  travelTimeApplicationId: a8605824
+
+

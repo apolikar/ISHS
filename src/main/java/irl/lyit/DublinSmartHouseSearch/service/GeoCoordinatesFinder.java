@@ -12,21 +12,17 @@ import java.io.IOException;
 @Service
 public class GeoCoordinatesFinder {
 
-    private final GoogleAddressFormatter addressFormatter;
-    private final GMapsHTTPClient gMapsHTTPClient;
-
-
     @Autowired
-    public GeoCoordinatesFinder(GoogleAddressFormatter googleAddressFormatter, GMapsHTTPClient gMapsHTTPClient) {
+    private  GoogleAddressFormatter addressFormatter;
+    @Autowired
+    private  GMapsHTTPClient gMapsHTTPClient;
 
-        this.addressFormatter = googleAddressFormatter;
-        this.gMapsHTTPClient = gMapsHTTPClient;
-    }
 
-    public GeoCoordinates getCoordinates(String address) throws IOException, InterruptedException {
+    public GeoCoordinates getUserAddressCoordinates(String address)
+            throws IOException, InterruptedException {
 
         String formattedAddress = addressFormatter.formatAddress(address);
-        JsonNode jsonNode = gMapsHTTPClient.finalDestination(formattedAddress);
+        JsonNode jsonNode = gMapsHTTPClient.requestAddressInfo(formattedAddress);
 
         GeoCoordinates result = new GeoCoordinates();
 

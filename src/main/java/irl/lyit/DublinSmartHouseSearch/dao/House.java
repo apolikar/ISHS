@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Entity
 @Table
-public class House {
+public class House implements Serializable{
 
     @Id
     @GeneratedValue

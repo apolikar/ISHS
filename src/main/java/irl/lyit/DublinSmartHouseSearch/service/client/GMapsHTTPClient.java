@@ -2,6 +2,8 @@ package irl.lyit.DublinSmartHouseSearch.service.client;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import irl.lyit.DublinSmartHouseSearch.config.Credentials;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -13,12 +15,14 @@ import java.net.http.HttpResponse;
 @Component
 public class GMapsHTTPClient {
 
+    @Autowired
+    private Credentials credentials;
 
-    public JsonNode finalDestination(String address) throws IOException, InterruptedException {
+    public JsonNode requestAddressInfo(String address) throws IOException, InterruptedException {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://maps.googleapis.com/maps/api/geocode/json?address=" +
-                        address + "Ireland&key=AIzaSyBDoe7QtoHzRpGj9RX52T4mzSjkaXzx8lo"))
+                        address + "Ireland&key=" + credentials.getGoogleApiKey()))
                 .build();
         HttpResponse<String> response = HttpClient.newHttpClient()
                 .send(request, HttpResponse.BodyHandlers.ofString());

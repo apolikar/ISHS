@@ -1,5 +1,6 @@
 package irl.lyit.DublinSmartHouseSearch.service;
 
+import irl.lyit.DublinSmartHouseSearch.config.Credentials;
 import irl.lyit.DublinSmartHouseSearch.controller.exception.TooManyPointsException;
 import irl.lyit.DublinSmartHouseSearch.dao.House;
 import irl.lyit.DublinSmartHouseSearch.dao.HouseRepository;
@@ -20,6 +21,8 @@ public class HouseService{
     @Autowired
     private HouseRepository houseRepository;
 
+    @Autowired
+    private Credentials credentials;
 
 
     public List<House> getInBoundary(SearchAttributes searchAttributes) {
@@ -62,7 +65,7 @@ public class HouseService{
         String transportType = searchAttributes.getTransportationType();
         long travelTime = searchAttributes.getTimeLimit();
 
-        TimeTravelMatrix ttm = new TimeTravelMatrix();
+        TimeTravelMatrix ttm = new TimeTravelMatrix(credentials);
 
         List<House> housesInBound = getInBoundary(searchAttributes);
 

@@ -9,22 +9,27 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class TimeTravelIMapIsochroneHTTPClient {
+
+public final class TimeTravelMapIsochroneHTTPClient {
 
     private final String requestString;
+    private final String apiKey;
+    private final String applicationId;
 
-    public TimeTravelIMapIsochroneHTTPClient(String requestString) {
+    public TimeTravelMapIsochroneHTTPClient(String requestString, String apiKey, String applicationId) {
+        this.apiKey = apiKey;
+        this.applicationId = applicationId;
         this.requestString = requestString;
     }
 
-    public JsonNode generateResponseString() throws IOException, InterruptedException {
+    public JsonNode requestIsochroneMap() throws IOException, InterruptedException {
         String postEndpoint = "http://api.traveltimeapp.com/v4/time-map";
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(postEndpoint))
                 .header("Content-Type", "application/json")
-                .header("X-Application-Id", "a8605824")
-                .header("X-Api-Key", "390add03321ba0b75ceda50d6a0baa82")
+                .header("X-Application-Id", applicationId)
+                .header("X-Api-Key", apiKey)
                 .POST(HttpRequest.BodyPublishers.ofString(requestString))
                 .build();
 

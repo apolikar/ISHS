@@ -21,6 +21,5 @@ public class HouseCollectorScheduler {
         this.houseCollector.collect();
     }
 
-
 }
 

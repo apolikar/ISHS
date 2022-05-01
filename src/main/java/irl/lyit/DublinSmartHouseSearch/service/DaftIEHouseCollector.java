@@ -42,18 +42,16 @@ public class DaftIEHouseCollector implements HouseCollector {
         String updateStarts = getDateTimeNow();
 
         int housesPerPage = 0;
-        String url = "https://www.daft.ie/property-for-sale/galway-city/houses?from=" + housesPerPage;
+        String url = "https://www.daft.ie/property-for-sale/houses?from=" + housesPerPage;
 
         // connect to the first page with all available houses
         Document page = checkConnection(url);
-
         if (page == null) {
             return;
         }
-
         int allHousesForSaleNumber = getPropertiesNumber(page);
-        while (housesPerPage < allHousesForSaleNumber) {
 
+        while (housesPerPage < allHousesForSaleNumber) {
             // connect to the next website pages (will stay on first page on the first run)
             page = checkConnection(url + housesPerPage);
             if (page == null) {
@@ -70,21 +68,18 @@ public class DaftIEHouseCollector implements HouseCollector {
             housesPerPage += 20;
         }
 
+        // remove old duplicates from previous update
         houseRepository.deleteByUpdateTimeLessThan(start);
 
+        // create information regarding database update
         String updateEnds = getDateTimeNow();
         long end = System.currentTimeMillis();
-
         updateInfoRepository.save(new UpdateInfo(
                 updateStarts,
                 updateEnds,
                 timeInfo(end - start),
                 houseRepository.count()
         ));
-
-        System.out.println("Last DB update: " + updateStarts);
-        System.out.println("To process " + allHousesForSaleNumber + " houses took: " + timeInfo(end - start));
-
     }
 
 
