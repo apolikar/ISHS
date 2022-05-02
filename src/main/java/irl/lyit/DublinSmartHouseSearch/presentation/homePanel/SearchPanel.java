@@ -334,33 +334,13 @@ public class SearchPanel extends Panel {
 
                     informationBox.setVisible(false);
 
-                    if (results.isEmpty()) {
-                        return;
-                    }
+//                    if (results.isEmpty()) {
+//                        return;
+//                    }
 
                     // sort by travel time (low to high)
                     results.sort(comparing(ResultMatchHouse::getSecondsToTravel));
-
                     results = new DuplicateHouseRemover(results).removeDuplicates();
-
-//                    for(int i = 0; i < results.size() - 1; i++) {
-//
-//                        if(results.get(i).getSecondsToTravel() == results.get(i+1).getSecondsToTravel()){
-//
-//                            if(
-//                                    results.get(i).getHouse().getLat() == results.get(i + 1).getHouse().getLat()
-//                                    && results.get(i).getHouse().getLng() == results.get(i + 1).getHouse().getLng()
-//                            ){
-//                                if(results.get(i).getHouse().getUpdateTime()  > results.get(i + 1).getHouse().getUpdateTime()){
-//
-//                                    results.remove(i + 1);
-//                                } else {
-//
-//                                    results.remove(i);
-//                                }
-//                            }
-//                        }
-//                    }
 
                     changePanelToResult(target, results);
                 }

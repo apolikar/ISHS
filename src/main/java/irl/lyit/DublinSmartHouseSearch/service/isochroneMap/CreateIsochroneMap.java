@@ -1,7 +1,8 @@
-package irl.lyit.DublinSmartHouseSearch.old;
+package irl.lyit.DublinSmartHouseSearch.service.isochroneMap;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import irl.lyit.DublinSmartHouseSearch.config.Credentials;
+import irl.lyit.DublinSmartHouseSearch.old.GeoCoordinates;
 import irl.lyit.DublinSmartHouseSearch.service.client.TimeTravelMapIsochroneHTTPClient;
 
 import java.io.IOException;
@@ -51,7 +52,11 @@ public class CreateIsochroneMap {
 
 
     private JsonNode getAllShapesNode() throws IOException, InterruptedException {
-        TimeTravelMapIsochroneHTTPClient client = new TimeTravelMapIsochroneHTTPClient(generateRequestString(), credentials.getTravelTimeApiKey(), credentials.getTravelTimeApplicationId());
+        TimeTravelMapIsochroneHTTPClient client = new TimeTravelMapIsochroneHTTPClient(
+                generateRequestString(),
+                credentials.getTravelTimeApiKey(),
+                credentials.getTravelTimeApplicationId()
+        );
         JsonNode response = client.requestIsochroneMap();
         JsonNode resultsNode = response.get("results");
         JsonNode firstResultNode = resultsNode.get(0);

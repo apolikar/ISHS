@@ -1,4 +1,6 @@
-package irl.lyit.DublinSmartHouseSearch.old;
+package irl.lyit.DublinSmartHouseSearch.service.isochroneMap;
+
+import irl.lyit.DublinSmartHouseSearch.old.GeoCoordinates;
 
 public class BoundingBox {
 

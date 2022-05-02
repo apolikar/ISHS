@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import irl.lyit.DublinSmartHouseSearch.old.GeoCoordinates;
 import irl.lyit.DublinSmartHouseSearch.service.addressFormatter.GoogleAddressFormatter;
 import irl.lyit.DublinSmartHouseSearch.service.client.GMapsHTTPClient;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.io.IOException;

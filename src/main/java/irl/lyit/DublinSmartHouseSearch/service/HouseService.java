@@ -4,10 +4,10 @@ import irl.lyit.DublinSmartHouseSearch.config.Credentials;
 import irl.lyit.DublinSmartHouseSearch.controller.exception.TooManyPointsException;
 import irl.lyit.DublinSmartHouseSearch.dao.House;
 import irl.lyit.DublinSmartHouseSearch.dao.HouseRepository;
-import irl.lyit.DublinSmartHouseSearch.old.BoundingBox;
+import irl.lyit.DublinSmartHouseSearch.service.isochroneMap.BoundingBox;
 import irl.lyit.DublinSmartHouseSearch.old.GeoCoordinates;
 import irl.lyit.DublinSmartHouseSearch.old.SearchAttributes;
-import irl.lyit.DublinSmartHouseSearch.old.TimeTravelMatrix;
+import irl.lyit.DublinSmartHouseSearch.service.timeMatrix.TimeTravelMatrix;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

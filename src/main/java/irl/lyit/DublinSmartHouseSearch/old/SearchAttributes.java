@@ -1,6 +1,8 @@
 package irl.lyit.DublinSmartHouseSearch.old;
 
 import irl.lyit.DublinSmartHouseSearch.config.Credentials;
+import irl.lyit.DublinSmartHouseSearch.service.isochroneMap.BoundingBox;
+import irl.lyit.DublinSmartHouseSearch.service.isochroneMap.CreateIsochroneMap;
 
 import java.io.IOException;
 import java.util.List;

@@ -1,4 +1,4 @@
-package irl.lyit.DublinSmartHouseSearch.old;
+package irl.lyit.DublinSmartHouseSearch.service.isochroneMap;
 
 
 import org.junit.Test;

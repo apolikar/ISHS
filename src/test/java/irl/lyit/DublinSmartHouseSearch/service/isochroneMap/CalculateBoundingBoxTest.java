@@ -1,5 +1,8 @@
-package irl.lyit.DublinSmartHouseSearch.old;
+package irl.lyit.DublinSmartHouseSearch.service.isochroneMap;
 
+import irl.lyit.DublinSmartHouseSearch.old.GeoCoordinates;
+import irl.lyit.DublinSmartHouseSearch.service.isochroneMap.BoundingBox;
+import irl.lyit.DublinSmartHouseSearch.service.isochroneMap.CalculateBoundingBox;
 import junit.framework.TestCase;
 import org.junit.Test;
 
