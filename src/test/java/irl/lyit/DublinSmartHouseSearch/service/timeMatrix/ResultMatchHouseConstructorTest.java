@@ -1,7 +1,7 @@
 package irl.lyit.DublinSmartHouseSearch.service.timeMatrix;
 
 import irl.lyit.DublinSmartHouseSearch.dao.House;
-import irl.lyit.DublinSmartHouseSearch.service.ResultMatchHouse;
+import irl.lyit.DublinSmartHouseSearch.presentation.homePanel.ResultMatchHouse;
 import junit.framework.TestCase;
 
 public class ResultMatchHouseConstructorTest extends TestCase {

@@ -1,8 +1,7 @@
 package irl.lyit.DublinSmartHouseSearch.service.timeMatrix;
 
 import irl.lyit.DublinSmartHouseSearch.dao.House;
-import irl.lyit.DublinSmartHouseSearch.old.GeoCoordinates;
-import irl.lyit.DublinSmartHouseSearch.service.timeMatrix.TimeMatrixRequestStringGenerator;
+import irl.lyit.DublinSmartHouseSearch.service.geoCoordinates.GeoCoordinates;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;

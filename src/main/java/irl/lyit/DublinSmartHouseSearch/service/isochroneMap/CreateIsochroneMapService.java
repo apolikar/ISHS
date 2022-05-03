@@ -2,58 +2,58 @@ package irl.lyit.DublinSmartHouseSearch.service.isochroneMap;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import irl.lyit.DublinSmartHouseSearch.config.Credentials;
-import irl.lyit.DublinSmartHouseSearch.old.GeoCoordinates;
+import irl.lyit.DublinSmartHouseSearch.service.geoCoordinates.GeoCoordinates;
 import irl.lyit.DublinSmartHouseSearch.service.client.TimeTravelMapIsochroneHTTPClient;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreateIsochroneMap {
+@Service
+public class CreateIsochroneMapService {
 
-    private final GeoCoordinates address;
-    private final String dateAndTime;
-    private final String transportType;
-    private final Long timeLimit;
-    private final Credentials credentials;
+    public List<BoundingBox> boundingBox(
+            SearchAttributes searchAttributes,
+            Credentials credentials
+    ) throws IOException, InterruptedException {
 
-    public CreateIsochroneMap(GeoCoordinates address,
-                              String dateAndTime,
-                              String transportType,
-                              Long timeLimit,
-                              Credentials credentials
-    ) {
-        this.address = address;
-        this.dateAndTime = dateAndTime;
-        this.transportType = transportType;
-        this.timeLimit = timeLimit;
-        this.credentials = credentials;
+        JsonNode allShapes = getAllShapesNode(
+                searchAttributes,
+                credentials
+        );
+        List<List<GeoCoordinates>> allShellsList = setupEachShellBoundingBox(allShapes);
+        return new CalculateBoundingBox(allShellsList).calculateBoundingBoxResult();
     }
 
-    private String generateRequestString() {
+
+    private String generateRequestString(SearchAttributes searchAttributes){
 
         return "{\n" +
                 "  \"arrival_searches\": [\n" +
                 "    {\n" +
                 "      \"id\": \"isochrone-0\",\n" +
                 "      \"coords\": {\n" +
-                "        \"lat\": " + address.getLat() + ",\n" +
-                "        \"lng\": " + address.getLng() + "\n" +
+                "        \"lat\": " + searchAttributes.getCoordinates().getLat() + ",\n" +
+                "        \"lng\": " + searchAttributes.getCoordinates().getLng() + "\n" +
                 "      },\n" +
-                "      \"travel_time\": " + timeLimit + ",\n" +
+                "      \"travel_time\": " + searchAttributes.getTimeLimit() + ",\n" +
                 "      \"transportation\": {\n" +
-                "        \"type\": " + '"' + transportType + '"' + "\n" +
+                "        \"type\": " + '"' + searchAttributes.getTransportationType() + '"' + "\n" +
                 "      },\n" +
-                "      \"arrival_time\": " + '"' + dateAndTime + '"' + "\n" +
+                "      \"arrival_time\": " + '"' + searchAttributes.getDateAndTime() + '"' + "\n" +
                 "    }\n" +
                 "  ]\n" +
                 "}";
     }
 
 
-    private JsonNode getAllShapesNode() throws IOException, InterruptedException {
+    private JsonNode getAllShapesNode(
+            SearchAttributes searchAttributes,
+            Credentials credentials
+    ) throws IOException, InterruptedException {
         TimeTravelMapIsochroneHTTPClient client = new TimeTravelMapIsochroneHTTPClient(
-                generateRequestString(),
+                generateRequestString(searchAttributes),
                 credentials.getTravelTimeApiKey(),
                 credentials.getTravelTimeApplicationId()
         );
@@ -95,12 +95,6 @@ public class CreateIsochroneMap {
         return coordinatesList;
     }
 
-    public List<BoundingBox> boundingBox() throws IOException, InterruptedException {
-
-        JsonNode allShapes = getAllShapesNode();
-        List<List<GeoCoordinates>> allShellsList = setupEachShellBoundingBox(allShapes);
-        return new CalculateBoundingBox(allShellsList).calculateBoundingBoxResult();
-    }
 
 
 }

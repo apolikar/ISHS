@@ -2,7 +2,7 @@ package irl.lyit.DublinSmartHouseSearch.service.timeMatrix;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import irl.lyit.DublinSmartHouseSearch.dao.House;
-import irl.lyit.DublinSmartHouseSearch.service.ResultMatchHouse;
+import irl.lyit.DublinSmartHouseSearch.presentation.homePanel.ResultMatchHouse;
 
 import java.util.ArrayList;
 import java.util.List;

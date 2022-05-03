@@ -4,9 +4,11 @@ import irl.lyit.DublinSmartHouseSearch.config.Credentials;
 import irl.lyit.DublinSmartHouseSearch.controller.exception.TooManyPointsException;
 import irl.lyit.DublinSmartHouseSearch.dao.House;
 import irl.lyit.DublinSmartHouseSearch.dao.HouseRepository;
+import irl.lyit.DublinSmartHouseSearch.presentation.homePanel.ResultMatchHouse;
 import irl.lyit.DublinSmartHouseSearch.service.isochroneMap.BoundingBox;
-import irl.lyit.DublinSmartHouseSearch.old.GeoCoordinates;
-import irl.lyit.DublinSmartHouseSearch.old.SearchAttributes;
+import irl.lyit.DublinSmartHouseSearch.service.geoCoordinates.GeoCoordinates;
+import irl.lyit.DublinSmartHouseSearch.service.isochroneMap.SearchAttributes;
+import irl.lyit.DublinSmartHouseSearch.service.isochroneMap.CreateIsochroneMapService;
 import irl.lyit.DublinSmartHouseSearch.service.timeMatrix.TimeTravelMatrix;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,12 +26,21 @@ public class HouseService{
     @Autowired
     private Credentials credentials;
 
+    @Autowired
+    private CreateIsochroneMapService createIsochroneMapService;
+
 
     public List<House> getInBoundary(SearchAttributes searchAttributes) {
 
+
         List<House> allHousesToCheckList = houseRepository.findAll();
 
-        List<BoundingBox> allBoundingBoxes = searchAttributes.getBoundingBoxes();
+        List<BoundingBox> allBoundingBoxes = null;
+        try {
+            allBoundingBoxes = createIsochroneMapService.boundingBox(searchAttributes, credentials);
+        } catch (IOException | InterruptedException e) {
+            return new ArrayList<>();
+        }
         HousesInBoundingBoxList housesInBoundingBoxList = new HousesInBoundingBoxList(
                 allHousesToCheckList,
                 allBoundingBoxes,

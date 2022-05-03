@@ -1,6 +1,7 @@
-package irl.lyit.DublinSmartHouseSearch.service;
+package irl.lyit.DublinSmartHouseSearch.presentation.homePanel;
 
 import irl.lyit.DublinSmartHouseSearch.dao.House;
+import irl.lyit.DublinSmartHouseSearch.service.TravelTimeInSecondsToUserFriendlyInfo;
 
 import java.io.Serializable;
 

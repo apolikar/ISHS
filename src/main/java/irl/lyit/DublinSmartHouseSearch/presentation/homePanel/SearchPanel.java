@@ -1,25 +1,18 @@
 package irl.lyit.DublinSmartHouseSearch.presentation.homePanel;
 
-import irl.lyit.DublinSmartHouseSearch.config.Credentials;
 import irl.lyit.DublinSmartHouseSearch.controller.exception.TooManyPointsException;
-import irl.lyit.DublinSmartHouseSearch.old.GeoCoordinates;
-import irl.lyit.DublinSmartHouseSearch.old.SearchAttributes;
+import irl.lyit.DublinSmartHouseSearch.service.geoCoordinates.GeoCoordinates;
+import irl.lyit.DublinSmartHouseSearch.service.isochroneMap.SearchAttributes;
 import irl.lyit.DublinSmartHouseSearch.presentation.AboutMe;
 import irl.lyit.DublinSmartHouseSearch.presentation.resultPanel.ResultPanel;
-import irl.lyit.DublinSmartHouseSearch.service.GeoCoordinatesFinder;
+import irl.lyit.DublinSmartHouseSearch.service.geoCoordinates.GeoCoordinatesFinder;
 import irl.lyit.DublinSmartHouseSearch.service.HouseService;
-import irl.lyit.DublinSmartHouseSearch.service.ResultMatchHouse;
 import irl.lyit.DublinSmartHouseSearch.service.TransportionType;
 import irl.lyit.DublinSmartHouseSearch.service.addressFormatter.GoogleAddressFormatter;
-import irl.lyit.DublinSmartHouseSearch.service.client.GMapsHTTPClient;
 import org.apache.wicket.MarkupContainer;
-import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
-import org.apache.wicket.core.request.handler.ComponentNotFoundException;
-import org.apache.wicket.core.request.handler.ListenerInvocationNotAllowedException;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.feedback.FeedbackMessage;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -43,12 +36,11 @@ import static java.util.Comparator.comparing;
 
 public class SearchPanel extends Panel {
 
+
     @SpringBean
     private HouseService houseService;
     @SpringBean
-    private Credentials credentials;
-    @SpringBean
-    private GeoCoordinatesFinder gc;
+    private GeoCoordinatesFinder geoCoordinatesFinder;
 
 
     public SearchPanel() {
@@ -301,8 +293,7 @@ public class SearchPanel extends Panel {
                                 setPrice(minPriceModel.getObject()),
                                 setPrice(maxPriceModel.getObject()),
                                 minBedsModel.getObject(),
-                                maxBedsModel.getObject(),
-                                credentials
+                                maxBedsModel.getObject()
                         );
                     } catch (IOException | InterruptedException e) {
                         error("Internal server error: 500");
@@ -326,7 +317,7 @@ public class SearchPanel extends Panel {
                         //ToDo show error
                         informationBox.setVisible(true);
                         error("Time Travel API free location points limit is exceeded");
-                        error("To process more points Enterprise plan is needed (250 euro per month)");
+                        error("To process more points Enterprise plan is needed (starting from 250 euro per month)");
                         error("Hint: Try to narrow down search attributes");
                         setResponsePage(getPage());
                         return;
@@ -353,7 +344,7 @@ public class SearchPanel extends Panel {
             String formattedAddress = addressFormatter.formatAddress(addressModel.getObject());
             GeoCoordinates workCoordinates = new GeoCoordinates();
             try {
-                workCoordinates = gc.getUserAddressCoordinates(formattedAddress);
+                workCoordinates = geoCoordinatesFinder.getUserAddressCoordinates(formattedAddress);
             } catch (IOException | InterruptedException ignored) {
             }
 

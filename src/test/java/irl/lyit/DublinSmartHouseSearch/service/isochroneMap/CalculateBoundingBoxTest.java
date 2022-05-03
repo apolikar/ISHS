@@ -1,16 +1,16 @@
 package irl.lyit.DublinSmartHouseSearch.service.isochroneMap;
 
-import irl.lyit.DublinSmartHouseSearch.old.GeoCoordinates;
-import irl.lyit.DublinSmartHouseSearch.service.isochroneMap.BoundingBox;
-import irl.lyit.DublinSmartHouseSearch.service.isochroneMap.CalculateBoundingBox;
-import junit.framework.TestCase;
+import irl.lyit.DublinSmartHouseSearch.service.geoCoordinates.GeoCoordinates;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CalculateBoundingBoxTest extends TestCase {
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+
+public class CalculateBoundingBoxTest {
 
     @Test
     public void testCalculateBoundingBoxResult() {
@@ -46,15 +46,7 @@ public class CalculateBoundingBoxTest extends TestCase {
                 )
         );
 
+        assertArrayEquals(expectedResult.toArray(), actualResult.toArray());
 
-        assertEquals(expectedResult.get(0).getBottom().getLat(), actualResult.get(0).getBottom().getLat());
-        assertEquals(expectedResult.get(0).getBottom().getLng(), actualResult.get(0).getBottom().getLng());
-        assertEquals(expectedResult.get(0).getTop().getLat(), actualResult.get(0).getTop().getLat());
-        assertEquals(expectedResult.get(0).getTop().getLng(), actualResult.get(0).getTop().getLng());
-
-        assertEquals(expectedResult.get(1).getBottom().getLat(), actualResult.get(1).getBottom().getLat());
-        assertEquals(expectedResult.get(1).getBottom().getLng(), actualResult.get(1).getBottom().getLng());
-        assertEquals(expectedResult.get(1).getTop().getLat(), actualResult.get(1).getTop().getLat());
-        assertEquals(expectedResult.get(1).getTop().getLng(), actualResult.get(1).getTop().getLng());
     }
 }

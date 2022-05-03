@@ -1,4 +1,4 @@
-package irl.lyit.DublinSmartHouseSearch.old;
+package irl.lyit.DublinSmartHouseSearch.service.geoCoordinates;
 
 public class GeoCoordinates {
 
@@ -27,6 +27,15 @@ public class GeoCoordinates {
   }
 
   public GeoCoordinates() {
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if(!(obj instanceof GeoCoordinates)) {
+      return false;
+    }
+    return lat == ((GeoCoordinates)obj).getLat()
+            && lng == ((GeoCoordinates)obj).getLng();
   }
 
   @Override

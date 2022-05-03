@@ -1,7 +1,5 @@
 package irl.lyit.DublinSmartHouseSearch.presentation.homePanel;
 
-import irl.lyit.DublinSmartHouseSearch.service.ResultMatchHouse;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,22 +17,24 @@ public class DuplicateHouseRemover {
 
         for (int i = 0; i < resultMatchHouseList.size(); i++) {
 
-            if (i + 1 < resultMatchHouseList.size() && resultMatchHouseList.get(i).getSecondsToTravel() == resultMatchHouseList.get(i + 1).getSecondsToTravel()) {
-
-                if (
-                        resultMatchHouseList.get(i).getHouse().getLat() == resultMatchHouseList.get(i + 1).getHouse().getLat()
-                                && resultMatchHouseList.get(i).getHouse().getLng() == resultMatchHouseList.get(i + 1).getHouse().getLng()
-                ) {
-                    if (resultMatchHouseList.get(i).getHouse().getUpdateTime() > resultMatchHouseList.get(i + 1).getHouse().getUpdateTime()) {
-                        sortedListForDuplicates.add(resultMatchHouseList.get(i));
-                    } else {
-                        sortedListForDuplicates.add(resultMatchHouseList.get(i + 1));
-                    }
-                    i++;
-                }
-            } else {
+            if (i + 1 >= resultMatchHouseList.size()
+                    || resultMatchHouseList.get(i).getSecondsToTravel() != resultMatchHouseList.get(i + 1).getSecondsToTravel()) {
                 sortedListForDuplicates.add(resultMatchHouseList.get(i));
+                continue;
             }
+
+            if (resultMatchHouseList.get(i).getHouse().getLat() != resultMatchHouseList.get(i + 1).getHouse().getLat()
+                            || resultMatchHouseList.get(i).getHouse().getLng() != resultMatchHouseList.get(i + 1).getHouse().getLng()) {
+                continue;
+            }
+
+            if (resultMatchHouseList.get(i).getHouse().getUpdateTime() > resultMatchHouseList.get(i + 1).getHouse().getUpdateTime()) {
+                sortedListForDuplicates.add(resultMatchHouseList.get(i));
+            } else {
+                sortedListForDuplicates.add(resultMatchHouseList.get(i + 1));
+            }
+            i++;
+
         }
 
         return sortedListForDuplicates;

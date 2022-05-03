@@ -1,14 +1,13 @@
 package irl.lyit.DublinSmartHouseSearch.presentation.homePanel;
 
 import irl.lyit.DublinSmartHouseSearch.dao.House;
-import irl.lyit.DublinSmartHouseSearch.service.ResultMatchHouse;
-import junit.framework.TestCase;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class DuplicateHouseRemoverTest extends TestCase {
+public class DuplicateHouseRemoverTest {
 
 
     //duplicate results
@@ -34,10 +33,11 @@ public class DuplicateHouseRemoverTest extends TestCase {
         List<ResultMatchHouse> expectedResult = Arrays.asList(r2, r3, r4);
         List<ResultMatchHouse> actualResult = new DuplicateHouseRemover(resultMatchHouseList).removeDuplicates();
 
-        assertEquals(expectedResult, actualResult);
+        Assert.assertEquals(expectedResult, actualResult);
     }
 
 
+    @Test
     public void testRemoveDuplicatesStartGreaterFist() {
 
         List<ResultMatchHouse> resultMatchHouseList = Arrays.asList(r2, r1, r3, r4);
@@ -45,7 +45,7 @@ public class DuplicateHouseRemoverTest extends TestCase {
         List<ResultMatchHouse> expectedResult = Arrays.asList(r2, r3, r4);
         List<ResultMatchHouse> actualResult = new DuplicateHouseRemover(resultMatchHouseList).removeDuplicates();
 
-        assertEquals(expectedResult, actualResult);
+        Assert.assertEquals(expectedResult, actualResult);
     }
 
 
@@ -57,7 +57,7 @@ public class DuplicateHouseRemoverTest extends TestCase {
         List<ResultMatchHouse> expectedResult = Arrays.asList(r3, r2, r4);
         List<ResultMatchHouse> actualResult = new DuplicateHouseRemover(resultMatchHouseList).removeDuplicates();
 
-        assertEquals(expectedResult, actualResult);
+        Assert.assertEquals(expectedResult, actualResult);
     }
 
 
@@ -69,10 +69,11 @@ public class DuplicateHouseRemoverTest extends TestCase {
         List<ResultMatchHouse> expectedResult = Arrays.asList(r3, r2, r4);
         List<ResultMatchHouse> actualResult = new DuplicateHouseRemover(resultMatchHouseList).removeDuplicates();
 
-        assertEquals(expectedResult, actualResult);
+        Assert.assertEquals(expectedResult, actualResult);
     }
 
 
+    @Test
     public void testRemoveDuplicatesEndLowerFist() {
 
         List<ResultMatchHouse> resultMatchHouseList = Arrays.asList(r3, r4, r1, r2);
@@ -80,9 +81,10 @@ public class DuplicateHouseRemoverTest extends TestCase {
         List<ResultMatchHouse> expectedResult = Arrays.asList(r3, r4, r2);
         List<ResultMatchHouse> actualResult = new DuplicateHouseRemover(resultMatchHouseList).removeDuplicates();
 
-        assertEquals(expectedResult, actualResult);
+        Assert.assertEquals(expectedResult, actualResult);
     }
 
+    @Test
     public void testRemoveDuplicatesEndGreaterFist() {
 
         List<ResultMatchHouse> resultMatchHouseList = Arrays.asList(r3, r4, r2, r1);
@@ -90,7 +92,7 @@ public class DuplicateHouseRemoverTest extends TestCase {
         List<ResultMatchHouse> expectedResult = Arrays.asList(r3, r4, r2);
         List<ResultMatchHouse> actualResult = new DuplicateHouseRemover(resultMatchHouseList).removeDuplicates();
 
-        assertEquals(expectedResult, actualResult);
+        Assert.assertEquals(expectedResult, actualResult);
     }
 
 

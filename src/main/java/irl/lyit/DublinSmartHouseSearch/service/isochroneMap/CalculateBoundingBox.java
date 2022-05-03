@@ -1,6 +1,6 @@
 package irl.lyit.DublinSmartHouseSearch.service.isochroneMap;
 
-import irl.lyit.DublinSmartHouseSearch.old.GeoCoordinates;
+import irl.lyit.DublinSmartHouseSearch.service.geoCoordinates.GeoCoordinates;
 
 import java.util.ArrayList;
 import java.util.List;

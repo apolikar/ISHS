@@ -8,11 +8,11 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class CreateIsochroneMapTest {
+public class CreateIsochroneMapServiceTest {
 
     @Test
     public void testBoundingBox() {
-//        CreateIsochroneMap testObject = new CreateIsochroneMap();
+//        CreateIsochroneMapService testObject = new CreateIsochroneMapService();
 //        List<BoundingBox> list = new ArrayList<>();
 //        assertEquals("", list,testObject.boundingBox());
 

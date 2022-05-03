@@ -1,7 +1,7 @@
 package irl.lyit.DublinSmartHouseSearch.service;
 
 import irl.lyit.DublinSmartHouseSearch.dao.House;
-import irl.lyit.DublinSmartHouseSearch.old.SearchAttributes;
+import irl.lyit.DublinSmartHouseSearch.service.isochroneMap.SearchAttributes;
 import irl.lyit.DublinSmartHouseSearch.service.isochroneMap.BoundingBox;
 
 import java.util.ArrayList;

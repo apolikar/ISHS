@@ -1,36 +1,53 @@
 package irl.lyit.DublinSmartHouseSearch.service;
 
-import irl.lyit.DublinSmartHouseSearch.config.Credentials;
-import irl.lyit.DublinSmartHouseSearch.old.GeoCoordinates;
-import irl.lyit.DublinSmartHouseSearch.service.addressFormatter.AddressFormatter;
+import com.fasterxml.jackson.databind.JsonNode;
+import irl.lyit.DublinSmartHouseSearch.service.geoCoordinates.GeoCoordinates;
 import irl.lyit.DublinSmartHouseSearch.service.addressFormatter.GoogleAddressFormatter;
 import irl.lyit.DublinSmartHouseSearch.service.client.GMapsHTTPClient;
-import junit.framework.TestCase;
-import org.apache.wicket.spring.injection.annot.SpringBean;
+import irl.lyit.DublinSmartHouseSearch.service.geoCoordinates.GeoCoordinatesFinder;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 
-public class GeoCoordinatesFinderTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.*;
 
-    @SpringBean
-    private Credentials credentials;
+public class GeoCoordinatesFinderTest {
+
+
 
     @Test
     public void testGetUserAddressCoordinates() throws IOException, InterruptedException {
 
-//        GeoCoordinatesFinder geoCoordinatesFinder = new GeoCoordinatesFinder();
-//
-//        String address = "13+Westbury+Heights";
-//        GeoCoordinates expectedResult = new GeoCoordinates(52.1383154, -8.6603111);
-//
-//        GeoCoordinates actualResult = geoCoordinatesFinder.getUserAddressCoordinates(address);
-//
-//        assertEquals(expectedResult, actualResult);
+        GeoCoordinatesFinder geoCoordinatesFinder = new GeoCoordinatesFinder();
+
+        GoogleAddressFormatter googleAddressFormater = mock(GoogleAddressFormatter.class);
+        geoCoordinatesFinder.setAddressFormatter(googleAddressFormater);
+        when(googleAddressFormater.formatAddress(anyString())).thenReturn("13+Westbury+Heights");
+
+        GMapsHTTPClient gMapsHTTPClient = mock(GMapsHTTPClient.class);
+        geoCoordinatesFinder.setgMapsHTTPClient(gMapsHTTPClient);
+
+        JsonNode jsonNode = mock(JsonNode.class);
+        when(gMapsHTTPClient.requestAddressInfo(anyString())).thenReturn(jsonNode);
+
+        String address = "13+Westbury+Heights";
+        GeoCoordinates expectedResult = new GeoCoordinates(10.0, 10.0);
+
+        when(jsonNode.get(any())).thenReturn(jsonNode);
+        when(jsonNode.get(0)).thenReturn(jsonNode);
+        when(jsonNode.toString()).thenReturn("abc_test");
+        when(jsonNode.asDouble()).thenReturn(10.0);
+
+        GeoCoordinates actualResult = geoCoordinatesFinder.getUserAddressCoordinates(address);
+
+        // we specify that every time we call method user address get coordinates
+        // from GoogleAddressFormatter at least once method format address were called
+        verify(googleAddressFormater, times(1)).formatAddress(address);
+
+        assertEquals(expectedResult, actualResult);
 
     }
 }

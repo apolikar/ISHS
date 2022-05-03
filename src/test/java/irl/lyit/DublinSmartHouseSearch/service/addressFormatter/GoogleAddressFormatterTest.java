@@ -1,9 +1,10 @@
 package irl.lyit.DublinSmartHouseSearch.service.addressFormatter;
 
 import junit.framework.TestCase;
+import org.junit.Assert;
 import org.junit.Test;
 
-public class GoogleAddressFormatterTest extends TestCase {
+public class GoogleAddressFormatterTest {
 
     @Test
     public void testFormatAddress() {
@@ -14,6 +15,6 @@ public class GoogleAddressFormatterTest extends TestCase {
         String expectedResult = "Baggot+Plaza+";
         String actualResult = googleAddressFormatter.formatAddress("Baggot Plaza");
 
-        assertEquals(expectedResult, actualResult);
+        Assert.assertEquals(expectedResult, actualResult);
     }
 }

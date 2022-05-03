@@ -4,7 +4,7 @@ import irl.lyit.DublinSmartHouseSearch.dao.House;
 import irl.lyit.DublinSmartHouseSearch.dao.HouseRepository;
 import irl.lyit.DublinSmartHouseSearch.dao.UpdateInfo;
 import irl.lyit.DublinSmartHouseSearch.dao.UpdateInfoRepository;
-import irl.lyit.DublinSmartHouseSearch.old.GeoCoordinates;
+import irl.lyit.DublinSmartHouseSearch.service.geoCoordinates.GeoCoordinates;
 import irl.lyit.DublinSmartHouseSearch.service.HouseCollector;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -17,7 +17,6 @@ import java.io.IOException;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 
 @Service

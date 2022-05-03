@@ -1,6 +1,6 @@
 package irl.lyit.DublinSmartHouseSearch.service.isochroneMap;
 
-import irl.lyit.DublinSmartHouseSearch.old.GeoCoordinates;
+import irl.lyit.DublinSmartHouseSearch.service.geoCoordinates.GeoCoordinates;
 
 public class BoundingBox {
 
@@ -22,6 +22,15 @@ public class BoundingBox {
 
     public GeoCoordinates getTop() {
         return top;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof BoundingBox)) {
+            return false;
+        }
+        return bottom.equals(((BoundingBox)obj).getBottom())
+                && top.equals(((BoundingBox)obj).getTop());
     }
 
     @Override

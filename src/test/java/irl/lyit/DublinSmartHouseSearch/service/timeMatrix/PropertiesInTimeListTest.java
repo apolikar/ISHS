@@ -3,7 +3,7 @@ package irl.lyit.DublinSmartHouseSearch.service.timeMatrix;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import irl.lyit.DublinSmartHouseSearch.dao.House;
-import irl.lyit.DublinSmartHouseSearch.service.ResultMatchHouse;
+import irl.lyit.DublinSmartHouseSearch.presentation.homePanel.ResultMatchHouse;
 import junit.framework.TestCase;
 
 import java.io.IOException;
