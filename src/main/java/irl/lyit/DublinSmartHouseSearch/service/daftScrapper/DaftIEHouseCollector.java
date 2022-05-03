@@ -1,10 +1,11 @@
-package irl.lyit.DublinSmartHouseSearch.service;
+package irl.lyit.DublinSmartHouseSearch.service.daftScrapper;
 
 import irl.lyit.DublinSmartHouseSearch.dao.House;
 import irl.lyit.DublinSmartHouseSearch.dao.HouseRepository;
 import irl.lyit.DublinSmartHouseSearch.dao.UpdateInfo;
 import irl.lyit.DublinSmartHouseSearch.dao.UpdateInfoRepository;
 import irl.lyit.DublinSmartHouseSearch.old.GeoCoordinates;
+import irl.lyit.DublinSmartHouseSearch.service.HouseCollector;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -74,10 +75,11 @@ public class DaftIEHouseCollector implements HouseCollector {
         // create information regarding database update
         String updateEnds = getDateTimeNow();
         long end = System.currentTimeMillis();
+        TimeInMillisecondsUserFriendlyInfo updateTime = new TimeInMillisecondsUserFriendlyInfo(end - start);
         updateInfoRepository.save(new UpdateInfo(
                 updateStarts,
                 updateEnds,
-                timeInfo(end - start),
+                updateTime.getTimeInfoString(),
                 houseRepository.count()
         ));
     }
@@ -197,8 +199,10 @@ public class DaftIEHouseCollector implements HouseCollector {
         GeoCoordinates houseCoordinates;
 
         try {
-            double lat = Double.parseDouble(geoLocation.substring(geoLocation.lastIndexOf(":") + 1,
-                    geoLocation.indexOf("+")));
+            double lat = Double.parseDouble(
+                    geoLocation.substring(geoLocation.lastIndexOf(":") + 1,
+                    geoLocation.indexOf("+"))
+            );
             double lng = Double.parseDouble(geoLocation.substring(geoLocation.lastIndexOf("-")));
             houseCoordinates = new GeoCoordinates(lat, lng);
 
@@ -277,20 +281,6 @@ public class DaftIEHouseCollector implements HouseCollector {
             return -1;
         }
         return beds;
-    }
-
-
-    /**
-     * Get runtime value string from start to end
-     *
-     * @param ms end - start in ms
-     * @return string with number of minutes and seconds
-     */
-    private static String timeInfo(long ms) {
-
-        long minutes = (ms / 1000) / 60;
-        long seconds = (ms / 1000) % 60;
-        return minutes + " minutes " + seconds + " seconds.";
     }
 
 

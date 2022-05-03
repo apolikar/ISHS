@@ -68,6 +68,9 @@ public class CreateIsochroneMap {
     private List<List<GeoCoordinates>> setupEachShellBoundingBox(
             JsonNode allShapes) {
 
+        System.out.println(allShapes);
+
+
         List<List<GeoCoordinates>> coordinatesList = new ArrayList<>();
 
         // loop through all isochrone map sections
