@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.Assert.assertArrayEquals;
+
 public class PropertiesInTimeListTest extends TestCase {
 
 
@@ -42,15 +44,7 @@ public class PropertiesInTimeListTest extends TestCase {
         PropertiesInTimeList test = new PropertiesInTimeList(testNode, testHouseList);
         List<ResultMatchHouse> actualResult = test.returnResultMatchHouseList();
 
-        assertEquals(expectedResult.size(), actualResult.size());
-        assertEquals(2, actualResult.size());
-
-        assertEquals(expectedResult.get(0).getSecondsToTravel(), actualResult.get(0).getSecondsToTravel());
-        assertEquals(expectedResult.get(0).getHouse().getPrice(), actualResult.get(0).getHouse().getPrice());
-
-        assertEquals(expectedResult.get(1).getSecondsToTravel(), actualResult.get(1).getSecondsToTravel());
-        assertEquals(expectedResult.get(1).getHouse().getPrice(), actualResult.get(1).getHouse().getPrice());
-
+        assertArrayEquals(expectedResult.toArray(), actualResult.toArray());
 
     }
 }

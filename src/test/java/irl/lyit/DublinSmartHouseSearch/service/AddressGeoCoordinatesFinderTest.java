@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import irl.lyit.DublinSmartHouseSearch.service.geoCoordinates.GeoCoordinates;
 import irl.lyit.DublinSmartHouseSearch.service.addressFormatter.GoogleAddressFormatter;
 import irl.lyit.DublinSmartHouseSearch.service.client.GMapsHTTPClient;
-import irl.lyit.DublinSmartHouseSearch.service.geoCoordinates.GeoCoordinatesFinder;
+import irl.lyit.DublinSmartHouseSearch.service.geoCoordinates.AddressGeoCoordinatesFinder;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -14,21 +14,21 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
-public class GeoCoordinatesFinderTest {
+public class AddressGeoCoordinatesFinderTest {
 
 
 
     @Test
     public void testGetUserAddressCoordinates() throws IOException, InterruptedException {
 
-        GeoCoordinatesFinder geoCoordinatesFinder = new GeoCoordinatesFinder();
+        AddressGeoCoordinatesFinder addressGeoCoordinatesFinder = new AddressGeoCoordinatesFinder();
 
         GoogleAddressFormatter googleAddressFormater = mock(GoogleAddressFormatter.class);
-        geoCoordinatesFinder.setAddressFormatter(googleAddressFormater);
+        addressGeoCoordinatesFinder.setAddressFormatter(googleAddressFormater);
         when(googleAddressFormater.formatAddress(anyString())).thenReturn("13+Westbury+Heights");
 
         GMapsHTTPClient gMapsHTTPClient = mock(GMapsHTTPClient.class);
-        geoCoordinatesFinder.setgMapsHTTPClient(gMapsHTTPClient);
+        addressGeoCoordinatesFinder.setgMapsHTTPClient(gMapsHTTPClient);
 
         JsonNode jsonNode = mock(JsonNode.class);
         when(gMapsHTTPClient.requestAddressInfo(anyString())).thenReturn(jsonNode);
@@ -41,7 +41,7 @@ public class GeoCoordinatesFinderTest {
         when(jsonNode.toString()).thenReturn("abc_test");
         when(jsonNode.asDouble()).thenReturn(10.0);
 
-        GeoCoordinates actualResult = geoCoordinatesFinder.getUserAddressCoordinates(address);
+        GeoCoordinates actualResult = addressGeoCoordinatesFinder.getUserAddressCoordinates(address);
 
         // we specify that every time we call method user address get coordinates
         // from GoogleAddressFormatter at least once method format address were called

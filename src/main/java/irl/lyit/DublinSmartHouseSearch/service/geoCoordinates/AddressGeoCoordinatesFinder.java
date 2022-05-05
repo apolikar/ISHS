@@ -9,7 +9,7 @@ import java.io.IOException;
 
 
 @Service
-public class GeoCoordinatesFinder {
+public class AddressGeoCoordinatesFinder {
 
 
     private  GoogleAddressFormatter addressFormatter;

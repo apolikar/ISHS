@@ -13,9 +13,6 @@ public class BoundingBox {
         this.top = top;
     }
 
-    public BoundingBox() {
-    }
-
     public GeoCoordinates getBottom() {
         return bottom;
     }

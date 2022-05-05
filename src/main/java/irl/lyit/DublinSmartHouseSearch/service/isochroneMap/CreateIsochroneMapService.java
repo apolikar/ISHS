@@ -68,16 +68,12 @@ public class CreateIsochroneMapService {
     private List<List<GeoCoordinates>> setupEachShellBoundingBox(
             JsonNode allShapes) {
 
-        System.out.println(allShapes);
-
-
         List<List<GeoCoordinates>> coordinatesList = new ArrayList<>();
 
         // loop through all isochrone map sections
         for (int i = 0; i < allShapes.size(); i++) {
 
             List<GeoCoordinates> shellList = new ArrayList<>();
-
             // single isochrone map section
             JsonNode shell = allShapes.get(i).get("shell");
 

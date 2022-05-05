@@ -1,5 +1,7 @@
 package irl.lyit.DublinSmartHouseSearch.dao;
 
+import irl.lyit.DublinSmartHouseSearch.service.geoCoordinates.GeoCoordinates;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -66,10 +68,6 @@ public class House implements Serializable{
         return price;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
     public String getAddress() {
         return address;
     }
@@ -78,44 +76,29 @@ public class House implements Serializable{
         this.address = address;
     }
 
-    public String getCityOrCounty() {
-        return cityOrCounty;
-    }
-
-    public void setCityOrCounty(String cityOrCounty) {
-        this.cityOrCounty = cityOrCounty;
-    }
-
     public int getBedrooms() {
         return bedrooms;
-    }
-
-    public void setBedrooms(int bedrooms) {
-        this.bedrooms = bedrooms;
     }
 
     public double getLat() {
         return lat;
     }
 
-    public void setLat(double lat) {
-        this.lat = lat;
-    }
-
     public double getLng() {
         return lng;
-    }
-
-    public void setLng(double lng) {
-        this.lng = lng;
     }
 
     public long getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(long updateTime) {
-        this.updateTime = updateTime;
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof House)) {
+            return false;
+        }
+        return lat == ((House)obj).getLat()
+                && lng == ((House)obj).getLng();
     }
 
     @Override

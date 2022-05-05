@@ -28,4 +28,5 @@ public class UpdateInfo {
 
     public UpdateInfo() {
     }
+
 }

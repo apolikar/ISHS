@@ -19,17 +19,9 @@ public class ResultMatchHouse implements Serializable {
         timeString = travelTimeInSeconds.getUserFriendlyTimeInfo();
     }
 
-    public ResultMatchHouse() {
-    }
-
     public House getHouse() {
         return house;
     }
-
-    public double getPrice() {
-        return house.getPrice();
-    }
-
 
     public void setHouse(House house) {
         this.house = house;
@@ -39,25 +31,19 @@ public class ResultMatchHouse implements Serializable {
         return secondsToTravel;
     }
 
-    public void setSecondsToTravel(int secondsToTravel) {
-        this.secondsToTravel = secondsToTravel;
-    }
-
     public String getTimeString() {
         return timeString;
     }
 
-    public void setTimeString(String timeString) {
-        this.timeString = timeString;
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof ResultMatchHouse)) {
+            return false;
+        }
+
+        return house.equals(((ResultMatchHouse)obj).getHouse())
+                && secondsToTravel == ((ResultMatchHouse)obj).getSecondsToTravel();
     }
-
-
-//    private static String timeInfo(long secondsToTravel) {
-//        long minutes = (secondsToTravel % 3600) / 60;
-//        long seconds = secondsToTravel % 60;
-//
-//        return String.format("%02d:%02d", minutes, seconds);
-//    }
 
     @Override
     public String toString() {

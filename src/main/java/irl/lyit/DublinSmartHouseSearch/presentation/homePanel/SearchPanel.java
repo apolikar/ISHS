@@ -1,15 +1,18 @@
 package irl.lyit.DublinSmartHouseSearch.presentation.homePanel;
 
+import com.googlecode.wicket.kendo.ui.form.button.ButtonBehavior;
 import irl.lyit.DublinSmartHouseSearch.controller.exception.TooManyPointsException;
+import irl.lyit.DublinSmartHouseSearch.presentation.HomePage;
 import irl.lyit.DublinSmartHouseSearch.service.geoCoordinates.GeoCoordinates;
 import irl.lyit.DublinSmartHouseSearch.service.isochroneMap.SearchAttributes;
 import irl.lyit.DublinSmartHouseSearch.presentation.AboutMe;
 import irl.lyit.DublinSmartHouseSearch.presentation.resultPanel.ResultPanel;
-import irl.lyit.DublinSmartHouseSearch.service.geoCoordinates.GeoCoordinatesFinder;
+import irl.lyit.DublinSmartHouseSearch.service.geoCoordinates.AddressGeoCoordinatesFinder;
 import irl.lyit.DublinSmartHouseSearch.service.HouseService;
 import irl.lyit.DublinSmartHouseSearch.service.TransportionType;
 import irl.lyit.DublinSmartHouseSearch.service.addressFormatter.GoogleAddressFormatter;
 import org.apache.wicket.MarkupContainer;
+import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
@@ -19,6 +22,7 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -40,7 +44,7 @@ public class SearchPanel extends Panel {
     @SpringBean
     private HouseService houseService;
     @SpringBean
-    private GeoCoordinatesFinder geoCoordinatesFinder;
+    private AddressGeoCoordinatesFinder addressGeoCoordinatesFinder;
 
 
     public SearchPanel() {
@@ -85,86 +89,6 @@ public class SearchPanel extends Panel {
             this.maxPriceModel = new Model<>();
             this.minPriceModel = new Model<>();
             this.maxBedsModel = new Model<>();
-
-
-//            add(new AjaxFormSubmitBehavior("onsubmit") {
-//                @Override
-//                protected void onSubmit(AjaxRequestTarget target) {
-//                    SearchAttributes searchAttributes;
-//
-//                    try {
-//                        searchAttributes = new SearchAttributes(
-//                                getWorkCoordinates(),
-//                                getDateAndTime(),
-//                                travelTimeModel.getObject() * 60,
-//                                getTransportType(),
-//                                setPrice(minPriceModel.getObject()),
-//                                setPrice(maxPriceModel.getObject()),
-//                                minBedsModel.getObject(),
-//                                maxBedsModel.getObject()
-//                        );
-//                    } catch (IOException | InterruptedException e) {
-//                        error("Internal server error: 500");
-//                        return;
-//                    }
-//
-//                    if (!searchValidation(searchAttributes)) {
-//                        informationBox.setVisible(true);
-//                        setResponsePage(getPage());
-//                        return;
-//                    }
-//
-//                    List<ResultMatchHouse> results;
-//
-//                    try {
-//                        results = SearchPanel.this.houseService.getHouseInTimeLimit(searchAttributes);
-//                    } catch (IOException | InterruptedException ignored) {
-//                        //ToDo show Internal server error
-//                        return;
-//                    } catch (TooManyPointsException e) {
-//                        //ToDo show error
-//                        informationBox.setVisible(true);
-//                        error("Time Travel API free location points limit is exceeded");
-//                        error("To process more points Enterprise plan is needed (250 euro per month)");
-//                        error("Hint: Try to narrow down search attributes");
-//                        setResponsePage(getPage());
-//                        return;
-//                    }
-//
-//                    informationBox.setVisible(false);
-//
-//                    if (results.isEmpty()) {
-//                        return;
-//                    }
-//
-//                    // sort by travel time (low to high)
-//                    results.sort(comparing(ResultMatchHouse::getSecondsToTravel));
-//
-//                    // remove old duplicate records
-//                    for(int i = 0; i < results.size() - 1; i++) {
-//
-//                        if(results.get(i).getSecondsToTravel() == results.get(i+1).getSecondsToTravel()){
-//
-//                            if(results.get(i).getHouse().getLat() == results.get(i + 1).getHouse().getLat()
-//                                    && results.get(i).getHouse().getLng() == results.get(i + 1).getHouse().getLng()){
-//
-//                                if(results.get(i).getHouse().getUpdateTime() >
-//                                        results.get(i + 1).getHouse().getUpdateTime()){
-//
-//                                    // remove old duplicate from the list
-//                                    results.remove(i + 1);
-//                                } else {
-//
-//                                    // remove old duplicate from the list
-//                                    results.remove(i);
-//                                }
-//                            }
-//                        }
-//                    }
-//
-//                    changePanelToResult(target, results);
-//                }
-//            });
 
 
             add(new Label("addressLabel", ""));
@@ -296,7 +220,12 @@ public class SearchPanel extends Panel {
                                 maxBedsModel.getObject()
                         );
                     } catch (IOException | InterruptedException e) {
-                        error("Internal server error: 500");
+
+                        informationBox.setVisible(true);
+                        error("Not enough information to proceed ... ");
+                        error("Hint: Please fill all form fields");
+                        form.clearInput();
+                        setResponsePage(HomePage.class);
                         return;
                     }
 
@@ -339,12 +268,11 @@ public class SearchPanel extends Panel {
         }
 
         private GeoCoordinates getWorkCoordinates() {
-            // for test
             GoogleAddressFormatter addressFormatter = new GoogleAddressFormatter();
             String formattedAddress = addressFormatter.formatAddress(addressModel.getObject());
             GeoCoordinates workCoordinates = new GeoCoordinates();
             try {
-                workCoordinates = geoCoordinatesFinder.getUserAddressCoordinates(formattedAddress);
+                workCoordinates = addressGeoCoordinatesFinder.getUserAddressCoordinates(formattedAddress);
             } catch (IOException | InterruptedException ignored) {
             }
 
@@ -387,6 +315,7 @@ public class SearchPanel extends Panel {
                 error("Hint: Eircode might be entered as address as well");
                 return false;
             }
+
 
             if (currentSearch.getMaxPrice() < currentSearch.getMinPrice()) {
                 error("Please select min and max price in proper order");
