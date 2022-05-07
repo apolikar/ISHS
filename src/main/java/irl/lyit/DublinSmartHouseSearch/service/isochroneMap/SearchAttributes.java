@@ -9,29 +9,40 @@ public final class SearchAttributes {
 
     private final GeoCoordinates coordinates;
     private final String dateAndTime;
-    private final long timeLimit;
+    private final Long timeLimit;
     private final String transportationType;
-    private final long minPrice;
-    private final long maxPrice;
-    private final long minBeds;
-    private final long maxBeds;
+    private final Integer minPrice;
+    private final Integer maxPrice;
+    private final Integer minBeds;
+    private final Integer maxBeds;
 
     public SearchAttributes(
             GeoCoordinates coordinates,
             String dateAndTime,
-            long timeLimit,
+            Integer timeLimit,
             String transportationType,
-            long minPrice,
-            long maxPrice,
-            long minBeds,
-            long maxBeds
+            String minPrice,
+            String maxPrice,
+            Integer minBeds,
+            Integer maxBeds
     ) throws IOException, InterruptedException {
         this.coordinates = coordinates;
         this.dateAndTime = dateAndTime;
-        this.timeLimit = timeLimit;
+        this.timeLimit = timeLimit == null ? null : timeLimit * 60L;
         this.transportationType = transportationType;
-        this.minPrice = minPrice;
-        this.maxPrice = maxPrice;
+
+        if (minPrice == null) {
+            this.minPrice = null;
+        } else {
+            this.minPrice = setPrice(minPrice);
+        }
+
+        if (minPrice == null) {
+            this.maxPrice = null;
+        } else {
+            this.maxPrice = setPrice(maxPrice);
+        }
+
         this.minBeds = minBeds;
         this.maxBeds = maxBeds;
     }
@@ -44,7 +55,7 @@ public final class SearchAttributes {
         return dateAndTime;
     }
 
-    public long getTimeLimit() {
+    public Long getTimeLimit() {
         return timeLimit;
     }
 
@@ -52,19 +63,66 @@ public final class SearchAttributes {
         return transportationType;
     }
 
-    public long getMinPrice() {
+    public Integer getMinPrice() {
         return minPrice;
     }
 
-    public long getMaxPrice() {
+    public Integer getMaxPrice() {
         return maxPrice;
     }
 
-    public long getMinBeds() {
+    public Integer getMinBeds() {
         return minBeds;
     }
 
-    public long getMaxBeds() {
+    public Integer getMaxBeds() {
         return maxBeds;
+    }
+
+    public boolean isCoordinatesValid() {
+        return getCoordinates() != null
+                && getCoordinates().getLat() > 0
+                && getCoordinates().getLng() > 0;
+    }
+
+    public boolean isPriceValid() {
+        return getMaxPrice() != null
+                && getMinPrice() != null
+                && getMaxPrice() < getMinPrice();
+    }
+
+    public boolean isBedsAmountValid() {
+        return getMaxBeds() != null
+                && getMinBeds() != null
+                 && getMaxBeds() > getMinBeds();
+    }
+
+    private int setPrice(String price) {
+
+        return switch (price) {
+            case "€100K" -> 100_000;
+            case "€150K" -> 150_000;
+            case "€200K" -> 200_000;
+            case "€250K" -> 250_000;
+            case "€300K" -> 300_000;
+            case "€350K" -> 350_000;
+            case "€450K" -> 450_000;
+            case "€500K" -> 500_000;
+            case "€550K" -> 550_000;
+            case "€600K" -> 600_000;
+            case "€650K" -> 650_000;
+            case "€700K" -> 700_000;
+            case "€750K" -> 750_000;
+            case "€800K" -> 800_000;
+            case "€850K" -> 850_000;
+            case "€900K" -> 900_000;
+            case "€950K" -> 950_000;
+            case "€1M" -> 1_000_000;
+            case "€1.5M" -> 1_500_000;
+            case "€2M" -> 2_000_000;
+            case "€3M" -> 3_000_000;
+            case "€4M" -> 4_000_000;
+            default -> 5_000_000;
+        };
     }
 }

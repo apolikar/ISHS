@@ -3,6 +3,7 @@ package irl.lyit.DublinSmartHouseSearch.presentation.homePanel;
 import com.googlecode.wicket.kendo.ui.form.button.ButtonBehavior;
 import irl.lyit.DublinSmartHouseSearch.controller.exception.TooManyPointsException;
 import irl.lyit.DublinSmartHouseSearch.presentation.HomePage;
+import irl.lyit.DublinSmartHouseSearch.presentation.homePanel.Exception.FormValidationError;
 import irl.lyit.DublinSmartHouseSearch.service.geoCoordinates.GeoCoordinates;
 import irl.lyit.DublinSmartHouseSearch.service.isochroneMap.SearchAttributes;
 import irl.lyit.DublinSmartHouseSearch.presentation.AboutMe;
@@ -191,10 +192,8 @@ public class SearchPanel extends Panel {
             add(price2);
 
             informationBox = new WebMarkupContainer("alertInfo");
-            informationBox.add(new FeedbackPanel("feedbackMessage",
-                    new ExactErrorLevelFilter(FeedbackMessage.ERROR)));
+            informationBox.add(feedbackMessage(null));
             add(informationBox);
-            informationBox.setVisible(false);
 
 
             spinnerBox = new WebMarkupContainer("spinnerLoad");
@@ -212,10 +211,10 @@ public class SearchPanel extends Panel {
                         searchAttributes = new SearchAttributes(
                                 getWorkCoordinates(),
                                 getDateAndTime(),
-                                travelTimeModel.getObject() * 60,
+                                travelTimeModel.getObject(),
                                 getTransportType(),
-                                setPrice(minPriceModel.getObject()),
-                                setPrice(maxPriceModel.getObject()),
+                                minPriceModel.getObject(),
+                                maxPriceModel.getObject(),
                                 minBedsModel.getObject(),
                                 maxBedsModel.getObject()
                         );
@@ -229,9 +228,13 @@ public class SearchPanel extends Panel {
                         return;
                     }
 
-                    if (!searchValidation(searchAttributes)) {
-                        informationBox.setVisible(true);
-                        setResponsePage(getPage());
+                    try {
+                        searchValidation(searchAttributes);
+                    } catch (FormValidationError e) {
+                        Label feedback = feedbackMessage(e.getMessage() + " " + e.getErrorDescription());
+                        informationBox.replace(feedback);
+                        target.add(feedback);
+
                         return;
                     }
 
@@ -268,6 +271,10 @@ public class SearchPanel extends Panel {
         }
 
         private GeoCoordinates getWorkCoordinates() {
+            if (addressModel.getObject() == null) {
+                return null;
+            }
+
             GoogleAddressFormatter addressFormatter = new GoogleAddressFormatter();
             String formattedAddress = addressFormatter.formatAddress(addressModel.getObject());
             GeoCoordinates workCoordinates = new GeoCoordinates();
@@ -283,11 +290,22 @@ public class SearchPanel extends Panel {
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date date = dateModel.getObject();
+
+            if (date == null
+                    || hourModel.getObject() == null
+                    || minuteModel.getObject() == null) {
+                return null;
+            }
+
             String time = hourModel.getObject() + ":" + minuteModel.getObject();
             return sdf.format(date) + "T" + time + ":00.000Z";
         }
 
         private String getTransportType() {
+            if (transportModel.getObject() == null) {
+                return null;
+            }
+
             switch (transportModel.getObject()) {
                 case PUBLIC_TRANSPORT -> {
                     return "public_transport";
@@ -303,69 +321,46 @@ public class SearchPanel extends Panel {
         }
 
 
-        private boolean searchValidation(SearchAttributes currentSearch) {
+        private void searchValidation(SearchAttributes currentSearch) throws FormValidationError {
+            if (!currentSearch.isCoordinatesValid()) {
+                throw new FormValidationError(
+                        "Your address doesn't exist",
+                        "Hint: Eircode might be entered as address as well"
+                );
+            }
+
+
+            if (!currentSearch.isPriceValid()) {
+                throw new FormValidationError(
+                        "Please select min and max price in proper order",
+                        "Hint: min price <= max price"
+                );
+            }
+
+            if (!currentSearch.isBedsAmountValid()) {
+                throw new FormValidationError(
+                        "Please select min and max beds in proper order",
+                        "Hint: min beds <= max beds"
+                );
+            }
 
             LocalDateTime now = LocalDateTime.now();
-            String trimmedSearchTime = getDateAndTime().substring(0, 19);
-            LocalDateTime searchDateTime = LocalDateTime.parse(trimmedSearchTime);
+            String dateAndTime = getDateAndTime();
 
-            if (currentSearch.getCoordinates().getLat() == 0
-                    && currentSearch.getCoordinates().getLng() == 0) {
-                error("Your address doesn't exist");
-                error("Hint: Eircode might be entered as address as well");
-                return false;
+            if (dateAndTime == null
+                    || LocalDateTime.parse(dateAndTime.substring(0, 19)).isBefore(now)) {
+                throw new FormValidationError(
+                        "Please enter date and time which are in future",
+                        "Hint: date and time should be greater than now"
+                );
             }
-
-
-            if (currentSearch.getMaxPrice() < currentSearch.getMinPrice()) {
-                error("Please select min and max price in proper order");
-                error("Hint: min price <= max price");
-                return false;
-            }
-
-            if (currentSearch.getMaxBeds() < currentSearch.getMinBeds()) {
-                error("Please select min and max beds in proper order");
-                error("Hint: min beds <= max beds");
-                return false;
-            }
-
-            if (searchDateTime.isBefore(now)) {
-                error("Please enter date and time which are in future");
-                error("Hint: date and time should be greater than now");
-                return false;
-            }
-
-            return true;
         }
+    }
 
-        private int setPrice(String price) {
-
-            return switch (price) {
-                case "€100K" -> 100_000;
-                case "€150K" -> 150_000;
-                case "€200K" -> 200_000;
-                case "€250K" -> 250_000;
-                case "€300K" -> 300_000;
-                case "€350K" -> 350_000;
-                case "€450K" -> 450_000;
-                case "€500K" -> 500_000;
-                case "€550K" -> 550_000;
-                case "€600K" -> 600_000;
-                case "€650K" -> 650_000;
-                case "€700K" -> 700_000;
-                case "€750K" -> 750_000;
-                case "€800K" -> 800_000;
-                case "€850K" -> 850_000;
-                case "€900K" -> 900_000;
-                case "€950K" -> 950_000;
-                case "€1M" -> 1_000_000;
-                case "€1.5M" -> 1_500_000;
-                case "€2M" -> 2_000_000;
-                case "€3M" -> 3_000_000;
-                case "€4M" -> 4_000_000;
-                default -> 5_000_000;
-            };
-        }
+    private Label feedbackMessage(String message) {
+        Label feedbackMessage = new Label("feedbackMessage", message);
+        feedbackMessage.setOutputMarkupId(true);
+        return feedbackMessage;
     }
 
     private void changePanelToResult(AjaxRequestTarget target, List<ResultMatchHouse> houses) {
