@@ -111,30 +111,14 @@
 			</resource>
 		</resources>
 		<plugins>
-			<!-- SPRING -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<!-- jUNIT -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-			</plugin>
-
-			<!-- JAR -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.0.0</version>
-				<configuration>
-					<archive>
-						<manifest>
-							<addClasspath>true</addClasspath>
-							<mainClass>irl.lyit.DublinSmartHouseSearch</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
+				<version>3.2.2</version>
 			</plugin>
 		</plugins>
 	</build>
