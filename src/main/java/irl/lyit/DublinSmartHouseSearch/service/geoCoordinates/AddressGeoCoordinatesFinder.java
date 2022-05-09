@@ -38,7 +38,7 @@ public class AddressGeoCoordinatesFinder {
         if(!jsonNode.toString().contains("natural_feature")) {
             JsonNode results = jsonNode.get("results");
 
-            if (!(results instanceof ArrayNode) || results.size() == 0) {
+            if (results == null || results.size() == 0) {
                 return result;
             }
 

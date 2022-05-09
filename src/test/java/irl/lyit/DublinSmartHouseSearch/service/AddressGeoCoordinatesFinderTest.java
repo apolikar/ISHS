@@ -38,6 +38,7 @@ public class AddressGeoCoordinatesFinderTest {
 
         when(jsonNode.get(any())).thenReturn(jsonNode);
         when(jsonNode.get(0)).thenReturn(jsonNode);
+        when(jsonNode.size()).thenReturn(1);
         when(jsonNode.toString()).thenReturn("abc_test");
         when(jsonNode.asDouble()).thenReturn(10.0);
 
