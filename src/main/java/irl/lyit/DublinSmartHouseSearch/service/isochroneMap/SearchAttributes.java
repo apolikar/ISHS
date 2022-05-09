@@ -81,20 +81,20 @@ public final class SearchAttributes {
 
     public boolean isCoordinatesValid() {
         return getCoordinates() != null
-                && getCoordinates().getLat() > 0
-                && getCoordinates().getLng() > 0;
+                && getCoordinates().getLat() != 0
+                && getCoordinates().getLng() != 0;
     }
 
     public boolean isPriceValid() {
         return getMaxPrice() != null
                 && getMinPrice() != null
-                && getMaxPrice() < getMinPrice();
+                && getMaxPrice() >= getMinPrice();
     }
 
     public boolean isBedsAmountValid() {
         return getMaxBeds() != null
                 && getMinBeds() != null
-                 && getMaxBeds() > getMinBeds();
+                 && getMaxBeds() >= getMinBeds();
     }
 
     private int setPrice(String price) {

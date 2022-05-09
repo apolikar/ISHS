@@ -14,15 +14,15 @@ public class SearchAttributesTest extends TestCase {
         SearchAttributes searchAttributes = new SearchAttributes(
             new GeoCoordinates(52.1383154, -8.6603111),
                 "2022-05-01T08:00:00.000Z",
-                1800,
+                30,
                 "public_transport",
-                5,
-                10,
+                "5",
+                "10",
                 1,
                 3
         );
 
-        assertEquals("Time Limit Test", 1800, searchAttributes.getTimeLimit());
+        assertEquals("Time Limit Test", 1800L, (long) searchAttributes.getTimeLimit());
         // finish all fields
 
 

@@ -12,21 +12,21 @@ import java.util.List;
 
 public class HousesInBoundingBoxListTest extends TestCase {
 
-    private House h1 =  new House("link", 100.00,
+    private House h1 =  new House("link", 100000.00,
             "address", "Donegal", 1, 1, -10, 100);
-    private House h2 = new House("link", 200.00,
+    private House h2 = new House("link", 200000.00,
             "address", "Donegal", 2, 2, -11, 100);
-    private House h3 = new House("link", 300.00,
+    private House h3 = new House("link", 300000.00,
             "address", "Donegal", 3, 3, -12, 100);
-    private House h4 =  new House("link", 400.00,
+    private House h4 =  new House("link", 400000.00,
             "address", "Donegal", 4, 4, -13, 100);
-    private House h5 =  new House("link", 500.00,
+    private House h5 =  new House("link", 500000.00,
             "address", "Donegal", 1, 5, -10, 100);
-    private House h6 = new House("link", 600.00,
+    private House h6 = new House("link", 600000.00,
             "address", "Donegal", 2, 6, -11, 100);
-    private House h7 = new House("link", 700.00,
+    private House h7 = new House("link", 700000.00,
             "address", "Donegal", 3, 7, -12, 100);
-    private House h8 =  new House("link", 300.00,
+    private House h8 =  new House("link", 300000.00,
             "address", "Donegal", 4, 8, -13, 100);
 
 
@@ -49,8 +49,8 @@ public class HousesInBoundingBoxListTest extends TestCase {
                 "some date and time string",
                 300,
                 "some transport",
-                200,
-                400,
+                "€200K",
+                "€450K",
                 2,
                 4
         );

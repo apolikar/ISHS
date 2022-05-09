@@ -1,6 +1,5 @@
 package irl.lyit.DublinSmartHouseSearch.presentation.homePanel;
 
-import com.googlecode.wicket.kendo.ui.form.button.ButtonBehavior;
 import irl.lyit.DublinSmartHouseSearch.controller.exception.TooManyPointsException;
 import irl.lyit.DublinSmartHouseSearch.presentation.HomePage;
 import irl.lyit.DublinSmartHouseSearch.presentation.homePanel.Exception.FormValidationError;
@@ -13,7 +12,6 @@ import irl.lyit.DublinSmartHouseSearch.service.HouseService;
 import irl.lyit.DublinSmartHouseSearch.service.TransportionType;
 import irl.lyit.DublinSmartHouseSearch.service.addressFormatter.GoogleAddressFormatter;
 import org.apache.wicket.MarkupContainer;
-import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
@@ -23,7 +21,6 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -64,7 +61,6 @@ public class SearchPanel extends Panel {
     private class AddressForm extends Form<Void> {
 
         private WebMarkupContainer informationBox;
-        private WebMarkupContainer spinnerBox;
         private final Model<String> addressModel;
         private final Model<Date> dateModel;
         private final Model<String> hourModel;
@@ -195,16 +191,16 @@ public class SearchPanel extends Panel {
             informationBox.add(feedbackMessage(null));
             add(informationBox);
 
-
-            spinnerBox = new WebMarkupContainer("spinnerLoad");
-            spinnerBox.add(new FeedbackPanel("spinnerIcon", new ExactErrorLevelFilter(FeedbackMessage.SUCCESS)));
-            add(spinnerBox);
-            spinnerBox.setVisible(false);
+            add(new SpinnerComponent().setVisible(false));
 
 
             add(new AjaxButton("searchBtn") {
                 @Override
                 protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+                    SpinnerComponent spinnerBox = new SpinnerComponent();
+                    AddressForm.this.addOrReplace(spinnerBox);
+                    target.add(spinnerBox);
+
                     SearchAttributes searchAttributes;
 
                     try {
@@ -225,6 +221,7 @@ public class SearchPanel extends Panel {
                         error("Hint: Please fill all form fields");
                         form.clearInput();
                         setResponsePage(HomePage.class);
+
                         return;
                     }
 
@@ -235,6 +232,11 @@ public class SearchPanel extends Panel {
                         informationBox.replace(feedback);
                         target.add(feedback);
 
+                        spinnerBox = new SpinnerComponent();
+                        spinnerBox.setVisible(false);
+                        AddressForm.this.addOrReplace(spinnerBox);
+                        target.add(spinnerBox);
+
                         return;
                     }
 
@@ -243,10 +245,8 @@ public class SearchPanel extends Panel {
                     try {
                         results = SearchPanel.this.houseService.getHouseInTimeLimit(searchAttributes);
                     } catch (IOException | InterruptedException ignored) {
-                        //ToDo show Internal server error
                         return;
                     } catch (TooManyPointsException e) {
-                        //ToDo show error
                         informationBox.setVisible(true);
                         error("Time Travel API free location points limit is exceeded");
                         error("To process more points Enterprise plan is needed (starting from 250 euro per month)");
@@ -257,9 +257,13 @@ public class SearchPanel extends Panel {
 
                     informationBox.setVisible(false);
 
+
+
+
 //                    if (results.isEmpty()) {
 //                        return;
 //                    }
+
 
                     // sort by travel time (low to high)
                     results.sort(comparing(ResultMatchHouse::getSecondsToTravel));
@@ -377,20 +381,6 @@ public class SearchPanel extends Panel {
         parent.addOrReplace(searchPanel);
         target.add(searchPanel);
 
-//        try {
-//            MarkupContainer parent = this.getParent();
-//
-//            ResultPanel resultPanel = new ResultPanel(houses);
-//            parent.addOrReplace(resultPanel);
-//            target.add(resultPanel);
-//
-//            WebMarkupContainer searchPanel = SearchPanel.this;
-//            searchPanel.setVisible(false);
-//            parent.replace(searchPanel);
-////            target.add(searchPanel);
-//        } catch (ComponentNotFoundException ignored) {
-//        }
-
-
     }
+
 }
