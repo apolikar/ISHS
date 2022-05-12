@@ -1,7 +1,9 @@
 package irl.lyit.DublinSmartHouseSearch;
 
 import irl.lyit.DublinSmartHouseSearch.presentation.HomePage;
+import org.apache.wicket.Application;
 import org.apache.wicket.Page;
+import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.core.request.mapper.HomePageMapper;
 import org.apache.wicket.core.request.mapper.MountedMapper;
 import org.apache.wicket.protocol.http.WebApplication;
@@ -35,7 +37,6 @@ import static org.apache.wicket.protocol.http.WicketFilter.APP_FACT_PARAM;
 @EnableScheduling
 @EnableCaching
 @EnableAsync
-//@ConfigurationProperties
 public class DublinSmartHouseSearchApplication extends WebApplication {
 
 
@@ -45,6 +46,13 @@ public class DublinSmartHouseSearchApplication extends WebApplication {
         SpringApplication.run(DublinSmartHouseSearchApplication.class, args);
     }
 
+
+    @Override
+    public RuntimeConfigurationType getConfigurationType() {
+        return RuntimeConfigurationType.DEPLOYMENT;
+    }
+
+
     @Override
     public void init()
     {
@@ -53,8 +61,8 @@ public class DublinSmartHouseSearchApplication extends WebApplication {
         getRequestCycleSettings().setResponseRequestEncoding("UTF-8");
         getMarkupSettings().setDefaultMarkupEncoding("UTF-8");
 
-        getDebugSettings().setOutputMarkupContainerClassName(true);
-        getDebugSettings().setAjaxDebugModeEnabled(true);
+        getDebugSettings().setOutputMarkupContainerClassName(false);
+        getDebugSettings().setAjaxDebugModeEnabled(false);
 
         getComponentInstantiationListeners().add(new SpringComponentInjector(this));
 

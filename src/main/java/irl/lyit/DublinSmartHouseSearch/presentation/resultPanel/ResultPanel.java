@@ -46,6 +46,8 @@ public class ResultPanel extends Panel {
         });
 
         add(new Label("totalHouses", new Model<>(houses.size())));
+        add(new Label("announcement", houses.isEmpty() ? "Unfortunately" : "Congratulations"));
+        add(new Label("message", houses.isEmpty() ? "There are no matching houses found." : "You have matching houses found."));
 
         ListDataProvider<ResultMatchHouse> listDataProvider = new ListDataProvider<>(houses);
 

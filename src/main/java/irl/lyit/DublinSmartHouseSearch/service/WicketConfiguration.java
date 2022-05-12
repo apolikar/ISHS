@@ -21,4 +21,6 @@ public class WicketConfiguration implements ServletContextInitializer {
     public int getRefreshingDuration() {
         return refreshingDuration;
     }
+
+
 }
