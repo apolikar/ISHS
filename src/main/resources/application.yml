@@ -24,17 +24,6 @@ logging:
     path: logs
 wicket:
   configuration: production
-external:
-  development:
-    devutils:
-      statelesschecker:
-        enabled: true
-      interceptor:
-        enable-live-sessions-page: true
-      diskstorebrowser:
-        enabled: true
-    wicketsource:
-      enabled: true
 credentials:
   googleApiKey:
   travelTimeApiKey:
