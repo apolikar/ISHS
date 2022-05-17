@@ -1,4 +1,4 @@
-package irl.lyit.DublinSmartHouseSearch.presentation.homePanel;
+package irl.lyit.DublinSmartHouseSearch.presentation.searchPanel;
 
 
 import org.apache.wicket.feedback.FeedbackMessage;

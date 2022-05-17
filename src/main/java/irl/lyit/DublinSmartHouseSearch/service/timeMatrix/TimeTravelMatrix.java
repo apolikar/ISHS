@@ -6,7 +6,7 @@ import irl.lyit.DublinSmartHouseSearch.config.Credentials;
 import irl.lyit.DublinSmartHouseSearch.controller.exception.TooManyPointsException;
 import irl.lyit.DublinSmartHouseSearch.dao.House;
 import irl.lyit.DublinSmartHouseSearch.service.geoCoordinates.GeoCoordinates;
-import irl.lyit.DublinSmartHouseSearch.presentation.homePanel.ResultMatchHouse;
+import irl.lyit.DublinSmartHouseSearch.presentation.searchPanel.ResultMatchHouse;
 import irl.lyit.DublinSmartHouseSearch.service.client.TimeTravelTimeMatrixHTTPClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

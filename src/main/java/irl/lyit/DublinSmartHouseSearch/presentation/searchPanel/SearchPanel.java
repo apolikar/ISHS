@@ -1,8 +1,8 @@
-package irl.lyit.DublinSmartHouseSearch.presentation.homePanel;
+package irl.lyit.DublinSmartHouseSearch.presentation.searchPanel;
 
 import irl.lyit.DublinSmartHouseSearch.controller.exception.TooManyPointsException;
 import irl.lyit.DublinSmartHouseSearch.presentation.HomePage;
-import irl.lyit.DublinSmartHouseSearch.presentation.homePanel.Exception.FormValidationError;
+import irl.lyit.DublinSmartHouseSearch.presentation.searchPanel.Exception.FormValidationError;
 import irl.lyit.DublinSmartHouseSearch.service.geoCoordinates.GeoCoordinates;
 import irl.lyit.DublinSmartHouseSearch.service.isochroneMap.SearchAttributes;
 import irl.lyit.DublinSmartHouseSearch.presentation.AboutMe;
@@ -189,16 +189,10 @@ public class SearchPanel extends Panel {
             informationBox.add(feedbackMessage(null));
             add(informationBox);
 
-            add(new SpinnerComponent().setVisible(false));
-
 
             add(new AjaxButton("searchBtn") {
                 @Override
                 protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-                    SpinnerComponent spinnerBox = new SpinnerComponent();
-                    AddressForm.this.addOrReplace(spinnerBox);
-                    target.add(spinnerBox);
-
                     SearchAttributes searchAttributes;
 
                     try {
@@ -230,11 +224,6 @@ public class SearchPanel extends Panel {
                         informationBox.replace(feedback);
                         target.add(feedback);
 
-                        spinnerBox = new SpinnerComponent();
-                        spinnerBox.setVisible(false);
-                        AddressForm.this.addOrReplace(spinnerBox);
-                        target.add(spinnerBox);
-
                         return;
                     }
 
@@ -253,14 +242,6 @@ public class SearchPanel extends Panel {
                         return;
                     }
                     informationBox.setVisible(false);
-
-
-
-
-//                    if (results.isEmpty()) {
-//                        return;
-//                    }
-
 
                     // sort by travel time (low to high)
                     results.sort(comparing(ResultMatchHouse::getSecondsToTravel));
@@ -326,22 +307,7 @@ public class SearchPanel extends Panel {
             if (!currentSearch.isCoordinatesValid()) {
                 throw new FormValidationError(
                         "Your address doesn't exist",
-                        "Hint: Eircode might be entered as address as well"
-                );
-            }
-
-
-            if (!currentSearch.isPriceValid()) {
-                throw new FormValidationError(
-                        "Please select min and max price in proper order",
-                        "Hint: min price <= max price"
-                );
-            }
-
-            if (!currentSearch.isBedsAmountValid()) {
-                throw new FormValidationError(
-                        "Please select min and max beds in proper order",
-                        "Hint: min beds <= max beds"
+                        "Hint: Eircode(XXX XXXX)might be entered as address as well"
                 );
             }
 
@@ -355,6 +321,37 @@ public class SearchPanel extends Panel {
                         "Hint: date and time should be greater than now"
                 );
             }
+
+            if(currentSearch.getTransportationType() == null) {
+                throw new FormValidationError(
+                        "Please select transport type",
+                        "Hint: Choose one from the dropdown menu"
+                );
+
+            }
+
+            if(currentSearch.getTimeLimit() == null) {
+                throw new FormValidationError(
+                        "Please select travel time limit",
+                        "Hint: Choose one from the dropdown menu"
+                );
+            }
+
+
+            if (!currentSearch.isBedsAmountValid()) {
+                throw new FormValidationError(
+                        "Please select min and max beds in proper order",
+                        "Hint: min beds <= max beds"
+                );
+            }
+
+
+            if (!currentSearch.isPriceValid()) {
+                throw new FormValidationError(
+                        "Please select min and max price in proper order",
+                        "Hint: min price <= max price"
+                );
+            }
         }
     }
 
@@ -365,8 +362,6 @@ public class SearchPanel extends Panel {
     }
 
     private void changePanelToResult(AjaxRequestTarget target, List<ResultMatchHouse> houses) {
-
-
         MarkupContainer parent = this.getParent();
 
         ResultPanel resultPanel = new ResultPanel(houses);
@@ -377,7 +372,6 @@ public class SearchPanel extends Panel {
         searchPanel.setOutputMarkupId(true);
         parent.addOrReplace(searchPanel);
         target.add(searchPanel);
-
     }
 
 }

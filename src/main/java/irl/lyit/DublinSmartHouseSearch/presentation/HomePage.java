@@ -1,6 +1,6 @@
 package irl.lyit.DublinSmartHouseSearch.presentation;
 
-import irl.lyit.DublinSmartHouseSearch.presentation.homePanel.SearchPanel;
+import irl.lyit.DublinSmartHouseSearch.presentation.searchPanel.SearchPanel;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 

@@ -2,7 +2,7 @@ package irl.lyit.DublinSmartHouseSearch.presentation.resultPanel;
 
 import irl.lyit.DublinSmartHouseSearch.presentation.AboutMe;
 import irl.lyit.DublinSmartHouseSearch.presentation.HomePage;
-import irl.lyit.DublinSmartHouseSearch.presentation.homePanel.ResultMatchHouse;
+import irl.lyit.DublinSmartHouseSearch.presentation.searchPanel.ResultMatchHouse;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.ComponentTag;

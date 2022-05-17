@@ -1,4 +1,4 @@
-package irl.lyit.DublinSmartHouseSearch.presentation.homePanel.Exception;
+package irl.lyit.DublinSmartHouseSearch.presentation.searchPanel.Exception;
 
 public class FormValidationError extends Exception {
     private final String errorDescription;
