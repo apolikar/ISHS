@@ -62,7 +62,7 @@ public class DublinSmartHouseSearchApplication extends WebApplication {
         getMarkupSettings().setDefaultMarkupEncoding("UTF-8");
 
         getDebugSettings().setOutputMarkupContainerClassName(true);
-        getDebugSettings().setAjaxDebugModeEnabled(true);
+        getDebugSettings().setAjaxDebugModeEnabled(false);
 
         getComponentInstantiationListeners().add(new SpringComponentInjector(this));
 
