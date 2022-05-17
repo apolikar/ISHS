@@ -1,13 +1,12 @@
 package irl.lyit.DublinSmartHouseSearch.service.geoCoordinates;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import irl.lyit.DublinSmartHouseSearch.service.addressFormatter.GoogleAddressFormatter;
 import irl.lyit.DublinSmartHouseSearch.service.client.GMapsHTTPClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.io.IOException;
-import java.sql.Array;
 
 
 @Service
@@ -41,7 +40,6 @@ public class AddressGeoCoordinatesFinder {
             if (results == null || results.size() == 0) {
                 return result;
             }
-
 
             jsonNode = results.get(0).get("geometry").get("location");
             result.setLat(jsonNode.get("lat").asDouble());

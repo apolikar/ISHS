@@ -4,6 +4,7 @@ import irl.lyit.DublinSmartHouseSearch.controller.exception.TooManyPointsExcepti
 import irl.lyit.DublinSmartHouseSearch.presentation.HomePage;
 import irl.lyit.DublinSmartHouseSearch.presentation.searchPanel.Exception.FormValidationError;
 import irl.lyit.DublinSmartHouseSearch.service.geoCoordinates.GeoCoordinates;
+import irl.lyit.DublinSmartHouseSearch.service.isochroneMap.SearchAttributeHousePriceType;
 import irl.lyit.DublinSmartHouseSearch.service.isochroneMap.SearchAttributes;
 import irl.lyit.DublinSmartHouseSearch.presentation.AboutMe;
 import irl.lyit.DublinSmartHouseSearch.presentation.resultPanel.ResultPanel;
@@ -18,20 +19,16 @@ import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.DropDownChoice;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.form.*;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
 import static java.util.Comparator.comparing;
 
 public class SearchPanel extends Panel {
@@ -67,8 +64,8 @@ public class SearchPanel extends Panel {
         private final Model<Integer> travelTimeModel;
         private final Model<Integer> minBedsModel;
         private final Model<Integer> maxBedsModel;
-        private final Model<String> minPriceModel;
-        private final Model<String> maxPriceModel;
+        private final Model<SearchAttributeHousePriceType> minPriceModel;
+        private final Model<SearchAttributeHousePriceType> maxPriceModel;
 
 
         public AddressForm(String id) {
@@ -163,10 +160,14 @@ public class SearchPanel extends Panel {
             add(beds2);
 
 
-            List<String> priceList = Arrays.asList("€100K", "€150K", "€200K", "€250K", "€300K",
-                    "€350K", "€400K", "€450K", "€500K", "€550K", "€600K", "€650K", "€700K", "€750K",
-                    "€800K", "€850K", "€900K", "€950K", "€1M", "€1.5M", "€2M", "€3M", "€4M", "€5M");
-            DropDownChoice<String> price1 = new DropDownChoice<>("priceInputMin", minPriceModel, priceList) {
+            List<SearchAttributeHousePriceType> priceList = Arrays.asList(SearchAttributeHousePriceType.values());
+            ChoiceRenderer<SearchAttributeHousePriceType> renderer = new ChoiceRenderer<>() {
+                @Override
+                public Object getDisplayValue(SearchAttributeHousePriceType object) {
+                    return object.getLabel();
+                }
+            };
+            DropDownChoice<SearchAttributeHousePriceType> price1 = new DropDownChoice<>("priceInputMin", minPriceModel, priceList, renderer) {
                 @Override
                 protected String getNullValidDisplayValue() {
                     return "min price";
@@ -176,7 +177,7 @@ public class SearchPanel extends Panel {
             add(price1);
 
 
-            DropDownChoice<String> price2 = new DropDownChoice<>("priceInputMax", maxPriceModel, priceList) {
+            DropDownChoice<SearchAttributeHousePriceType> price2 = new DropDownChoice<>("priceInputMax", maxPriceModel, priceList, renderer) {
                 @Override
                 protected String getNullValidDisplayValue() {
                     return "max price";
@@ -188,7 +189,6 @@ public class SearchPanel extends Panel {
             informationBox = new WebMarkupContainer("alertInfo");
             informationBox.add(feedbackMessage(null));
             add(informationBox);
-
 
             add(new AjaxButton("searchBtn") {
                 @Override
@@ -207,12 +207,9 @@ public class SearchPanel extends Panel {
                                 maxBedsModel.getObject()
                         );
                     } catch (IOException | InterruptedException e) {
-
-                        informationBox.setVisible(true);
-                        error("Not enough information to proceed ... ");
-                        error("Hint: Please fill all form fields");
-                        form.clearInput();
-                        setResponsePage(HomePage.class);
+                        Label feedback = feedbackMessage("Not enough information to proceed ... Hint: Please fill all form fields");
+                        informationBox.replace(feedback);
+                        target.add(feedback);
 
                         return;
                     }
@@ -235,10 +232,12 @@ public class SearchPanel extends Panel {
                         return;
                     } catch (TooManyPointsException e) {
                         informationBox.setVisible(true);
-                        error("Time Travel API free location points limit is exceeded");
-                        error("To process more points Enterprise plan is needed (starting from 250 euro per month)");
-                        error("Hint: Try to narrow down search attributes");
-                        setResponsePage(getPage());
+                        Label feedback = feedbackMessage("Time Travel API free location points limit is exceeded ..." +
+                                " To process more points Enterprise plan is needed (starting from 250 euro per month)" +
+                                "Hint: Try to narrow down search attributes");
+                        informationBox.replace(feedback);
+                        target.add(feedback);
+
                         return;
                     }
                     informationBox.setVisible(false);
@@ -336,7 +335,6 @@ public class SearchPanel extends Panel {
                         "Hint: Choose one from the dropdown menu"
                 );
             }
-
 
             if (!currentSearch.isBedsAmountValid()) {
                 throw new FormValidationError(

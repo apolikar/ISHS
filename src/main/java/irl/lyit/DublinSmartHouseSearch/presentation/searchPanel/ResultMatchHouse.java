@@ -8,8 +8,8 @@ import java.io.Serializable;
 public class ResultMatchHouse implements Serializable {
 
     private House house;
-    private int secondsToTravel;
-    private String timeString;
+    private final int secondsToTravel;
+    private final String timeString;
 
     public ResultMatchHouse(House house, int secondsToTravel) {
         this.house = house;

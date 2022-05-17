@@ -1,6 +1,7 @@
 package irl.lyit.DublinSmartHouseSearch.old;
 
 import irl.lyit.DublinSmartHouseSearch.service.geoCoordinates.GeoCoordinates;
+import irl.lyit.DublinSmartHouseSearch.service.isochroneMap.SearchAttributeHousePriceType;
 import irl.lyit.DublinSmartHouseSearch.service.isochroneMap.SearchAttributes;
 import junit.framework.TestCase;
 
@@ -16,8 +17,8 @@ public class SearchAttributesTest extends TestCase {
                 "2022-05-01T08:00:00.000Z",
                 30,
                 "public_transport",
-                "5",
-                "10",
+                SearchAttributeHousePriceType.PRICE_1_5M,
+                SearchAttributeHousePriceType.PRICE_2M,
                 1,
                 3
         );

@@ -9,7 +9,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class TimeTravelTimeMatrixHTTPClient {
+public final class TimeTravelTimeMatrixHTTPClient {
 
     private final String requestString;
     private final String apiKey;
@@ -31,7 +31,6 @@ public class TimeTravelTimeMatrixHTTPClient {
                 .header("X-Api-Key", apiKey)
                 .POST(HttpRequest.BodyPublishers.ofString(requestString))
                 .build();
-
 
         HttpResponse<String> response = HttpClient.newHttpClient()
                 .send(request, HttpResponse.BodyHandlers.ofString());

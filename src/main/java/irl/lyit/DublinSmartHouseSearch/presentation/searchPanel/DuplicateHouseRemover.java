@@ -5,7 +5,7 @@ import java.util.List;
 
 public class DuplicateHouseRemover {
 
-    private List<ResultMatchHouse> resultMatchHouseList;
+    private final List<ResultMatchHouse> resultMatchHouseList;
 
     public DuplicateHouseRemover(List<ResultMatchHouse> resultMatchHouseList) {
         this.resultMatchHouseList = resultMatchHouseList;

@@ -9,7 +9,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-
 public final class TimeTravelMapIsochroneHTTPClient {
 
     private final String requestString;

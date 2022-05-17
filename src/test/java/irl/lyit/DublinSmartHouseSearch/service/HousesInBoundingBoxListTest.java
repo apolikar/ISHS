@@ -2,6 +2,7 @@ package irl.lyit.DublinSmartHouseSearch.service;
 
 import irl.lyit.DublinSmartHouseSearch.dao.House;
 import irl.lyit.DublinSmartHouseSearch.service.geoCoordinates.GeoCoordinates;
+import irl.lyit.DublinSmartHouseSearch.service.isochroneMap.SearchAttributeHousePriceType;
 import irl.lyit.DublinSmartHouseSearch.service.isochroneMap.SearchAttributes;
 import irl.lyit.DublinSmartHouseSearch.service.isochroneMap.BoundingBox;
 import junit.framework.TestCase;
@@ -49,8 +50,8 @@ public class HousesInBoundingBoxListTest extends TestCase {
                 "some date and time string",
                 300,
                 "some transport",
-                "€200K",
-                "€450K",
+                SearchAttributeHousePriceType.PRICE_200K,
+                SearchAttributeHousePriceType.PRICE_450K,
                 2,
                 4
         );

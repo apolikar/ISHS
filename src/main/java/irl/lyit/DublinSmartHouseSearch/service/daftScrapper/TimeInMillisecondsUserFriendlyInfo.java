@@ -2,7 +2,7 @@ package irl.lyit.DublinSmartHouseSearch.service.daftScrapper;
 
 public class TimeInMillisecondsUserFriendlyInfo {
 
-    private long timeInMilliseconds;
+    private final long timeInMilliseconds;
 
     public TimeInMillisecondsUserFriendlyInfo(long timeInMilliseconds) {
         this.timeInMilliseconds = timeInMilliseconds;
