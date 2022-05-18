@@ -13,7 +13,7 @@ public class GoogleAddressFormatter implements AddressFormatter {
 
         String[] addressArray = address.split(" ");
         for(String part : addressArray) {
-            result.append(part).append("+");
+            result.append(part.replaceAll("[^a-zA-Z0-9]", "")).append("+");
         }
 
         return result.toString();

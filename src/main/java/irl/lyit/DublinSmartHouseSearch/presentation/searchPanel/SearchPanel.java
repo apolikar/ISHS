@@ -1,17 +1,16 @@
 package irl.lyit.DublinSmartHouseSearch.presentation.searchPanel;
 
 import irl.lyit.DublinSmartHouseSearch.controller.exception.TooManyPointsException;
-import irl.lyit.DublinSmartHouseSearch.presentation.HomePage;
-import irl.lyit.DublinSmartHouseSearch.presentation.searchPanel.Exception.FormValidationError;
-import irl.lyit.DublinSmartHouseSearch.service.geoCoordinates.GeoCoordinates;
-import irl.lyit.DublinSmartHouseSearch.service.isochroneMap.SearchAttributeHousePriceType;
-import irl.lyit.DublinSmartHouseSearch.service.isochroneMap.SearchAttributes;
 import irl.lyit.DublinSmartHouseSearch.presentation.AboutMe;
 import irl.lyit.DublinSmartHouseSearch.presentation.resultPanel.ResultPanel;
-import irl.lyit.DublinSmartHouseSearch.service.geoCoordinates.AddressGeoCoordinatesFinder;
+import irl.lyit.DublinSmartHouseSearch.presentation.searchPanel.Exception.FormValidationError;
 import irl.lyit.DublinSmartHouseSearch.service.HouseService;
 import irl.lyit.DublinSmartHouseSearch.service.TransportionType;
 import irl.lyit.DublinSmartHouseSearch.service.addressFormatter.GoogleAddressFormatter;
+import irl.lyit.DublinSmartHouseSearch.service.geoCoordinates.AddressGeoCoordinatesFinder;
+import irl.lyit.DublinSmartHouseSearch.service.geoCoordinates.GeoCoordinates;
+import irl.lyit.DublinSmartHouseSearch.service.isochroneMap.SearchAttributeHousePriceType;
+import irl.lyit.DublinSmartHouseSearch.service.isochroneMap.SearchAttributes;
 import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -19,16 +18,21 @@ import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.*;
+import org.apache.wicket.markup.html.form.ChoiceRenderer;
+import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
 import static java.util.Comparator.comparing;
 
 public class SearchPanel extends Panel {
@@ -252,6 +256,7 @@ public class SearchPanel extends Panel {
         }
 
         private GeoCoordinates getWorkCoordinates() {
+
             if (addressModel.getObject() == null) {
                 return null;
             }
@@ -306,7 +311,7 @@ public class SearchPanel extends Panel {
             if (!currentSearch.isCoordinatesValid()) {
                 throw new FormValidationError(
                         "Your address doesn't exist",
-                        "Hint: Eircode(XXX XXXX)might be entered as address as well"
+                        "Hint: Eircode XXX XXXX might be entered as address as well"
                 );
             }
 
