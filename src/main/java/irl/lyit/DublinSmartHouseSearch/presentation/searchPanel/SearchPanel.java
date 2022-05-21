@@ -348,7 +348,6 @@ public class SearchPanel extends Panel {
                 );
             }
 
-
             if (!currentSearch.isPriceValid()) {
                 throw new FormValidationError(
                         "Please select min and max price in proper order",

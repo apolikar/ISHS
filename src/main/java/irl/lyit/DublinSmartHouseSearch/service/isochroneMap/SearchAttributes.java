@@ -37,7 +37,7 @@ public final class SearchAttributes {
             this.minPrice = minPrice.getAmount();
         }
 
-        if (minPrice == null) {
+        if (maxPrice == null) {
             this.maxPrice = null;
         } else {
             this.maxPrice = maxPrice.getAmount();
@@ -94,7 +94,7 @@ public final class SearchAttributes {
     public boolean isBedsAmountValid() {
         return getMaxBeds() != null
                 && getMinBeds() != null
-                 && getMaxBeds() >= getMinBeds();
+                && getMaxBeds() >= getMinBeds();
     }
 
 }
